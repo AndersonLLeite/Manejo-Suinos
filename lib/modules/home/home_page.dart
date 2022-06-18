@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:manejo_suinos/shared/widgets/baia_widget.dart';
+import 'package:manejo_suinos/shared/widgets/pigsty_widget.dart';
+import 'package:manejo_suinos/shared/widgets/floor_without_pigsty.dart';
 
-import '../../shared/widgets/corredor_widget.dart';
-import '../../shared/widgets/galpao_widget.dart';
+import '../../shared/widgets/warehouse_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,51 +14,34 @@ class HomePage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Galpao(),
+            Warehouse(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
-                Expanded(child: BaiaWidget()),
+                Expanded(child: Pigsty()),
                 //Corredor(),
-                Expanded(child: PisoSemBaia()),
+                Expanded(child: FloorWithoutPigsty()),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
-                Expanded(child: BaiaWidget()),
+                Expanded(child: Pigsty()),
                 //Corredor(),
-                Expanded(child: BaiaWidget()),
+                Expanded(child: Pigsty()),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
-                Expanded(child: BaiaWidget()),
+                Expanded(child: Pigsty()),
                 // Corredor(),
-                Expanded(child: BaiaWidget()),
+                Expanded(child: Pigsty()),
               ],
             )
           ],
         ),
       ),
-    );
-  }
-}
-
-class PisoSemBaia extends StatelessWidget {
-  const PisoSemBaia({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/pisoTerra.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
-      height: 200,
     );
   }
 }

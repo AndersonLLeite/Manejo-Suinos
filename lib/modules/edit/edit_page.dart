@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../shared/widgets/baia_widget.dart';
-import '../../shared/widgets/corredor_widget.dart';
+
 
 class EditPage extends StatefulWidget {
   const EditPage({Key? key}) : super(key: key);
