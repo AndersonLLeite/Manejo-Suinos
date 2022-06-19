@@ -10,8 +10,7 @@ class Warehouse extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // ignore: avoid_print
-        print("galpao");
+        Navigator.pushNamed(context, '/warehouse');
       },
       child: Container(
         decoration: BoxDecoration(
