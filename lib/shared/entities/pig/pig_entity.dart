@@ -1,110 +1,90 @@
 import 'dart:convert';
 
-import '../../utils/enums/breed_enum.dart';
-import '../../utils/enums/gender_enum.dart';
-import '../../utils/enums/obtained_enum.dart';
+import 'package:manejo_suinos/shared/themes/images/app_images.dart';
 
 class PigEntity {
-  int id;
   String name;
   int age;
-  String imageUrl;
-  BreedEnum breed;
   double weight;
-  GenderEnum gender;
-  DateTime birthday;
-  DateTime entryFarm;
-  ObtainedEnum obtained;
-  int motherID;
-  int fatherID;
+  String? imageUrl = AppImages.pigs;
+  String breed;
+  String obtained;
+  String gender;
+  String? motherName = "'Indefinido'";
+  String? fatherName = "Indefinido";
 
   PigEntity({
-    required this.id,
     required this.name,
     required this.age,
-    required this.imageUrl,
-    required this.breed,
     required this.weight,
-    required this.gender,
-    required this.birthday,
-    required this.entryFarm,
+    this.imageUrl,
+    required this.breed,
     required this.obtained,
-    required this.motherID,
-    required this.fatherID,
+    required this.gender,
+    this.motherName,
+    this.fatherName,
   });
- 
 
   PigEntity copyWith({
-    int? id,
     String? name,
     int? age,
-    String? imageUrl,
-    BreedEnum? breed,
     double? weight,
-    GenderEnum? gender,
-    DateTime? birthday,
-    DateTime? entryFarm,
-    ObtainedEnum? obtained,
-    int? motherID,
-    int? fatherID,
+    String? imageUrl,
+    String? breed,
+    String? obtained,
+    String? gender,
+    String? motherName,
+    String? fatherName,
   }) {
     return PigEntity(
-      id: id ?? this.id,
       name: name ?? this.name,
       age: age ?? this.age,
+      weight: weight ?? this.weight,
       imageUrl: imageUrl ?? this.imageUrl,
       breed: breed ?? this.breed,
-      weight: weight ?? this.weight,
-      gender: gender ?? this.gender,
-      birthday: birthday ?? this.birthday,
-      entryFarm: entryFarm ?? this.entryFarm,
       obtained: obtained ?? this.obtained,
-      motherID: motherID ?? this.motherID,
-      fatherID: fatherID ?? this.fatherID,
+      gender: gender ?? this.gender,
+      motherName: motherName ?? this.motherName,
+      fatherName: fatherName ?? this.fatherName,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'name': name,
       'age': age,
+      'weight': weight,
       'imageUrl': imageUrl,
       'breed': breed,
-      'weight': weight,
-      'gender': gender,
-      'birthday': birthday.millisecondsSinceEpoch,
-      'entryFarm': entryFarm.millisecondsSinceEpoch,
       'obtained': obtained,
-      'motherID': motherID,
-      'fatherID': fatherID,
+      'gender': gender,
+      'motherName': motherName,
+      'fatherName': fatherName,
     };
   }
 
   factory PigEntity.fromMap(Map<String, dynamic> map) {
     return PigEntity(
-      id: map['id']?.toInt() ?? 0,
       name: map['name'] ?? '',
       age: map['age']?.toInt() ?? 0,
-      imageUrl: map['imageUrl'] ?? '',
-      breed: map['breed'],
       weight: map['weight']?.toDouble() ?? 0.0,
-      gender: map['gender'],
-      birthday: DateTime.fromMillisecondsSinceEpoch(map['birthday']),
-      entryFarm: DateTime.fromMillisecondsSinceEpoch(map['entryFarm']),
-      obtained: map['obtained'],
-      motherID: map['motherID']?.toInt() ?? 0,
-      fatherID: map['fatherID']?.toInt() ?? 0,
+      imageUrl: map['imageUrl'],
+      breed: map['breed'] ?? '',
+      obtained: map['obtained'] ?? '',
+      gender: map['gender'] ?? '',
+      motherName: map['motherName'],
+      fatherName: map['fatherName'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory PigEntity.fromJson(String source) => PigEntity.fromMap(json.decode(source));
+  factory PigEntity.fromJson(String source) =>
+      PigEntity.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'PigEntity(id: $id, name: $name, age: $age, imageUrl: $imageUrl, breed: $breed, weight: $weight, gender: $gender, birthday: $birthday, entryFarm: $entryFarm, obtained: $obtained, motherID: $motherID, fatherID: $fatherID)';
+    return 'PigEntity(name: $name, age: $age, weight: $weight, imageUrl: $imageUrl, breed: $breed, obtained: $obtained, gender: $gender, motherName: $motherName, fatherName: $fatherName)';
   }
 
   @override
@@ -112,33 +92,27 @@ class PigEntity {
     if (identical(this, other)) return true;
   
     return other is PigEntity &&
-      other.id == id &&
       other.name == name &&
       other.age == age &&
+      other.weight == weight &&
       other.imageUrl == imageUrl &&
       other.breed == breed &&
-      other.weight == weight &&
-      other.gender == gender &&
-      other.birthday == birthday &&
-      other.entryFarm == entryFarm &&
       other.obtained == obtained &&
-      other.motherID == motherID &&
-      other.fatherID == fatherID;
+      other.gender == gender &&
+      other.motherName == motherName &&
+      other.fatherName == fatherName;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^
-      name.hashCode ^
+    return name.hashCode ^
       age.hashCode ^
+      weight.hashCode ^
       imageUrl.hashCode ^
       breed.hashCode ^
-      weight.hashCode ^
-      gender.hashCode ^
-      birthday.hashCode ^
-      entryFarm.hashCode ^
       obtained.hashCode ^
-      motherID.hashCode ^
-      fatherID.hashCode;
+      gender.hashCode ^
+      motherName.hashCode ^
+      fatherName.hashCode;
   }
 }

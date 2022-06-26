@@ -1,11 +1,9 @@
-
 // ignore_for_file: constant_identifier_names
 
-enum BreedEnum {
-  DUROC,
-  LANDRACE,
-  LARGE_WHITE,
-  LARGE_BLACK,
-  SADDLEBACK,
-  PIETRAIN,
+class Breed {
+  static const String LANDRACE = 'LANDRACE';
+  static const String DUROC = 'DUROC';
+  static const String LARGE_WHITE = 'LARGE_WHITE';
+  static const String LARGE_BROWN = 'LARGE_BROWN';
+  static const String PIETRAIN = 'PIETRAIN';
 }
