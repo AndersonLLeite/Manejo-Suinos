@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:manejo_suinos/shared/themes/colors/app_colors.dart';
 import 'package:manejo_suinos/shared/themes/images/app_images.dart';
 
 import '../../shared/widgets/card_warehouse_widget.dart';
@@ -19,9 +20,9 @@ class _WarehousePageState extends State<WarehousePage> {
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: const [
-              Colors.blue,
-              Colors.pink,
+            colors: [
+              AppColors.primary,
+              AppColors.secondary,
             ],
           ),
         ),
@@ -33,7 +34,7 @@ class _WarehousePageState extends State<WarehousePage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, '/allpigs');
+                    Navigator.popAndPushNamed(context, '/allpigs');
                   },
                   child: CardWarehouseWidget(
                     title: 'Todos os Suinos',
