@@ -1,13 +1,15 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:manejo_suinos/shared/entities/pig/pig_entity.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
-class DataHelper {
-   static Database? _database;
-  Future<Database> get database async => _database ??= await _initDatabase();
+class DataHelper extends ChangeNotifier {
+  List<PigEntity> _listPigs = [];
 
+  static Database? _database;
+  Future<Database> get database async => _database ??= await _initDatabase();
   DataHelper._privateConstructor();
   static final DataHelper instance = DataHelper._privateConstructor();
 
@@ -32,29 +34,37 @@ class DataHelper {
       )
       ''');
   }
-  
 
   Future<List<PigEntity>> getPigsEntity() async {
     Database db = await instance.database;
     var pigs = await db.query('tablepigs', orderBy: 'name');
     List<PigEntity> pigsList =
         pigs.isNotEmpty ? pigs.map((c) => PigEntity.fromMap(c)).toList() : [];
-    return pigsList;
+    _listPigs = pigsList;
+    return _listPigs;
   }
 
-  Future<int> add(PigEntity pigEntity) async {
+  Future add(PigEntity pigEntity) async {
     Database db = await instance.database;
-    return await db.insert('tablepigs', pigEntity.toMap());
+    await db.insert('tablepigs', pigEntity.toMap());
+    notifyListeners();
   }
 
-  Future<int> remove(String name) async {
+  Future remove(String name) async {
     Database db = await instance.database;
-    return await db.delete('tablepigs', where: 'name= ?', whereArgs: [name]);
+    await db.delete('tablepigs', where: 'name= ?', whereArgs: [name]);
+    _reloadList();
   }
 
-  Future<int> update(PigEntity pigEntity) async {
+  Future update(PigEntity pigEntity) async {
     Database db = await instance.database;
-    return await db.update('tablepigs', pigEntity.toMap(),
+    await db.update('tablepigs', pigEntity.toMap(),
         where: "name = ?", whereArgs: [pigEntity.name]);
+    _reloadList();
+  }
+
+  Future _reloadList() async {
+    _listPigs = await getPigsEntity();
+    notifyListeners();
   }
 }

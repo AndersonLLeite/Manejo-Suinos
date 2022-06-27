@@ -6,6 +6,7 @@ import 'package:manejo_suinos/shared/themes/styles/textstyles/app_text_styles.da
 import 'package:manejo_suinos/shared/utils/enums/breed_enum.dart';
 import 'package:manejo_suinos/shared/utils/enums/gender_enum.dart';
 import 'package:manejo_suinos/shared/utils/enums/obtained_enum.dart';
+import 'package:provider/provider.dart';
 
 import '../../data/data_helper.dart';
 
@@ -17,7 +18,6 @@ class AllPigsPage extends StatefulWidget {
 }
 
 class _AllPigsPageState extends State<AllPigsPage> {
-  // PigRepository repository = PigRepository();
   static const menuItems = <String>['remover'];
   String bottomSelected = '';
   final List<PopupMenuItem<String>> _popupMenuItems = menuItems
@@ -43,7 +43,8 @@ class _AllPigsPageState extends State<AllPigsPage> {
             ),
           ),
           child: FutureBuilder<List<PigEntity>>(
-              future: DataHelper.instance.getPigsEntity(),
+              //future: DataHelper.instance.getPigsEntity(),
+              future: context.watch<DataHelper>().getPigsEntity(),
               builder: (BuildContext context,
                   AsyncSnapshot<List<PigEntity>> snapshot) {
                 if (!snapshot.hasData) {
@@ -76,20 +77,21 @@ class _AllPigsPageState extends State<AllPigsPage> {
                                   radius: 30.0,
                                 ),
                                 subtitle: Icon(
-                                  Icons.female,
-                                  color: AppColors.primary,
-                                  // pig.gender == Gender.FEMALE
-                                  //     ? Icons.female
-                                  //     : Icons.male,
-                                  // color: pig.gender == Gender.FEMALE
-                                  //     ? AppColors.secondary
-                                  //     : AppColors.primary,
+                                  pig.gender == Gender.FEMALE
+                                      ? Icons.female
+                                      : Icons.male,
+                                  color: pig.gender == Gender.FEMALE
+                                      ? AppColors.secondary
+                                      : AppColors.primary,
                                 ),
                                 trailing: PopupMenuButton<String>(
                                   onSelected: (String newValue) {
                                     bottomSelected = newValue;
                                     if (newValue == 'remover') {
-                                      DataHelper.instance.remove(pig.name);
+                                      //  DataHelper.instance.remove(pig.name);
+                                      context
+                                          .read<DataHelper>()
+                                          .remove(pig.name);
                                     }
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
@@ -108,14 +110,15 @@ class _AllPigsPageState extends State<AllPigsPage> {
       ),
       bottomNavigationBar: ElevatedButton(
         onPressed: () async {
-          await DataHelper.instance.add(PigEntity(
-            name: 'tom',
-            age: 1,
-            weight: 1.5,
-            breed: Breed.DUROC,
-            obtained: Obtained.BORN,
-            gender: Gender.FEMALE,
-          ));
+          // await DataHelper.instance.add(
+          await context.read<DataHelper>().add(PigEntity(
+                name: 'tomas',
+                age: 11,
+                weight: 21.5,
+                breed: Breed.DUROC,
+                obtained: Obtained.BORN,
+                gender: Gender.MALE,
+              ));
         },
         style: ButtonStyle(
           elevation: MaterialStateProperty.all(10),

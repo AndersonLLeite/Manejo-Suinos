@@ -90,29 +90,29 @@ class PigEntity {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is PigEntity &&
-      other.name == name &&
-      other.age == age &&
-      other.weight == weight &&
-      other.imageUrl == imageUrl &&
-      other.breed == breed &&
-      other.obtained == obtained &&
-      other.gender == gender &&
-      other.motherName == motherName &&
-      other.fatherName == fatherName;
+        other.name == name &&
+        other.age == age &&
+        other.weight == weight &&
+        other.imageUrl == imageUrl &&
+        other.breed == breed &&
+        other.obtained == obtained &&
+        other.gender == gender &&
+        other.motherName == motherName &&
+        other.fatherName == fatherName;
   }
 
   @override
   int get hashCode {
     return name.hashCode ^
-      age.hashCode ^
-      weight.hashCode ^
-      imageUrl.hashCode ^
-      breed.hashCode ^
-      obtained.hashCode ^
-      gender.hashCode ^
-      motherName.hashCode ^
-      fatherName.hashCode;
+        age.hashCode ^
+        weight.hashCode ^
+        imageUrl.hashCode ^
+        breed.hashCode ^
+        obtained.hashCode ^
+        gender.hashCode ^
+        motherName.hashCode ^
+        fatherName.hashCode;
   }
 }
