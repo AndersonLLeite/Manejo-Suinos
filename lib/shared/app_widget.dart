@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:manejo_suinos/modules/allpigs/all_pigs_page.dart';
+import 'package:manejo_suinos/modules/all_pigs/all_pigs_page.dart';
 import 'package:manejo_suinos/modules/home/home_page.dart';
 
+import '../modules/add_pig/add_pig_page.dart';
 import '../modules/edit/edit_page.dart';
-import '../modules/teste/teste.dart';
 import '../modules/warehouse/warehouse_page.dart';
 
 class AppWidget extends StatelessWidget {
@@ -17,9 +17,9 @@ class AppWidget extends StatelessWidget {
       routes: {
         '/home': (context) => HomePage(),
         '/edit': (context) => EditPage(),
-        '/teste': (context) => Teste(),
         '/warehouse': (context) => WarehousePage(),
-        '/allpigs': (context) => AllPigsPage(),
+        '/all_pigs': (context) => AllPigsPage(),
+        '/add_pig': (context) => AddPigPage(),
       },
       home: HomePage(),
     );

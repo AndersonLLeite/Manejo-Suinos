@@ -34,7 +34,7 @@ class _WarehousePageState extends State<WarehousePage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.popAndPushNamed(context, '/allpigs');
+                    Navigator.popAndPushNamed(context, '/all_pigs');
                   },
                   child: CardWarehouseWidget(
                     title: 'Todos os Suinos',

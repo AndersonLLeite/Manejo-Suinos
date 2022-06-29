@@ -8,4 +8,5 @@ class AppImages {
   static const String pregnant = 'assets/images/pregnant.jpg';
   static const String pigBank = 'assets/images/pigBank.png';
   static const String agenda = 'assets/images/agenda.png';
+  static const String pig = 'assets/images/leitao.jpeg';
 }

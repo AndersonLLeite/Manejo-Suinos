@@ -3,6 +3,7 @@ import 'package:manejo_suinos/shared/entities/pig/pig_entity.dart';
 import 'package:manejo_suinos/shared/themes/colors/app_colors.dart';
 import 'package:manejo_suinos/shared/themes/images/app_images.dart';
 import 'package:manejo_suinos/shared/themes/styles/textstyles/app_text_styles.dart';
+import 'package:manejo_suinos/shared/utils/popup_menu_List_Items.dart';
 import 'package:manejo_suinos/shared/utils/enums/breed_enum.dart';
 import 'package:manejo_suinos/shared/utils/enums/gender_enum.dart';
 import 'package:manejo_suinos/shared/utils/enums/obtained_enum.dart';
@@ -18,14 +19,7 @@ class AllPigsPage extends StatefulWidget {
 }
 
 class _AllPigsPageState extends State<AllPigsPage> {
-  static const menuItems = <String>['remover'];
-  String bottomSelected = '';
-  final List<PopupMenuItem<String>> _popupMenuItems = menuItems
-      .map((String value) => PopupMenuItem<String>(
-            value: value,
-            child: Text(value),
-          ))
-      .toList();
+  PopupMenuListItems _dropDownListItems = PopupMenuListItems();
 
   @override
   Widget build(BuildContext context) {
@@ -86,19 +80,16 @@ class _AllPigsPageState extends State<AllPigsPage> {
                                 ),
                                 trailing: PopupMenuButton<String>(
                                   onSelected: (String newValue) {
-                                    bottomSelected = newValue;
                                     if (newValue == 'remover') {
-                                      //  DataHelper.instance.remove(pig.name);
                                       context
                                           .read<DataHelper>()
                                           .remove(pig.name);
                                     }
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                            content: Text(bottomSelected)));
+                                        SnackBar(content: Text(newValue)));
                                   },
                                   itemBuilder: (BuildContext context) =>
-                                      _popupMenuItems,
+                                      _dropDownListItems.popupPigMenuItems,
                                 ),
                               ),
                             ),
@@ -109,16 +100,8 @@ class _AllPigsPageState extends State<AllPigsPage> {
         ),
       ),
       bottomNavigationBar: ElevatedButton(
-        onPressed: () async {
-          // await DataHelper.instance.add(
-          await context.read<DataHelper>().add(PigEntity(
-                name: 'tomas',
-                age: 11,
-                weight: 21.5,
-                breed: Breed.DUROC,
-                obtained: Obtained.BORN,
-                gender: Gender.MALE,
-              ));
+        onPressed: () {
+          Navigator.pushNamed(context, '/add_pig');
         },
         style: ButtonStyle(
           elevation: MaterialStateProperty.all(10),

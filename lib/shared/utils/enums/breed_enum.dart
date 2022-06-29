@@ -4,6 +4,5 @@ class Breed {
   static const String LANDRACE = 'LANDRACE';
   static const String DUROC = 'DUROC';
   static const String LARGE_WHITE = 'LARGE_WHITE';
-  static const String LARGE_BROWN = 'LARGE_BROWN';
   static const String PIETRAIN = 'PIETRAIN';
 }

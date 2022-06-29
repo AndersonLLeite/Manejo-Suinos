@@ -7,6 +7,8 @@ import 'package:path_provider/path_provider.dart';
 
 class DataHelper extends ChangeNotifier {
   List<PigEntity> _listPigs = [];
+  List<PigEntity> _listMatrix = [];
+  List<PigEntity> _listBreeder = [];
 
   static Database? _database;
   Future<Database> get database async => _database ??= await _initDatabase();
@@ -23,14 +25,15 @@ class DataHelper extends ChangeNotifier {
     await db.execute('''
       CREATE TABLE tablepigs(
           name TEXT PRIMARY KEY,
+          imageUrl TEXT,
           age INTEGER,
           weight REAL,
-          imageUrl TEXT,
-          breed TEXT,
-          obtained TEXT,
           gender TEXT,
+          finality TEXT,
+          obtained TEXT,
           motherName TEXT,
           fatherName TEXT
+          breed TEXT,
       )
       ''');
   }
@@ -43,6 +46,32 @@ class DataHelper extends ChangeNotifier {
     _listPigs = pigsList;
     return _listPigs;
   }
+
+  Future<List<PigEntity>> getMatrix() async {
+    Database db = await instance.database;
+    var matrix = await db.rawQuery('''
+      SELECT * FROM tablepigs
+      WHERE gender=? 
+      ''', ['FEMALE']);
+    List<PigEntity> listMatrix =
+        matrix.isNotEmpty ? matrix.map((c) => PigEntity.fromMap(c)).toList() : [];
+    _listMatrix = listMatrix;
+    return _listMatrix;
+  }
+
+  Future<List<PigEntity>> getBreeder() async {
+    Database db = await instance.database;
+    var breeder = await db.rawQuery('''
+      SELECT * FROM tablepigs
+      WHERE gender=? 
+      ''', ['MALE']);
+    List<PigEntity> listBreeder =
+        breeder.isNotEmpty ? breeder.map((c) => PigEntity.fromMap(c)).toList() : [];
+    _listBreeder = listBreeder;
+    return _listBreeder;
+  }
+
+
 
   Future add(PigEntity pigEntity) async {
     Database db = await instance.database;
