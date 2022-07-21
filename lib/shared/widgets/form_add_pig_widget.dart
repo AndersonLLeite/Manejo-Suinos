@@ -24,7 +24,6 @@ class FormAddPigWidget extends StatelessWidget {
         keyboardType: keyboardType,
         controller: controllerName,
         onChanged: (value) {
-          print(controllerName.text);
         },
         decoration: InputDecoration(
           icon: icon,

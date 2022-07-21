@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../entities/pig/pig_entity.dart';
 import '../themes/colors/app_colors.dart';
-import '../themes/images/app_images.dart';
 import '../themes/styles/textstyles/app_text_styles.dart';
 
 class CardPigPresentationWidget extends StatelessWidget {
@@ -41,15 +40,16 @@ class CardPigPresentationWidget extends StatelessWidget {
           Positioned(
             bottom: 0,
             left: 0,
+            right: 0,
             child: CircleAvatar(
-              radius: 45,
-              backgroundImage: Image.asset('assets/images/leitao.jpeg').image,
+              radius: 40,
+              backgroundImage: Image.asset('assets/images/pig.jpeg').image,
             ),
           ),
           Positioned(
             top: 25,
             left: 25,
-            child: Text(
+            child: Text(      
               pig.name,
               style: AppTextStyles.titleCardPigPresentation,
             ),

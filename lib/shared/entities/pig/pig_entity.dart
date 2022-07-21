@@ -1,30 +1,35 @@
 import 'dart:convert';
 
 import 'package:manejo_suinos/shared/themes/images/app_images.dart';
+import 'package:manejo_suinos/shared/utils/enums/status_enum.dart';
+
+import '../../utils/enums/status_enum.dart';
 
 class PigEntity {
   String name;
-  String? imageUrl = AppImages.pig;
+  String imageUrl;
   int age;
   double weight;
+  double gpd;
   String gender;
   String finality;
   String obtained;
-  String? motherName = "'Indefinido'";
-  String? fatherName = "Indefinido";
-  String breed;
+  String motherName;
+  String fatherName;
+  String status;
 
   PigEntity({
     required this.name,
-    this.imageUrl,
+    this.imageUrl = AppImages.pig,
     required this.age,
     required this.weight,
+    required this.gpd,
     required this.gender,
     required this.finality,
     required this.obtained,
-    this.motherName,
-    this.fatherName,
-    required this.breed,
+    required this.motherName,
+    required this.fatherName,
+    this.status = 'ACTIVE',
   });
 
   PigEntity copyWith({
@@ -32,24 +37,26 @@ class PigEntity {
     String? imageUrl,
     int? age,
     double? weight,
+    double? gpd,
     String? gender,
     String? finality,
     String? obtained,
     String? motherName,
     String? fatherName,
-    String? breed,
+    String? status,
   }) {
     return PigEntity(
       name: name ?? this.name,
       imageUrl: imageUrl ?? this.imageUrl,
       age: age ?? this.age,
       weight: weight ?? this.weight,
+      gpd: gpd ?? this.gpd,
       gender: gender ?? this.gender,
       finality: finality ?? this.finality,
       obtained: obtained ?? this.obtained,
       motherName: motherName ?? this.motherName,
       fatherName: fatherName ?? this.fatherName,
-      breed: breed ?? this.breed,
+      status: status ?? this.status,
     );
   }
 
@@ -59,12 +66,13 @@ class PigEntity {
       'imageUrl': imageUrl,
       'age': age,
       'weight': weight,
+      'gpd': gpd,
       'gender': gender,
       'finality': finality,
       'obtained': obtained,
       'motherName': motherName,
       'fatherName': fatherName,
-      'breed': breed,
+      'status': status,
     };
   }
 
@@ -74,12 +82,13 @@ class PigEntity {
       imageUrl: map['imageUrl'],
       age: map['age']?.toInt() ?? 0,
       weight: map['weight']?.toDouble() ?? 0.0,
+      gpd: map['gpd']?.toDouble() ?? 0.0,
       gender: map['gender'] ?? '',
       finality: map['finality'] ?? '',
       obtained: map['obtained'] ?? '',
-      motherName: map['motherName'],
-      fatherName: map['fatherName'],
-      breed: map['breed'] ?? '',
+      motherName: map['motherName'] ?? '',
+      fatherName: map['fatherName'] ?? '',
+      status: map['status'] ?? '',
     );
   }
 
@@ -90,7 +99,15 @@ class PigEntity {
 
   @override
   String toString() {
-    return 'PigEntity(name: $name, imageUrl: $imageUrl, age: $age, weight: $weight, gender: $gender, finality: $finality, obtained: $obtained, motherName: $motherName, fatherName: $fatherName, breed: $breed)';
+    return 'PigEntity(name: $name, imageUrl: $imageUrl, age: $age, weight: $weight, gpd: $gpd, gender: $gender, finality: $finality, obtained: $obtained, motherName: $motherName, fatherName: $fatherName, status: $status)';
+  }
+
+  String? getStatus() {
+    return status;
+  }
+
+  setStatus(Status status) {
+    this.status = status.value;
   }
 
   @override
@@ -102,12 +119,13 @@ class PigEntity {
       other.imageUrl == imageUrl &&
       other.age == age &&
       other.weight == weight &&
+      other.gpd == gpd &&
       other.gender == gender &&
       other.finality == finality &&
       other.obtained == obtained &&
       other.motherName == motherName &&
       other.fatherName == fatherName &&
-      other.breed == breed;
+      other.status == status;
   }
 
   @override
@@ -116,11 +134,12 @@ class PigEntity {
       imageUrl.hashCode ^
       age.hashCode ^
       weight.hashCode ^
+      gpd.hashCode ^
       gender.hashCode ^
       finality.hashCode ^
       obtained.hashCode ^
       motherName.hashCode ^
       fatherName.hashCode ^
-      breed.hashCode;
+      status.hashCode;
   }
 }
