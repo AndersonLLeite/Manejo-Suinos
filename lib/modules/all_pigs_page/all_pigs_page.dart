@@ -22,6 +22,19 @@ class _AllPigsPageState extends State<AllPigsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        title: Text('Todos os Suinos'),
+        centerTitle: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, '/add_pig');
@@ -45,15 +58,7 @@ class _AllPigsPageState extends State<AllPigsPage> {
                         ? Center(
                             child: Text('Nenhum Suino cadastrado'),
                           )
-                        : GridView(
-                            shrinkWrap: true,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 1.5,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10,
-                            ),
+                        : ListView(
                             children: snapshot.data!.map((pig) {
                               return GestureDetector(
                                 onTap: () {
@@ -86,24 +91,24 @@ class _AllPigsPageState extends State<AllPigsPage> {
   }
 }
 
-class TextRichCardAllPigs extends StatelessWidget {
-  const TextRichCardAllPigs({
-    Key? key,
-    required this.text,
-    required this.textValue,
-  }) : super(key: key);
-  final String text;
-  final String textValue;
-  @override
-  Widget build(BuildContext context) {
-    return Text.rich(
-      TextSpan(
-        text: '$text : ',
-        style: AppTextStyles.listTileTitle,
-        children: [
-          TextSpan(text: textValue, style: AppTextStyles.listTileTitle),
-        ],
-      ),
-    );
-  }
-}
+// class TextRichCardAllPigs extends StatelessWidget {
+//   const TextRichCardAllPigs({
+//     Key? key,
+//     required this.text,
+//     required this.textValue,
+//   }) : super(key: key);
+//   final String text;
+//   final String textValue;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Text.rich(
+//       TextSpan(
+//         text: '$text : ',
+//         style: AppTextStyles.listTileTitle,
+//         children: [
+//           TextSpan(text: textValue, style: AppTextStyles.listTileTitle),
+//         ],
+//       ),
+//     );
+//   }
+// }

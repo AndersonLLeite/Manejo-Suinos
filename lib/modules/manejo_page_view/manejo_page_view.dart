@@ -47,7 +47,7 @@ class _ManejoPageViewState extends State<ManejoPageView> {
         backgroundColor: Colors.transparent,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.remove), label: 'manejo'),
-          BottomNavigationBarItem(icon: Icon(Icons.remove), label: 'Plantel ativo'),
+          BottomNavigationBarItem(icon: Icon(Icons.remove), label: 'Plantel ativos'),
           BottomNavigationBarItem(
               icon: Icon(Icons.remove), label: 'Plantel arquivados'),
         ],

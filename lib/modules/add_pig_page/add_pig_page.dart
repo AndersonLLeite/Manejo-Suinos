@@ -9,6 +9,7 @@ import 'package:manejo_suinos/shared/utils/utility_image/utility_image.dart';
 import 'package:manejo_suinos/shared/widgets/add_pig_buttom_widget.dart';
 import 'package:manejo_suinos/shared/widgets/buttom_finality_widget.dart';
 import 'package:manejo_suinos/shared/widgets/buttom_gender_widget.dart';
+import 'package:manejo_suinos/shared/widgets/card_pig_parents.dart';
 import 'package:manejo_suinos/shared/widgets/form_add_pig_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -91,6 +92,19 @@ class _AddPigPageState extends State<AddPigPage> {
   _defineColorButtomObtainedBorn() {
     colorButtomObtainedBorn = AppColors.secondary;
     colorButtomObtainedPurchased = AppColors.defaultColorButtomDisabled;
+  }
+
+  _defineColorAllButtomDisabled() {
+    colorButtomFinalityFatten = AppColors.defaultColorButtomDisabled;
+    colorButtomFinalityMatrix = AppColors.defaultColorButtomDisabled;
+    colorButtomFinalityBreeder = AppColors.defaultColorButtomDisabled;
+    colorButtomObtainedBorn = AppColors.defaultColorButtomDisabled;
+    colorButtomObtainedPurchased = AppColors.defaultColorButtomDisabled;
+    _finality = null;
+    _obtained = null;
+    _fatherName = "Indefinido";
+    _motherName = "Indefinido";
+    _breed = null;
   }
 
   final List<CardBreedWidget> _listCardBreed = [
@@ -198,6 +212,9 @@ class _AddPigPageState extends State<AddPigPage> {
                       setState(() {
                         _defineColorButtomGenderMale();
                         _gender = Gender.MALE.value;
+                        if (_finality != null) {
+                          _defineColorAllButtomDisabled();
+                        }
                       });
                     },
                     child: ButtomGenderWidget(
@@ -211,6 +228,9 @@ class _AddPigPageState extends State<AddPigPage> {
                       setState(() {
                         _defineColorButtomGenderFemale();
                         _gender = Gender.FEMALE.value;
+                        if (_finality != null) {
+                          _defineColorAllButtomDisabled();
+                        }
                       });
                     },
                     child: ButtomGenderWidget(
@@ -357,11 +377,10 @@ class _AddPigPageState extends State<AddPigPage> {
                                                       motherSelected = pig;
                                                     });
                                                   },
-                                                  child:
-                                                      CardPigPresentationWidget(
-                                                          color: AppColors
-                                                              .secondary,
-                                                          pig: pig),
+                                                  child: CardPigParent(
+                                                      color:
+                                                          AppColors.secondary,
+                                                      pig: pig),
                                                 );
                                               }).toList(),
                                             )
@@ -369,7 +388,7 @@ class _AddPigPageState extends State<AddPigPage> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                CardPigPresentationWidget(
+                                                CardPigParent(
                                                   color: AppColors.secondary,
                                                   pig: motherSelected!,
                                                 ),
@@ -422,11 +441,9 @@ class _AddPigPageState extends State<AddPigPage> {
                                                       fatherSelected = pig;
                                                     });
                                                   },
-                                                  child:
-                                                      CardPigPresentationWidget(
-                                                          color:
-                                                              AppColors.primary,
-                                                          pig: pig),
+                                                  child: CardPigParent(
+                                                      color: AppColors.primary,
+                                                      pig: pig),
                                                 );
                                               }).toList(),
                                             )
@@ -434,7 +451,7 @@ class _AddPigPageState extends State<AddPigPage> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                CardPigPresentationWidget(
+                                                CardPigParent(
                                                   color: AppColors.primary,
                                                   pig: fatherSelected!,
                                                 ),

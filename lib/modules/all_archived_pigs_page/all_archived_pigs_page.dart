@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../shared/entities/pig/pig_entity.dart';
 import '../../shared/themes/background/background_gradient.dart';
 import '../../shared/themes/colors/app_colors.dart';
+import '../../shared/utils/enums/gender_enum.dart';
 import '../../shared/widgets/card_pig_presentation_widget.dart';
 
 class AllArchivedPigsPage extends StatefulWidget {
@@ -19,6 +20,19 @@ class _AllArchivedPigsPageState extends State<AllArchivedPigsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        title: Text('Todos os Suinos Arquivados'),
+        centerTitle: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+        ),
+      ),
       extendBody: true,
       body: BackgroundGradient(
         child: Column(
@@ -35,15 +49,7 @@ class _AllArchivedPigsPageState extends State<AllArchivedPigsPage> {
                         ? Center(
                             child: Text('Nenhum Suino arquivado'),
                           )
-                        : GridView(
-                            shrinkWrap: true,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 1.5,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10,
-                            ),
+                        : ListView(
                             children: snapshot.data!.map((pig) {
                               return GestureDetector(
                                 onTap: () {
@@ -60,7 +66,10 @@ class _AllArchivedPigsPageState extends State<AllArchivedPigsPage> {
                                   });
                                 },
                                 child: CardPigPresentationWidget(
-                                    color: Colors.grey, pig: pig),
+                                    color: pig.gender == Gender.MALE.value
+                                        ? AppColors.primary
+                                        : AppColors.secondary,
+                                    pig: pig),
                               );
                             }).toList(),
                           );

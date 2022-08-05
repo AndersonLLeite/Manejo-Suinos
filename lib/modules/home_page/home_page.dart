@@ -34,11 +34,11 @@ class _HomePageState extends State<HomePage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.popAndPushNamed(context, '/manejo');
+                    Navigator.pushNamed(context, '/manejo');
                   },
                   child: CardHomePageWidget(
                     title: 'Todos os Suinos',
-                    image: AppImages.pigs,
+                    image: AppImages.duroc,
                   ),
                 ),
                 CardHomePageWidget(
@@ -51,8 +51,8 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: const [
                 CardHomePageWidget(
-                  title: 'Amojada',
-                  image: AppImages.pregnant,
+                  title: 'Baias',
+                  image: AppImages.pigsty,
                 ),
                 CardHomePageWidget(
                   title: 'Agenda',
