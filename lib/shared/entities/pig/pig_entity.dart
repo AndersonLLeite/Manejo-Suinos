@@ -17,6 +17,8 @@ class PigEntity {
   String motherName;
   String fatherName;
   String status;
+  double buyValue;
+  double sellValue;
 
   PigEntity({
     required this.name,
@@ -30,6 +32,8 @@ class PigEntity {
     required this.motherName,
     required this.fatherName,
     this.status = 'ACTIVE',
+    required this.buyValue,
+    required this.sellValue,
   });
 
   PigEntity copyWith({
@@ -44,6 +48,8 @@ class PigEntity {
     String? motherName,
     String? fatherName,
     String? status,
+    double? buyValue,
+    double? sellValue,
   }) {
     return PigEntity(
       name: name ?? this.name,
@@ -57,6 +63,8 @@ class PigEntity {
       motherName: motherName ?? this.motherName,
       fatherName: fatherName ?? this.fatherName,
       status: status ?? this.status,
+      buyValue: buyValue ?? this.buyValue,
+      sellValue: sellValue ?? this.sellValue,
     );
   }
 
@@ -73,13 +81,15 @@ class PigEntity {
       'motherName': motherName,
       'fatherName': fatherName,
       'status': status,
+      'buy': buyValue,
+      'sell': sellValue,
     };
   }
 
   factory PigEntity.fromMap(Map<String, dynamic> map) {
     return PigEntity(
       name: map['name'] ?? '',
-      imageUrl: map['imageUrl'],
+      imageUrl: map['imageUrl'] ?? '',
       age: map['age']?.toInt() ?? 0,
       weight: map['weight']?.toDouble() ?? 0.0,
       gpd: map['gpd']?.toDouble() ?? 0.0,
@@ -89,6 +99,8 @@ class PigEntity {
       motherName: map['motherName'] ?? '',
       fatherName: map['fatherName'] ?? '',
       status: map['status'] ?? '',
+      buyValue: map['buy']?.toDouble() ?? 0.0,
+      sellValue: map['sell']?.toDouble() ?? 0.0,
     );
   }
 
@@ -99,7 +111,7 @@ class PigEntity {
 
   @override
   String toString() {
-    return 'PigEntity(name: $name, imageUrl: $imageUrl, age: $age, weight: $weight, gpd: $gpd, gender: $gender, finality: $finality, obtained: $obtained, motherName: $motherName, fatherName: $fatherName, status: $status)';
+    return 'PigEntity(name: $name, imageUrl: $imageUrl, age: $age, weight: $weight, gpd: $gpd, gender: $gender, finality: $finality, obtained: $obtained, motherName: $motherName, fatherName: $fatherName, status: $status, buy: $buyValue, sell: $sellValue)';
   }
 
   String? getStatus() {
@@ -113,33 +125,37 @@ class PigEntity {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is PigEntity &&
-      other.name == name &&
-      other.imageUrl == imageUrl &&
-      other.age == age &&
-      other.weight == weight &&
-      other.gpd == gpd &&
-      other.gender == gender &&
-      other.finality == finality &&
-      other.obtained == obtained &&
-      other.motherName == motherName &&
-      other.fatherName == fatherName &&
-      other.status == status;
+        other.name == name &&
+        other.imageUrl == imageUrl &&
+        other.age == age &&
+        other.weight == weight &&
+        other.gpd == gpd &&
+        other.gender == gender &&
+        other.finality == finality &&
+        other.obtained == obtained &&
+        other.motherName == motherName &&
+        other.fatherName == fatherName &&
+        other.status == status &&
+        other.buyValue == buyValue &&
+        other.sellValue == sellValue;
   }
 
   @override
   int get hashCode {
     return name.hashCode ^
-      imageUrl.hashCode ^
-      age.hashCode ^
-      weight.hashCode ^
-      gpd.hashCode ^
-      gender.hashCode ^
-      finality.hashCode ^
-      obtained.hashCode ^
-      motherName.hashCode ^
-      fatherName.hashCode ^
-      status.hashCode;
+        imageUrl.hashCode ^
+        age.hashCode ^
+        weight.hashCode ^
+        gpd.hashCode ^
+        gender.hashCode ^
+        finality.hashCode ^
+        obtained.hashCode ^
+        motherName.hashCode ^
+        fatherName.hashCode ^
+        status.hashCode ^
+        buyValue.hashCode ^
+        sellValue.hashCode;
   }
 }

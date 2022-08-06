@@ -52,21 +52,27 @@ class CardPigPresentationWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextRichPerfilPageWidget(
-                        text: "Nome: ", textValue: pig.name),
-                    TextRichPerfilPageWidget(
-                        text: "Idade: ", textValue: pig.age.toString()),
-                    TextRichPerfilPageWidget(
-                        text: "Peso: ", textValue: pig.weight.toString()),
-                    TextRichPerfilPageWidget(
-                      text: "Finalidade: ",
-                      textValue: pig.finality,
-                    ),
+                    // TextRichPerfilPageWidget(
+                    //     text: "Nome: ", textValue: pig.name),
+                    // TextRichPerfilPageWidget(
+                    //     text: "Idade: ", textValue: pig.age.toString()),
+                    // TextRichPerfilPageWidget(
+                    //     text: "Peso: ", textValue: pig.weight.toString()),
+                    // TextRichPerfilPageWidget(
+                    //   text: "Finalidade: ",
+                    //   textValue: pig.finality,
+                    // ),
                     TextRichPerfilPageWidget(
                         text: "Sexo: ",
                         textValue: pig.gender == Gender.FEMALE.value
                             ? "Fêmea"
                             : "Macho"),
+                    TextRichPerfilPageWidget(
+                        text: "Valor Compra: ",
+                        textValue: pig.buyValue.toString()),
+                    TextRichPerfilPageWidget(
+                        text: "Valor venda: ",
+                        textValue: pig.sellValue.toString()),
                   ],
                 )
               ],

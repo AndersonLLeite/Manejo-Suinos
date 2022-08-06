@@ -48,6 +48,7 @@ class _AddPigPageState extends State<AddPigPage> {
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerAge = TextEditingController();
   final TextEditingController _controllerWeight = TextEditingController();
+  final TextEditingController _controllerBuyValue = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   String? _gender;
   String? _finality;
@@ -479,6 +480,7 @@ class _AddPigPageState extends State<AddPigPage> {
                                 controllerName: _controllerName,
                                 controllerAge: _controllerAge,
                                 controllerWeight: _controllerWeight,
+                                controllerBuy: _controllerBuyValue,
                                 gpd: 0.0,
                                 gender: _gender,
                                 finality: _finality,
@@ -492,6 +494,17 @@ class _AddPigPageState extends State<AddPigPage> {
               _obtained == Obtained.PURCHASED.value
                   ? Column(
                       children: [
+                        Divider(),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: FormAddPigWidget(
+                              controllerName: _controllerBuyValue,
+                              labelText: "Valor da compra",
+                              hintText: "Informe o valor da compra do suino",
+                              icon: Icon(Icons.monetization_on_outlined),
+                              keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true)),
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20, bottom: 20),
                           child: Text('Selecione a raça',
@@ -525,6 +538,7 @@ class _AddPigPageState extends State<AddPigPage> {
                       controllerName: _controllerName,
                       controllerAge: _controllerAge,
                       controllerWeight: _controllerWeight,
+                      controllerBuy: _controllerBuyValue,
                       gpd: 0.0,
                       gender: _gender,
                       finality: _finality,
