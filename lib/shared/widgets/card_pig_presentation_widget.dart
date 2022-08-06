@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:manejo_suinos/shared/themes/images/app_images.dart';
 import 'package:manejo_suinos/shared/utils/enums/gender_enum.dart';
+import 'package:manejo_suinos/shared/widgets/buttom_gender_widget.dart';
 import 'package:manejo_suinos/shared/widgets/text_rich_perfil_page_widget.dart';
 
 import '../entities/pig/pig_entity.dart';
 import '../themes/colors/app_colors.dart';
 import '../themes/styles/textstyles/app_text_styles.dart';
+import 'buttom_finality_widget.dart';
 
 class CardPigPresentationWidget extends StatelessWidget {
   const CardPigPresentationWidget({
@@ -50,29 +52,30 @@ class CardPigPresentationWidget extends StatelessWidget {
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // TextRichPerfilPageWidget(
-                    //     text: "Nome: ", textValue: pig.name),
-                    // TextRichPerfilPageWidget(
-                    //     text: "Idade: ", textValue: pig.age.toString()),
-                    // TextRichPerfilPageWidget(
-                    //     text: "Peso: ", textValue: pig.weight.toString()),
-                    // TextRichPerfilPageWidget(
-                    //   text: "Finalidade: ",
-                    //   textValue: pig.finality,
-                    // ),
-                    TextRichPerfilPageWidget(
-                        text: "Sexo: ",
-                        textValue: pig.gender == Gender.FEMALE.value
-                            ? "Fêmea"
-                            : "Macho"),
-                    TextRichPerfilPageWidget(
-                        text: "Valor Compra: ",
-                        textValue: pig.buyValue.toString()),
-                    TextRichPerfilPageWidget(
-                        text: "Valor venda: ",
-                        textValue: pig.sellValue.toString()),
+                    Text(
+                      pig.name,
+                      style: AppTextStyles.listTileTitle,
+                    ),
+                    Row(
+                      children: [
+                        pig.gender == Gender.FEMALE.value
+                            ? ButtomGenderWidget(
+                                color: AppColors.secondary,
+                                title: "Fêmea",
+                                icon: Icon(Icons.female))
+                            : ButtomGenderWidget(
+                                color: AppColors.primary,
+                                title: "Macho",
+                                icon: Icon(Icons.male)),
+                        ButtomFinalityWidget(
+                            color: pig.gender == Gender.FEMALE.value
+                                ? AppColors.secondary
+                                : AppColors.primary,
+                            title: pig.finality)
+                      ],
+                    )
                   ],
                 )
               ],
