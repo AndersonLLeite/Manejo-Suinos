@@ -2,47 +2,39 @@ import 'package:flutter/material.dart';
 
 import '../themes/colors/app_colors.dart';
 
-class ButtomGenderWidget extends StatelessWidget {
-  final Color color;
-  final String title;
-  final Icon icon;
-
-  const ButtomGenderWidget({
+class ButtonFinalityWidget extends StatelessWidget {
+  const ButtonFinalityWidget({
     Key? key,
     required this.color,
     required this.title,
-    required this.icon,
   }) : super(key: key);
+  final Color color;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+          topLeft: Radius.circular(20),
         ),
       ),
       elevation: 20,
       shadowColor: AppColors.secondary,
       color: color,
       child: SizedBox(
-        width: 55,
-        height: 65,
-        child:
-            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          Icon(
-            icon.icon,
-            color: Colors.white,
-          ),
-          Text(
+        width: 75,
+        height: 50,
+        child: Center(
+          child: Text(
             title,
             style: TextStyle(
               color: Colors.white,
               fontSize: 12,
             ),
           ),
-        ]),
+        ),
       ),
     );
   }

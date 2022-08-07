@@ -4,16 +4,14 @@ import 'package:manejo_suinos/modules/all_pigs_page/all_pigs_page.dart';
 import 'package:manejo_suinos/modules/manejo_page/manejo_page.dart';
 
 class ManejoPageView extends StatefulWidget {
-
-  const ManejoPageView({ Key? key }) : super(key: key);
+  const ManejoPageView({Key? key}) : super(key: key);
 
   @override
   State<ManejoPageView> createState() => _ManejoPageViewState();
 }
 
 class _ManejoPageViewState extends State<ManejoPageView> {
-
-   int selectedIndex = 0;
+  int selectedIndex = 0;
   late PageController _pagecontroller;
 
   @override
@@ -46,10 +44,12 @@ class _ManejoPageViewState extends State<ManejoPageView> {
         ),
         backgroundColor: Colors.transparent,
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.remove), label: 'manejo'),
-          BottomNavigationBarItem(icon: Icon(Icons.remove), label: 'Plantel ativo'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.remove), label: 'Plantel arquivados'),
+              icon: Icon(Icons.remove_red_eye_outlined), label: 'manejo'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.present_to_all_sharp), label: 'Suinos ativos'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.archive_outlined), label: 'Suinos arquivados'),
         ],
         currentIndex: selectedIndex,
         selectedItemColor: Colors.white,
@@ -59,11 +59,7 @@ class _ManejoPageViewState extends State<ManejoPageView> {
       body: PageView(
         controller: _pagecontroller,
         onPageChanged: setPageView,
-        children: const [
-          ManejoPage(),
-          AllPigsPage(),
-          AllArchivedPigsPage()
-        ],
+        children: const [ManejoPage(), AllPigsPage(), AllArchivedPigsPage()],
       ),
     );
   }

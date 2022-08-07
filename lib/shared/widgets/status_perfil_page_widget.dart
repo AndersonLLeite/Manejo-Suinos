@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../themes/colors/app_colors.dart';
 
-class ButtomFinalityWidget extends StatelessWidget {
-  const ButtomFinalityWidget({
+class StatusPerfilPageWidget extends StatelessWidget {
+  const StatusPerfilPageWidget({
     Key? key,
     required this.color,
+    required this.icon,
     required this.title,
   }) : super(key: key);
+
   final Color color;
+  final Icon icon;
   final String title;
 
   @override
@@ -16,25 +19,30 @@ class ButtomFinalityWidget extends StatelessWidget {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          bottomRight: Radius.circular(20),
-          topLeft: Radius.circular(20),
+          bottomLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
         ),
       ),
       elevation: 20,
       shadowColor: AppColors.secondary,
       color: color,
       child: SizedBox(
-        width: 75,
-        height: 50,
-        child: Center(
-          child: Text(
+        width: 55,
+        height: 65,
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          Icon(
+            icon.icon,
+            color: Colors.white,
+          ),
+          Text(
             title,
             style: TextStyle(
               color: Colors.white,
               fontSize: 12,
             ),
           ),
-        ),
+        ]),
       ),
     );
   }

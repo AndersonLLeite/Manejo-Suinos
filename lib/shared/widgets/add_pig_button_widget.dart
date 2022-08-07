@@ -6,12 +6,13 @@ import 'package:provider/provider.dart';
 
 import '../entities/pig/pig_entity.dart';
 
-class AddPigButtomWidget extends StatelessWidget {
-  const AddPigButtomWidget({
+class AddPigButtonWidget extends StatelessWidget {
+  const AddPigButtonWidget({
     Key? key,
     required TextEditingController controllerName,
     required TextEditingController controllerAge,
     required TextEditingController controllerWeight,
+    required TextEditingController controllerBuy,
     required String? gender,
     required String? finality,
     required String? obtained,
@@ -21,6 +22,7 @@ class AddPigButtomWidget extends StatelessWidget {
   })  : _controllerName = controllerName,
         _controllerAge = controllerAge,
         _controllerWeight = controllerWeight,
+        _controllerBuy = controllerBuy,
         _gender = gender,
         _finality = finality,
         _obtained = obtained,
@@ -31,6 +33,7 @@ class AddPigButtomWidget extends StatelessWidget {
   final TextEditingController _controllerName;
   final TextEditingController _controllerAge;
   final TextEditingController _controllerWeight;
+  final TextEditingController _controllerBuy;
   final double gpd;
 
   final String? _gender;
@@ -67,6 +70,10 @@ class AddPigButtomWidget extends StatelessWidget {
               obtained: _obtained!,
               motherName: _motherName,
               fatherName: _fatherName,
+              buyValue: _controllerBuy.text.isEmpty
+                  ? 0
+                  : double.parse(_controllerBuy.text),
+              sellValue: 0,
             ));
             addFirstWeighing(context);
             Navigator.pop(context);

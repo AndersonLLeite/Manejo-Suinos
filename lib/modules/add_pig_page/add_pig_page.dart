@@ -1,14 +1,12 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
 import 'package:manejo_suinos/shared/utils/enums/gender_enum.dart';
-import 'package:manejo_suinos/shared/utils/utility_image/utility_image.dart';
-import 'package:manejo_suinos/shared/widgets/add_pig_buttom_widget.dart';
-import 'package:manejo_suinos/shared/widgets/buttom_finality_widget.dart';
-import 'package:manejo_suinos/shared/widgets/buttom_gender_widget.dart';
+import 'package:manejo_suinos/shared/widgets/add_pig_button_widget.dart';
+import 'package:manejo_suinos/shared/widgets/button_finality_widget.dart';
+import 'package:manejo_suinos/shared/widgets/button_gender_widget.dart';
+import 'package:manejo_suinos/shared/widgets/card_pig_parents.dart';
 import 'package:manejo_suinos/shared/widgets/form_add_pig_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -21,7 +19,6 @@ import '../../shared/utils/enums/finality_enum.dart';
 import '../../shared/utils/enums/obtained_enum.dart';
 import '../../shared/widgets/button_obtained_widget.dart';
 import '../../shared/widgets/card_breed_widget.dart';
-import '../../shared/widgets/card_pig_presentation_widget.dart';
 
 class AddPigPage extends StatefulWidget {
   const AddPigPage({Key? key}) : super(key: key);
@@ -47,6 +44,7 @@ class _AddPigPageState extends State<AddPigPage> {
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerAge = TextEditingController();
   final TextEditingController _controllerWeight = TextEditingController();
+  final TextEditingController _controllerBuyValue = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   String? _gender;
   String? _finality;
@@ -91,6 +89,19 @@ class _AddPigPageState extends State<AddPigPage> {
   _defineColorButtomObtainedBorn() {
     colorButtomObtainedBorn = AppColors.secondary;
     colorButtomObtainedPurchased = AppColors.defaultColorButtomDisabled;
+  }
+
+  _defineColorAllButtomDisabled() {
+    colorButtomFinalityFatten = AppColors.defaultColorButtomDisabled;
+    colorButtomFinalityMatrix = AppColors.defaultColorButtomDisabled;
+    colorButtomFinalityBreeder = AppColors.defaultColorButtomDisabled;
+    colorButtomObtainedBorn = AppColors.defaultColorButtomDisabled;
+    colorButtomObtainedPurchased = AppColors.defaultColorButtomDisabled;
+    _finality = null;
+    _obtained = null;
+    _fatherName = "Indefinido";
+    _motherName = "Indefinido";
+    _breed = null;
   }
 
   final List<CardBreedWidget> _listCardBreed = [
@@ -198,9 +209,12 @@ class _AddPigPageState extends State<AddPigPage> {
                       setState(() {
                         _defineColorButtomGenderMale();
                         _gender = Gender.MALE.value;
+                        if (_finality != null) {
+                          _defineColorAllButtomDisabled();
+                        }
                       });
                     },
-                    child: ButtomGenderWidget(
+                    child: ButtonGenderWidget(
                       color: colorButtomGenderMale,
                       title: 'Macho',
                       icon: Icon(Icons.male),
@@ -211,9 +225,12 @@ class _AddPigPageState extends State<AddPigPage> {
                       setState(() {
                         _defineColorButtomGenderFemale();
                         _gender = Gender.FEMALE.value;
+                        if (_finality != null) {
+                          _defineColorAllButtomDisabled();
+                        }
                       });
                     },
-                    child: ButtomGenderWidget(
+                    child: ButtonGenderWidget(
                       color: colorButtomGenderFemale,
                       title: 'Fêmea',
                       icon: Icon(Icons.female),
@@ -245,7 +262,7 @@ class _AddPigPageState extends State<AddPigPage> {
                               _finality = Finality.FATTEN.value;
                             });
                           },
-                          child: ButtomFinalityWidget(
+                          child: ButtonFinalityWidget(
                               color: colorButtomFinalityFatten,
                               title: 'Engorda'),
                         ),
@@ -257,7 +274,7 @@ class _AddPigPageState extends State<AddPigPage> {
                                     _finality = Finality.BREEDER.value;
                                   });
                                 },
-                                child: ButtomFinalityWidget(
+                                child: ButtonFinalityWidget(
                                     color: colorButtomFinalityBreeder,
                                     title: 'Reprodutor'),
                               )
@@ -268,7 +285,7 @@ class _AddPigPageState extends State<AddPigPage> {
                                     _finality = Finality.MATRIX.value;
                                   });
                                 },
-                                child: ButtomFinalityWidget(
+                                child: ButtonFinalityWidget(
                                     color: colorButtomFinalityMatrix,
                                     title: 'Matriz'),
                               ),
@@ -357,11 +374,10 @@ class _AddPigPageState extends State<AddPigPage> {
                                                       motherSelected = pig;
                                                     });
                                                   },
-                                                  child:
-                                                      CardPigPresentationWidget(
-                                                          color: AppColors
-                                                              .secondary,
-                                                          pig: pig),
+                                                  child: CardPigParent(
+                                                      color:
+                                                          AppColors.secondary,
+                                                      pig: pig),
                                                 );
                                               }).toList(),
                                             )
@@ -369,7 +385,7 @@ class _AddPigPageState extends State<AddPigPage> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                CardPigPresentationWidget(
+                                                CardPigParent(
                                                   color: AppColors.secondary,
                                                   pig: motherSelected!,
                                                 ),
@@ -422,11 +438,9 @@ class _AddPigPageState extends State<AddPigPage> {
                                                       fatherSelected = pig;
                                                     });
                                                   },
-                                                  child:
-                                                      CardPigPresentationWidget(
-                                                          color:
-                                                              AppColors.primary,
-                                                          pig: pig),
+                                                  child: CardPigParent(
+                                                      color: AppColors.primary,
+                                                      pig: pig),
                                                 );
                                               }).toList(),
                                             )
@@ -434,7 +448,7 @@ class _AddPigPageState extends State<AddPigPage> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                CardPigPresentationWidget(
+                                                CardPigParent(
                                                   color: AppColors.primary,
                                                   pig: fatherSelected!,
                                                 ),
@@ -458,10 +472,11 @@ class _AddPigPageState extends State<AddPigPage> {
                             }),
                         (motherSelected != null && fatherSelected != null) ||
                                 breedSelected
-                            ? AddPigButtomWidget(
+                            ? AddPigButtonWidget(
                                 controllerName: _controllerName,
                                 controllerAge: _controllerAge,
                                 controllerWeight: _controllerWeight,
+                                controllerBuy: _controllerBuyValue,
                                 gpd: 0.0,
                                 gender: _gender,
                                 finality: _finality,
@@ -475,6 +490,17 @@ class _AddPigPageState extends State<AddPigPage> {
               _obtained == Obtained.PURCHASED.value
                   ? Column(
                       children: [
+                        Divider(),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: FormAddPigWidget(
+                              controllerName: _controllerBuyValue,
+                              labelText: "Valor da compra",
+                              hintText: "Informe o valor da compra do suino",
+                              icon: Icon(Icons.monetization_on_outlined),
+                              keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true)),
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20, bottom: 20),
                           child: Text('Selecione a raça',
@@ -491,7 +517,6 @@ class _AddPigPageState extends State<AddPigPage> {
                                       setState(() {
                                         _breed = breed.title;
                                         breedSelected = true;
-                                        print(breed.title);
                                       });
                                     },
                                     child: CardBreedWidget(
@@ -504,10 +529,11 @@ class _AddPigPageState extends State<AddPigPage> {
                     )
                   : SizedBox(),
               breedSelected
-                  ? AddPigButtomWidget(
+                  ? AddPigButtonWidget(
                       controllerName: _controllerName,
                       controllerAge: _controllerAge,
                       controllerWeight: _controllerWeight,
+                      controllerBuy: _controllerBuyValue,
                       gpd: 0.0,
                       gender: _gender,
                       finality: _finality,

@@ -12,7 +12,10 @@ class _ManejoPageState extends State<ManejoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(''),
+        title: const Text(
+          'Estatísticas',
+        ),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(50.0),

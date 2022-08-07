@@ -5,10 +5,10 @@
 //   static const String PURCHASED = 'PURCHASED';
 // }
 
-enum Obtained{
-  BORN('BORN'),
-  PURCHASED('PURCHASED');
-  
+enum Obtained {
+  BORN('Nascido'),
+  PURCHASED('Comprado');
+
   final String value;
   const Obtained(this.value);
 }
