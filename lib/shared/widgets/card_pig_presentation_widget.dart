@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:manejo_suinos/shared/utils/enums/gender_enum.dart';
 import 'package:manejo_suinos/shared/widgets/button_gender_widget.dart';
+import 'package:manejo_suinos/shared/widgets/status_perfil_page_widget.dart';
 
 import '../entities/pig/pig_entity.dart';
 import '../themes/colors/app_colors.dart';
@@ -71,7 +72,18 @@ class CardPigPresentationWidget extends StatelessWidget {
                             color: pig.gender == Gender.FEMALE.value
                                 ? AppColors.secondary
                                 : AppColors.primary,
-                            title: pig.finality)
+                            title: pig.finality),
+                        pig.getStatus() == "ARCHIVED"
+                            ? StatusPerfilPageWidget(
+                                color: pig.sellValue > 0
+                                    ? AppColors.sellColor
+                                    : AppColors.deathColor,
+                                title: pig.sellValue > 0 ? 'Venda' : 'Morto',
+                                icon: pig.sellValue > 0
+                                    ? Icon(Icons.attach_money)
+                                    : Icon(Icons.health_and_safety_outlined),
+                              )
+                            : SizedBox(),
                       ],
                     )
                   ],

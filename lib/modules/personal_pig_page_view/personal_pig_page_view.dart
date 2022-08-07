@@ -51,10 +51,10 @@ class _PersonalPigPageViewState extends State<PersonalPigPageView> {
         ),
         backgroundColor: Colors.transparent,
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.remove), label: 'Perfil'),
-          BottomNavigationBarItem(icon: Icon(Icons.remove), label: 'Pesagens'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
+          BottomNavigationBarItem(icon: Icon(Icons.balance), label: 'Pesagens'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.remove), label: 'Agendamentos'),
+              icon: Icon(Icons.calendar_month_outlined), label: 'Agendamentos'),
         ],
         currentIndex: selectedIndex,
         selectedItemColor: Colors.white,

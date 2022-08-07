@@ -25,7 +25,7 @@ class _AllPigsPageState extends State<AllPigsPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
-        title: Text('Todos os Suinos'),
+        title: Text('Todos os Suinos Ativos'),
         centerTitle: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -34,55 +34,80 @@ class _AllPigsPageState extends State<AllPigsPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/add_pig');
-        },
-        child: Icon(Icons.add),
-      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       extendBody: true,
       body: BackgroundGradient(
-        child: Column(
+        child: Stack(
           children: [
-            Expanded(
-              child: FutureBuilder<List<PigEntity>>(
-                  future: context.watch<PigRepository>().getActivePigs(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<PigEntity>> snapshot) {
-                    if (!snapshot.hasData) {
-                      return Center(child: Text('Loading...'));
-                    }
-                    return snapshot.data!.isEmpty
-                        ? Center(
-                            child: Text('Nenhum Suino cadastrado'),
-                          )
-                        : ListView(
-                            children: snapshot.data!.map((pig) {
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            PersonalPigPageView(
-                                          pigEntity: pig,
-                                        ),
-                                      ),
-                                    );
-                                  });
-                                },
-                                child: CardPigPresentationWidget(
-                                    color: pig.gender == Gender.MALE.value
-                                        ? AppColors.primary
-                                        : AppColors.secondary,
-                                    pig: pig),
+            Column(
+              children: [
+                Expanded(
+                  child: FutureBuilder<List<PigEntity>>(
+                      future: context.watch<PigRepository>().getActivePigs(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<PigEntity>> snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(child: Text('Loading...'));
+                        }
+                        return snapshot.data!.isEmpty
+                            ? Center(
+                                child: Text('Nenhum Suino cadastrado'),
+                              )
+                            : ListView(
+                                children: snapshot.data!.map((pig) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                PersonalPigPageView(
+                                              pigEntity: pig,
+                                            ),
+                                          ),
+                                        );
+                                      });
+                                    },
+                                    child: CardPigPresentationWidget(
+                                        color: pig.gender == Gender.MALE.value
+                                            ? AppColors.primary
+                                            : AppColors.secondary,
+                                        pig: pig),
+                                  );
+                                }).toList(),
                               );
-                            }).toList(),
-                          );
-                  }),
+                      }),
+                ),
+              ],
             ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 38, horizontal: 100),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/add_pig');
+                    },
+                    child: Row(
+                      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        Expanded(flex: 1, child: Icon(Icons.add)),
+                        Expanded(flex: 2, child: Text("Adicionar Suino")),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
