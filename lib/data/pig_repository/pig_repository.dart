@@ -86,7 +86,7 @@ class PigRepository extends ChangeNotifier {
     return listPig[0];
   }
 
-  Future<int> getSons(String name) async {
+  Future<int> getNumberOfChildren(String name) async {
     Database db = await DataHelper.instance.database;
     var sons = await db.rawQuery('''
       SELECT * FROM tablepigs
@@ -98,7 +98,7 @@ class PigRepository extends ChangeNotifier {
     return listSons.length;
   }
 
-  Future<double> getValueSonSells(String name) async {
+  Future<double> getValueChildrenSells(String name) async {
     Database db = await DataHelper.instance.database;
     var soma = await db.rawQuery('''
       SELECT SUM(sell) FROM tablepigs
@@ -109,7 +109,7 @@ class PigRepository extends ChangeNotifier {
     return somaSells != null ? double.parse(somaSells.toString()) : 0;
   }
 
-  Future<double> getValueEstimateSonsActive(String name) async {
+  Future<double> getValueEstimateChildrenActive(String name) async {
     Database db = await DataHelper.instance.database;
     var soma = await db.rawQuery('''
       SELECT SUM(weight) FROM tablepigs

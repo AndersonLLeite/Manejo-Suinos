@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:manejo_suinos/shared/themes/images/app_images.dart';
 import 'package:manejo_suinos/shared/utils/enums/gender_enum.dart';
-import 'package:manejo_suinos/shared/widgets/buttom_gender_widget.dart';
-import 'package:manejo_suinos/shared/widgets/text_rich_perfil_page_widget.dart';
+import 'package:manejo_suinos/shared/widgets/button_gender_widget.dart';
 
 import '../entities/pig/pig_entity.dart';
 import '../themes/colors/app_colors.dart';
 import '../themes/styles/textstyles/app_text_styles.dart';
-import 'buttom_finality_widget.dart';
+import 'button_finality_widget.dart';
 
 class CardPigPresentationWidget extends StatelessWidget {
   const CardPigPresentationWidget({
@@ -30,7 +28,7 @@ class CardPigPresentationWidget extends StatelessWidget {
         ),
         child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.8,
-            height: MediaQuery.of(context).size.height * 0.17,
+            height: MediaQuery.of(context).size.height * 0.15,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -56,20 +54,20 @@ class CardPigPresentationWidget extends StatelessWidget {
                   children: [
                     Text(
                       pig.name,
-                      style: AppTextStyles.listTileTitle,
+                      style: AppTextStyles.titleNamePigPresentationCard,
                     ),
                     Row(
                       children: [
                         pig.gender == Gender.FEMALE.value
-                            ? ButtomGenderWidget(
+                            ? ButtonGenderWidget(
                                 color: AppColors.secondary,
                                 title: "Fêmea",
                                 icon: Icon(Icons.female))
-                            : ButtomGenderWidget(
+                            : ButtonGenderWidget(
                                 color: AppColors.primary,
                                 title: "Macho",
                                 icon: Icon(Icons.male)),
-                        ButtomFinalityWidget(
+                        ButtonFinalityWidget(
                             color: pig.gender == Gender.FEMALE.value
                                 ? AppColors.secondary
                                 : AppColors.primary,
@@ -84,46 +82,3 @@ class CardPigPresentationWidget extends StatelessWidget {
     );
   }
 }
-
-
-// Center(
-//       child: Stack(
-//         children: [
-//           Card(
-//             color: color,
-//             shadowColor: color == AppColors.secondary
-//                 ? AppColors.primary
-//                 : AppColors.secondary,
-//             elevation: 20,
-//             margin: EdgeInsets.all(20),
-//             shape: RoundedRectangleBorder(
-//               borderRadius: BorderRadius.only(
-//                 bottomRight: Radius.circular(40),
-//                 topLeft: Radius.circular(20),
-//               ),
-//             ),
-//             child: SizedBox(
-//               height: 100,
-//               width: 90,
-//             ),
-//           ),
-//           Positioned(
-//             bottom: 0,
-//             left: 0,
-//             right: 0,
-//             child: CircleAvatar(
-//               radius: 40,
-//               backgroundImage: Image.asset('assets/images/pig.jpeg').image,
-//             ),
-//           ),
-//           Positioned(
-//             top: 25,
-//             left: 25,
-//             child: Text(      
-//               pig.name,
-//               style: AppTextStyles.titleCardPigPresentation,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );

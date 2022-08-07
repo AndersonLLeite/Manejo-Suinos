@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 
 import '../entities/pig/pig_entity.dart';
 
-class AddPigButtomWidget extends StatelessWidget {
-  const AddPigButtomWidget({
+class AddPigButtonWidget extends StatelessWidget {
+  const AddPigButtonWidget({
     Key? key,
     required TextEditingController controllerName,
     required TextEditingController controllerAge,

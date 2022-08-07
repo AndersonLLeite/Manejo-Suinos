@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
 import 'package:manejo_suinos/data/weighing_repository/weighing_repository.dart';
-
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
 import 'package:manejo_suinos/shared/utils/enums/finality_enum.dart';
 import 'package:manejo_suinos/shared/utils/enums/gender_enum.dart';
 import 'package:manejo_suinos/shared/utils/enums/status_enum.dart';
-import 'package:manejo_suinos/shared/widgets/buttom_finality_widget.dart';
-import 'package:manejo_suinos/shared/widgets/buttom_gender_widget.dart';
-import 'package:provider/provider.dart';
+import 'package:manejo_suinos/shared/widgets/button_finality_widget.dart';
+import 'package:manejo_suinos/shared/widgets/button_gender_widget.dart';
 
 import '../../shared/entities/pig/pig_entity.dart';
 import '../../shared/themes/colors/app_colors.dart';
+import '../../shared/widgets/button_action_pig_perfil_page.dart';
 
 class PerfilPigPage extends StatefulWidget {
   final PigEntity pigEntity;
@@ -26,6 +27,10 @@ class PerfilPigPage extends StatefulWidget {
 
 class _PerfilPigPageState extends State<PerfilPigPage> {
   final double precoCarne = 12.0;
+  String? reason;
+
+  final List<String> _menuItens = ['Venda', 'Morte'];
+  final FocusNode _focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +39,8 @@ class _PerfilPigPageState extends State<PerfilPigPage> {
       appBar: AppBar(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(40),
-            bottomRight: Radius.circular(40),
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
           ),
         ),
         backgroundColor: Colors.transparent,
@@ -43,66 +48,57 @@ class _PerfilPigPageState extends State<PerfilPigPage> {
         centerTitle: true,
         actions: [
           IconButton(
-              onPressed: () async {
-                Navigator.pop(context);
-                await Provider.of<PigRepository>(context, listen: false)
+              onPressed: () {
+                Provider.of<PigRepository>(context, listen: false)
                     .removePig(widget.pigEntity.name);
-                await Provider.of<WeighingRepository>(context, listen: false)
+                Provider.of<WeighingRepository>(context, listen: false)
                     .removeWeighingByPigName(widget.pigEntity.name);
+                Navigator.pop(context);
               },
               icon: Icon(Icons.delete)),
-          IconButton(
-              onPressed: () async {
-                Navigator.pop(context);
-                PigEntity archivedPigEntity = widget.pigEntity.copyWith(
-                    status: widget.pigEntity.getStatus() == "ACTIVE"
-                        ? Status.ARCHIVED.value
-                        : Status.ACTIVE.value);
-                await Provider.of<PigRepository>(context, listen: false)
-                    .updatePig(archivedPigEntity);
-              },
-              icon: Icon(widget.pigEntity.getStatus() == "ACTIVE"
-                  ? Icons.archive
-                  : Icons.unarchive)),
+          IconButton(onPressed: () async {}, icon: Icon(Icons.edit)),
         ],
       ),
       body: BackgroundGradient(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: CircleAvatar(
-                    backgroundImage:
-                        Image.asset(widget.pigEntity.imageUrl).image,
-                    radius: 80,
+            Padding(
+              padding: const EdgeInsets.only(top: 50),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: CircleAvatar(
+                      backgroundImage:
+                          Image.asset(widget.pigEntity.imageUrl).image,
+                      radius: 80,
+                    ),
                   ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      widget.pigEntity.gender == Gender.FEMALE.value
-                          ? ButtomGenderWidget(
-                              color: AppColors.secondary,
-                              title: 'Fêmea',
-                              icon: Icon(Icons.female))
-                          : ButtomGenderWidget(
-                              color: AppColors.primary,
-                              title: 'Macho',
-                              icon: Icon(Icons.male),
-                            ),
-                      ButtomFinalityWidget(
-                          color: AppColors.primary,
-                          title: widget.pigEntity.finality),
-                    ],
-                  ),
-                )
-              ],
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        widget.pigEntity.gender == Gender.FEMALE.value
+                            ? ButtonGenderWidget(
+                                color: AppColors.secondary,
+                                title: 'Fêmea',
+                                icon: Icon(Icons.female))
+                            : ButtonGenderWidget(
+                                color: AppColors.primary,
+                                title: 'Macho',
+                                icon: Icon(Icons.male),
+                              ),
+                        ButtonFinalityWidget(
+                            color: AppColors.primary,
+                            title: widget.pigEntity.finality),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -214,9 +210,10 @@ class _PerfilPigPageState extends State<PerfilPigPage> {
                             rows: [
                               DataRow(cells: [
                                 DataCell(FutureBuilder(
-                                    future: context
-                                        .watch<PigRepository>()
-                                        .getSons(widget.pigEntity.name),
+                                    future: Provider.of<PigRepository>(context,
+                                            listen: false)
+                                        .getNumberOfChildren(
+                                            widget.pigEntity.name),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
                                         return Text(snapshot.data.toString());
@@ -226,9 +223,10 @@ class _PerfilPigPageState extends State<PerfilPigPage> {
                                     })),
                                 DataCell(
                                   FutureBuilder(
-                                      future: context
-                                          .watch<PigRepository>()
-                                          .getValueSonSells(
+                                      future: Provider.of<PigRepository>(
+                                              context,
+                                              listen: false)
+                                          .getValueChildrenSells(
                                               widget.pigEntity.name),
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
@@ -241,9 +239,10 @@ class _PerfilPigPageState extends State<PerfilPigPage> {
                                 ),
                                 DataCell(
                                   FutureBuilder(
-                                      future: context
-                                          .watch<PigRepository>()
-                                          .getValueEstimateSonsActive(
+                                      future: Provider.of<PigRepository>(
+                                              context,
+                                              listen: false)
+                                          .getValueEstimateChildrenActive(
                                               widget.pigEntity.name),
                                       builder: (context, snapshot) {
                                         if (snapshot.hasData) {
@@ -258,6 +257,122 @@ class _PerfilPigPageState extends State<PerfilPigPage> {
                             ]),
                       )
                     : SizedBox(),
+              ],
+            ),
+            Row(
+              children: [
+                ButtonActionPigPerfilPage(
+                    pigEntity: widget.pigEntity,
+                    title: widget.pigEntity.getStatus() == "ACTIVE"
+                        ? "Arquivar"
+                        : "Desarquivar",
+                    icon: Icon(widget.pigEntity.getStatus() == "ACTIVE"
+                        ? Icons.archive
+                        : Icons.unarchive),
+                    onPressed: () async {
+                      if (widget.pigEntity.getStatus() ==
+                          Status.ARCHIVED.value) {
+                        PigEntity archivedPigEntity = widget.pigEntity
+                            .copyWith(status: Status.ACTIVE.value);
+                        Provider.of<PigRepository>(context, listen: false)
+                            .updatePig(archivedPigEntity);
+                        Navigator.pop(context);
+                      } else {
+                        showModalBottomSheet(
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (context) => Padding(
+                              padding: const EdgeInsets.all(25.0),
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.5,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: AppColors.primary,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                            "Selecione o motivo do arquivamento"),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 50, vertical: 8),
+                                          child: DropdownButtonFormField(
+                                            isExpanded: true,
+                                            focusNode: _focusNode,
+                                            decoration: InputDecoration(
+                                              labelText: "Selecione",
+                                              labelStyle: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white),
+                                            ),
+                                            items: _menuItens.map((reason) {
+                                              return DropdownMenuItem(
+                                                value: reason,
+                                                child: Text(reason),
+                                              );
+                                            }).toList(),
+                                            onChanged: (String? newReason) {
+                                              setState(() {
+                                                reason = newReason!;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            primary: AppColors.secondary,
+                                          ),
+                                          onPressed: () {
+                                            if (reason == "Morte") {
+                                              Provider.of<PigRepository>(
+                                                      context,
+                                                      listen: false)
+                                                  .updatePig(
+                                                      widget.pigEntity.copyWith(
+                                                status: Status.ARCHIVED.value,
+                                              ));
+                                              Navigator.pop(context);
+                                              Navigator.pop(context);
+                                            } else if (reason == "Venda") {
+                                              Navigator.pop(context);
+                                            } else {
+                                              _focusNode.requestFocus();
+                                            }
+                                            // _focusNode.requestFocus();
+                                          },
+                                          child: Text("Arquivar"),
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            primary: AppColors.secondary,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text("Cancelar"),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )),
+                        );
+                      }
+                    }),
               ],
             ),
           ],

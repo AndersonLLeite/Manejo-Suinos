@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../themes/colors/app_colors.dart';
 
-class ButtomGenderWidget extends StatelessWidget {
+class ButtonGenderWidget extends StatelessWidget {
   final Color color;
   final String title;
   final Icon icon;
 
-  const ButtomGenderWidget({
+  const ButtonGenderWidget({
     Key? key,
     required this.color,
     required this.title,

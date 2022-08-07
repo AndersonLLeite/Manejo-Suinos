@@ -8,7 +8,6 @@ import 'package:manejo_suinos/shared/themes/background/background_gradient.dart'
 import 'package:manejo_suinos/shared/themes/colors/app_colors.dart';
 import 'package:manejo_suinos/shared/utils/enums/gender_enum.dart';
 
-import '../../shared/themes/styles/textstyles/app_text_styles.dart';
 import '../../shared/widgets/card_pig_presentation_widget.dart';
 
 class AllPigsPage extends StatefulWidget {

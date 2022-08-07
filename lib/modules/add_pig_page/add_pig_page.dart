@@ -1,14 +1,11 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
 import 'package:manejo_suinos/shared/utils/enums/gender_enum.dart';
-import 'package:manejo_suinos/shared/utils/utility_image/utility_image.dart';
-import 'package:manejo_suinos/shared/widgets/add_pig_buttom_widget.dart';
-import 'package:manejo_suinos/shared/widgets/buttom_finality_widget.dart';
-import 'package:manejo_suinos/shared/widgets/buttom_gender_widget.dart';
+import 'package:manejo_suinos/shared/widgets/add_pig_button_widget.dart';
+import 'package:manejo_suinos/shared/widgets/button_finality_widget.dart';
+import 'package:manejo_suinos/shared/widgets/button_gender_widget.dart';
 import 'package:manejo_suinos/shared/widgets/card_pig_parents.dart';
 import 'package:manejo_suinos/shared/widgets/form_add_pig_widget.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +19,6 @@ import '../../shared/utils/enums/finality_enum.dart';
 import '../../shared/utils/enums/obtained_enum.dart';
 import '../../shared/widgets/button_obtained_widget.dart';
 import '../../shared/widgets/card_breed_widget.dart';
-import '../../shared/widgets/card_pig_presentation_widget.dart';
 
 class AddPigPage extends StatefulWidget {
   const AddPigPage({Key? key}) : super(key: key);
@@ -218,7 +214,7 @@ class _AddPigPageState extends State<AddPigPage> {
                         }
                       });
                     },
-                    child: ButtomGenderWidget(
+                    child: ButtonGenderWidget(
                       color: colorButtomGenderMale,
                       title: 'Macho',
                       icon: Icon(Icons.male),
@@ -234,7 +230,7 @@ class _AddPigPageState extends State<AddPigPage> {
                         }
                       });
                     },
-                    child: ButtomGenderWidget(
+                    child: ButtonGenderWidget(
                       color: colorButtomGenderFemale,
                       title: 'Fêmea',
                       icon: Icon(Icons.female),
@@ -266,7 +262,7 @@ class _AddPigPageState extends State<AddPigPage> {
                               _finality = Finality.FATTEN.value;
                             });
                           },
-                          child: ButtomFinalityWidget(
+                          child: ButtonFinalityWidget(
                               color: colorButtomFinalityFatten,
                               title: 'Engorda'),
                         ),
@@ -278,7 +274,7 @@ class _AddPigPageState extends State<AddPigPage> {
                                     _finality = Finality.BREEDER.value;
                                   });
                                 },
-                                child: ButtomFinalityWidget(
+                                child: ButtonFinalityWidget(
                                     color: colorButtomFinalityBreeder,
                                     title: 'Reprodutor'),
                               )
@@ -289,7 +285,7 @@ class _AddPigPageState extends State<AddPigPage> {
                                     _finality = Finality.MATRIX.value;
                                   });
                                 },
-                                child: ButtomFinalityWidget(
+                                child: ButtonFinalityWidget(
                                     color: colorButtomFinalityMatrix,
                                     title: 'Matriz'),
                               ),
@@ -476,7 +472,7 @@ class _AddPigPageState extends State<AddPigPage> {
                             }),
                         (motherSelected != null && fatherSelected != null) ||
                                 breedSelected
-                            ? AddPigButtomWidget(
+                            ? AddPigButtonWidget(
                                 controllerName: _controllerName,
                                 controllerAge: _controllerAge,
                                 controllerWeight: _controllerWeight,
@@ -521,7 +517,6 @@ class _AddPigPageState extends State<AddPigPage> {
                                       setState(() {
                                         _breed = breed.title;
                                         breedSelected = true;
-                                        print(breed.title);
                                       });
                                     },
                                     child: CardBreedWidget(
@@ -534,7 +529,7 @@ class _AddPigPageState extends State<AddPigPage> {
                     )
                   : SizedBox(),
               breedSelected
-                  ? AddPigButtomWidget(
+                  ? AddPigButtonWidget(
                       controllerName: _controllerName,
                       controllerAge: _controllerAge,
                       controllerWeight: _controllerWeight,

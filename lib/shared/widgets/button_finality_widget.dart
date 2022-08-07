@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../themes/colors/app_colors.dart';
 
-class ButtomFinalityWidget extends StatelessWidget {
-  const ButtomFinalityWidget({
+class ButtonFinalityWidget extends StatelessWidget {
+  const ButtonFinalityWidget({
     Key? key,
     required this.color,
     required this.title,
