@@ -49,14 +49,19 @@ class _HomePageState extends State<HomePage> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
+              children: [
                 CardHomePageWidget(
                   title: 'Baias',
                   image: AppImages.pigsty,
                 ),
-                CardHomePageWidget(
-                  title: 'Agenda',
-                  image: AppImages.agenda,
+                GestureDetector(
+                  child: CardHomePageWidget(
+                    title: 'Agenda',
+                    image: AppImages.agenda,
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/schedule');
+                  },
                 )
               ],
             ),

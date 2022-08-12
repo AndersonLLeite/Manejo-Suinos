@@ -115,24 +115,4 @@ class _AllPigsPageState extends State<AllPigsPage> {
   }
 }
 
-// class TextRichCardAllPigs extends StatelessWidget {
-//   const TextRichCardAllPigs({
-//     Key? key,
-//     required this.text,
-//     required this.textValue,
-//   }) : super(key: key);
-//   final String text;
-//   final String textValue;
-//   @override
-//   Widget build(BuildContext context) {
-//     return Text.rich(
-//       TextSpan(
-//         text: '$text : ',
-//         style: AppTextStyles.listTileTitle,
-//         children: [
-//           TextSpan(text: textValue, style: AppTextStyles.listTileTitle),
-//         ],
-//       ),
-//     );
-//   }
-// }
+

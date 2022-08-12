@@ -5,6 +5,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../event_repository/event_repository.dart';
+
 class DataHelper {
   static Database? _database;
   Future<Database> get database async => _database ??= await _initDatabase();
@@ -20,5 +22,6 @@ class DataHelper {
   Future _onCreate(Database db, int version) async {
     await db.execute(PigRepository.instance.tablePigs);
     await db.execute(WeighingRepository.instance.tableWeighing);
+    await db.execute(EventRepository.instance.tableEvents);
   }
 }

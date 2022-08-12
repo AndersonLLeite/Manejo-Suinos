@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:manejo_suinos/data/weighing_repository/weighing_repository.dart';
 import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
-import 'package:manejo_suinos/shared/entities/heighing_entity/weighing_entity.dart';
+import 'package:manejo_suinos/shared/entities/heighing/weighing_entity.dart';
 
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
 import 'package:provider/provider.dart';

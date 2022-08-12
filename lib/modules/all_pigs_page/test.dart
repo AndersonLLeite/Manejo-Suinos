@@ -50,71 +50,50 @@ class _SchedulePigPageState extends State<SchedulePigPage> {
         centerTitle: true,
       ),
       body: BackgroundGradient(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 120.0,
-              ),
-              const Center(
-                child: Text(
-                  'Agendamentos: ',
-                  style: TextStyle(fontSize: 15.0),
+        child: Stack(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 120.0,
                 ),
-              ),
-              FutureBuilder(
-                  future: context
-                      .watch<EventRepository>()
-                      .getEvents(widget.pigEntity.name),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<EventEntity>> snapshot) {
-                    if (!snapshot.hasData) {
-                      return Center(child: Text('Loading...'));
-                    }
-                    return snapshot.data!.isEmpty
-                        ? Center(
-                            child: Text('Nenhuma Pesagem cadastrada'),
-                          )
-                        : SingleChildScrollView(
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: snapshot.data!.length,
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return Divider();
-                              },
-                              itemBuilder: (BuildContext context, int index) {
-                                return ListTile(
-                                  title: Text(
-                                    snapshot.data![index].title,
-                                    style: TextStyle(
-                                      fontSize: 15.0,
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                    snapshot.data![index].description ?? "",
-                                    style: TextStyle(
-                                      fontSize: 15.0,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    formatDate(snapshot.data![index].date),
-                                    style: TextStyle(
-                                      fontSize: 15.0,
-                                    ),
-                                  ),
-                                  leading: Icon(
-                                    Icons.event,
-                                    color: AppColors.primary,
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                  }),
-              widget.pigEntity.getStatus() == "ACTIVE"
-                  ? ElevatedButton(
+                const Center(
+                  child: Text(
+                    'Agendamentos:',
+                    style: TextStyle(fontSize: 15.0),
+                  ),
+                ),
+                Expanded(
+                  child: FutureBuilder(
+                      future: context
+                          .watch<EventRepository>()
+                          .getEvents(widget.pigEntity.name),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<EventEntity>> snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(child: Text('Loading...'));
+                        }
+                        return snapshot.data!.isEmpty
+                            ? Center(
+                                child: Text('Nenhum agendamento feito'),
+                              )
+                            : ListView(
+                                children: snapshot.data!.map((event) {
+                                  return ListTile(
+                                    title: Text(event.title),
+                                    subtitle: Text(event.description ?? ''),
+                                    trailing: Text(formatDate(event.date)),
+                                  );
+                                }).toList(),
+                              );
+                      }),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 50.0),
+                    child: ElevatedButton(
                       onPressed: () {
                         showModalBottomSheet(
                             backgroundColor: Colors.transparent,
@@ -278,10 +257,13 @@ class _SchedulePigPageState extends State<SchedulePigPage> {
                               });
                             });
                       },
-                      child: const Text('Novo agendamento'))
-                  : SizedBox(),
-            ],
-          ),
+                      child: Text('Novo Agendamento'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
