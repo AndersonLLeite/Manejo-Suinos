@@ -3,39 +3,41 @@
 
 import 'dart:collection';
 
+import 'package:manejo_suinos/shared/entities/event/event_entity.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 /// Example event class.
-class Event {
-  final String title;
+// class Event {
+//   final String title;
 
-  const Event(this.title);
+//   const Event(this.title);
 
-  @override
-  String toString() => title;
-}
+//   @override
+//   String toString() => title;
+// }
 
 /// Example events.
 ///
 /// Using a [LinkedHashMap] is highly recommended if you decide to use a map.
-final kEvents = LinkedHashMap<DateTime, List<Event>>(
+final kEvents = LinkedHashMap<DateTime, List<EventEntity>>(
   equals: isSameDay,
   hashCode: getHashCode,
 )..addAll(_kEventSource);
 
-final Map<DateTime, List<Event>> _kEventSource = {
-  DateTime(2022, 8, 10): [
-    Event('Event 1'),
-    Event('Event 2'),
-  ],
-  DateTime(2022, 8, 12): [
-    Event('Event 3'),
-    Event('Event 4'),
-  ],
-  kToday: [
-    Event('Today\'s Event 1'),
-    Event('Today\'s Event 2'),
-  ],
+void setEventSource(List<EventEntity> events) {
+  for (final event in events) {
+    _kEventSource[event.date] ??= [];
+    _kEventSource[DateTime(event.date.year, event.date.month, event.date.day)]!
+        .add(event);
+  }
+}
+
+Map<DateTime, List<EventEntity>> getkEventSource() {
+  return _kEventSource;
+}
+
+final Map<DateTime, List<EventEntity>> _kEventSource = {
+ 
 };
 
 int getHashCode(DateTime key) {
@@ -50,6 +52,10 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
     (index) => DateTime.utc(first.year, first.month, first.day + index),
   );
 }
+
+String formatDate(DateTime date) {
+    return "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year.toString().padLeft(4, '0')}";
+  }
 
 final kToday = DateTime.now();
 final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);

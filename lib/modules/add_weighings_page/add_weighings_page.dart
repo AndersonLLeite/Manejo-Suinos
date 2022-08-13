@@ -24,7 +24,7 @@ class AddWeighingsPage extends StatelessWidget {
       TextEditingController(text: dateSlug);
   late final TextEditingController _ageController = TextEditingController();
 
-  Future<double> getPigGpd(BuildContext context) async {
+  Future<double> getPigGpd(BuildContext context)  async{
     int lastAge = await Provider.of<WeighingRepository>(context, listen: false)
         .getLastAge(pigEntity.name);
     int newAge = (int.parse(_ageController.text));

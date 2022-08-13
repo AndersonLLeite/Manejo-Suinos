@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:manejo_suinos/data/event_repository/event_repository.dart';
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
+import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
 import 'package:provider/provider.dart';
 
 import '../../shared/entities/event/event_entity.dart';
 import '../../shared/entities/pig/pig_entity.dart';
 import '../../shared/themes/colors/app_colors.dart';
 
-class SchedulePigPage extends StatefulWidget {
+class EventsPigPage extends StatefulWidget {
   final PigEntity pigEntity;
 
-  const SchedulePigPage({
+  const EventsPigPage({
     Key? key,
     required this.pigEntity,
   }) : super(key: key);
 
   @override
-  State<SchedulePigPage> createState() => _SchedulePigPageState();
+  State<EventsPigPage> createState() => _EventsPigPageState();
 }
 
-class _SchedulePigPageState extends State<SchedulePigPage> {
+class _EventsPigPageState extends State<EventsPigPage> {
   final TextEditingController _controllerTitle = TextEditingController();
 
   final TextEditingController _controllerDescription = TextEditingController();
@@ -30,9 +31,6 @@ class _SchedulePigPageState extends State<SchedulePigPage> {
   String formattedDate =
       "${DateTime.now().day.toString().padLeft(2, '0')}/${DateTime.now().month.toString().padLeft(2, '0')}/${DateTime.now().year.toString().padLeft(4, '0')}";
 
-  String formatDate(DateTime date) {
-    return "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year.toString().padLeft(4, '0')}";
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +63,7 @@ class _SchedulePigPageState extends State<SchedulePigPage> {
               FutureBuilder(
                   future: context
                       .watch<EventRepository>()
-                      .getEvents(widget.pigEntity.name),
+                      .getEventsByPigName(widget.pigEntity.name),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<EventEntity>> snapshot) {
                     if (!snapshot.hasData) {
@@ -242,10 +240,8 @@ class _SchedulePigPageState extends State<SchedulePigPage> {
                                                   _focusNodeTitle
                                                       .requestFocus();
                                                 } else {
-                                                  Provider.of<EventRepository>(
-                                                          context,
-                                                          listen: false)
-                                                      .addEvent(EventEntity(
+                                                  EventEntity event =
+                                                      EventEntity(
                                                     title:
                                                         _controllerTitle.text,
                                                     description:
@@ -254,7 +250,14 @@ class _SchedulePigPageState extends State<SchedulePigPage> {
                                                     date: _date,
                                                     pigName:
                                                         widget.pigEntity.name,
-                                                  ));
+                                                  );
+                                                  List<EventEntity> events = [];
+                                                  events.add(event);
+                                                  setEventSource(events);
+                                                  Provider.of<EventRepository>(
+                                                          context,
+                                                          listen: false)
+                                                      .addEvent(event);
                                                   Navigator.pop(context);
                                                 }
                                               },

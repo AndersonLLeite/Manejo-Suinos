@@ -5,6 +5,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:manejo_suinos/shared/entities/event/event_entity.dart';
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -19,7 +20,7 @@ class ShedulePage extends StatefulWidget {
 
 class _ShedulePageState extends State<ShedulePage> {
   late final PageController _pageController;
-  late final ValueNotifier<List<Event>> _selectedEvents;
+  late final ValueNotifier<List<EventEntity>> _selectedEvents;
   final ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
   final Set<DateTime> _selectedDays = LinkedHashSet<DateTime>(
     equals: isSameDay,
@@ -33,7 +34,6 @@ class _ShedulePageState extends State<ShedulePage> {
   @override
   void initState() {
     super.initState();
-
     _selectedDays.add(_focusedDay.value);
     _selectedEvents = ValueNotifier(_getEventsForDay(_focusedDay.value));
   }
@@ -48,17 +48,17 @@ class _ShedulePageState extends State<ShedulePage> {
   bool get canClearSelection =>
       _selectedDays.isNotEmpty || _rangeStart != null || _rangeEnd != null;
 
-  List<Event> _getEventsForDay(DateTime day) {
+  List<EventEntity> _getEventsForDay(DateTime day) {
     return kEvents[day] ?? [];
   }
 
-  List<Event> _getEventsForDays(Iterable<DateTime> days) {
+  List<EventEntity> _getEventsForDays(Iterable<DateTime> days) {
     return [
       for (final d in days) ..._getEventsForDay(d),
     ];
   }
 
-  List<Event> _getEventsForRange(DateTime start, DateTime end) {
+  List<EventEntity> _getEventsForRange(DateTime start, DateTime end) {
     final days = daysInRange(start, end);
     return _getEventsForDays(days);
   }
@@ -140,7 +140,7 @@ class _ShedulePageState extends State<ShedulePage> {
                 );
               },
             ),
-            TableCalendar<Event>(
+            TableCalendar<EventEntity>(
               locale: "pt_BR",
               firstDay: kFirstDay,
               lastDay: kLastDay,
@@ -168,7 +168,7 @@ class _ShedulePageState extends State<ShedulePage> {
             ),
             const SizedBox(height: 8.0),
             Expanded(
-              child: ValueListenableBuilder<List<Event>>(
+              child: ValueListenableBuilder<List<EventEntity>>(
                 valueListenable: _selectedEvents,
                 builder: (context, value, _) {
                   return ListView.builder(
@@ -180,14 +180,43 @@ class _ShedulePageState extends State<ShedulePage> {
                           vertical: 4.0,
                         ),
                         decoration: BoxDecoration(
-                          border: Border.all(),
+                          border: Border.all(
+                            color: AppColors.primary,
+                            width: 2.0,
+                          ),
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         child: ListTile(
-                          onTap: () => print('${value[index]}'),
-                          title: Text('${value[index]}',
-                              style: TextStyle(color: Colors.black)),
-                        ),
+                            title: Text(
+                              value[index].title,
+                              style: TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            ),
+                            subtitle: Text(
+                              value[index].description ?? "",
+                              style: TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            ),
+                            trailing: Text(
+                              formatDate(value[index].date),
+                              style: TextStyle(
+                                fontSize: 15.0,
+                              ),
+                            ),
+                            leading: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  value[index].pigName,
+                                ),
+                                Icon(
+                                  Icons.event,
+                                  color: Colors.blue,
+                                ),
+                              ],
+                            )),
                       );
                     },
                   );

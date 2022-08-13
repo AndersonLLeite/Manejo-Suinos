@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:manejo_suinos/data/event_repository/event_repository.dart';
 import 'package:manejo_suinos/shared/themes/colors/app_colors.dart';
 import 'package:manejo_suinos/shared/themes/images/app_images.dart';
+import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
 
 import '../../shared/widgets/card_homepage_widget.dart';
 
@@ -12,6 +14,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    doMet();
+  }
+
+//Lógica para obter os eventos no banco de dados na inicialização do app 
+  void doMet() async {
+    final events = await EventRepository.instance.getAllEvents();
+    setEventSource(events);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -68,7 +68,7 @@ class _SchedulePigPageState extends State<SchedulePigPage> {
                   child: FutureBuilder(
                       future: context
                           .watch<EventRepository>()
-                          .getEvents(widget.pigEntity.name),
+                          .getEventsByPigName(widget.pigEntity.name),
                       builder: (BuildContext context,
                           AsyncSnapshot<List<EventEntity>> snapshot) {
                         if (!snapshot.hasData) {
