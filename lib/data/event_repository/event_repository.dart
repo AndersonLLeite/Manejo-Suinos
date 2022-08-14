@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../shared/entities/event/event_entity.dart';
+import '../../modules/model/entities/event/event_entity.dart';
 import '../data_helper/data_helper.dart';
 
 class EventRepository extends ChangeNotifier {

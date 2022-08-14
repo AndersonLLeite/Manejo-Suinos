@@ -3,23 +3,12 @@
 
 import 'dart:collection';
 
-import 'package:manejo_suinos/shared/entities/event/event_entity.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../data/event_repository/event_repository.dart';
+import '../../../modules/model/entities/event/event_entity.dart';
 
-/// Example event class.
-// class Event {
-//   final String title;
 
-//   const Event(this.title);
-
-//   @override
-//   String toString() => title;
-// }
-
-/// Example events.
-///
 /// Using a [LinkedHashMap] is highly recommended if you decide to use a map.
 final kEvents = LinkedHashMap<DateTime, List<EventEntity>>(
   equals: isSameDay,

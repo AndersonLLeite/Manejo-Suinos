@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../entities/pig/pig_entity.dart';
+import '../../modules/model/entities/pig/pig_entity.dart';
 import '../themes/colors/app_colors.dart';
 import '../themes/styles/textstyles/app_text_styles.dart';
 

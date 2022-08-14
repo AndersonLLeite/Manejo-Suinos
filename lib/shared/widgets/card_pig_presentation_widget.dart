@@ -3,7 +3,7 @@ import 'package:manejo_suinos/shared/utils/enums/gender_enum.dart';
 import 'package:manejo_suinos/shared/widgets/button_gender_widget.dart';
 import 'package:manejo_suinos/shared/widgets/status_perfil_page_widget.dart';
 
-import '../entities/pig/pig_entity.dart';
+import '../../modules/model/entities/pig/pig_entity.dart';
 import '../themes/colors/app_colors.dart';
 import '../themes/styles/textstyles/app_text_styles.dart';
 import 'button_finality_widget.dart';

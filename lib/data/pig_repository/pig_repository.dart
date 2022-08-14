@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../shared/entities/pig/pig_entity.dart';
+import '../../modules/model/entities/pig/pig_entity.dart';
 import '../data_helper/data_helper.dart';
 
 class PigRepository extends ChangeNotifier {
