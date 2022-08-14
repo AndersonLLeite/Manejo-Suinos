@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../all_archived_pigs_page/all_archived_pigs_page.dart';
-import '../all_pigs_page/all_pigs_page.dart';
-import '../manejo_page/manejo_page.dart';
+import 'all_archived_pigs_page/all_archived_pigs_page.dart';
+import 'all_pigs_page/all_pigs_page.dart';
+import 'manejo_page/manejo_page.dart';
+
+
 
 
 class ManejoPageView extends StatefulWidget {

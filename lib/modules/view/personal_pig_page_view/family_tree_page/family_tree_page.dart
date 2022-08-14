@@ -4,7 +4,8 @@ import 'package:manejo_suinos/shared/themes/background/background_gradient.dart'
 import 'package:manejo_suinos/shared/themes/colors/app_colors.dart';
 import 'package:manejo_suinos/shared/widgets/card_pig_presentation_widget.dart';
 
-import '../../model/entities/pig/pig_entity.dart';
+import '../../../model/entities/pig/pig_entity.dart';
+
 
 class FamilyTreePage extends StatelessWidget {
 

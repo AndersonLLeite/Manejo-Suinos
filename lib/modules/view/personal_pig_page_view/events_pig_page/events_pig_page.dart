@@ -6,9 +6,10 @@ import 'package:manejo_suinos/shared/utils/enums/finality_enum.dart';
 import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
 import 'package:provider/provider.dart';
 
-import '../../../shared/themes/colors/app_colors.dart';
-import '../../model/entities/event/event_entity.dart';
-import '../../model/entities/pig/pig_entity.dart';
+import '../../../../shared/themes/colors/app_colors.dart';
+import '../../../model/entities/event/event_entity.dart';
+import '../../../model/entities/pig/pig_entity.dart';
+
 
 
 
