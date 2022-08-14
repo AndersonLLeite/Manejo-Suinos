@@ -17,14 +17,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    doMet();
+    refreshEventsSource();
   }
 
-//Lógica para obter os eventos no banco de dados na inicialização do app 
-  void doMet() async {
-    final events = await EventRepository.instance.getAllEvents();
-    setEventSource(events);
-  }
+//Lógica para obter os eventos no banco de dados na inicialização do app
 
   @override
   Widget build(BuildContext context) {

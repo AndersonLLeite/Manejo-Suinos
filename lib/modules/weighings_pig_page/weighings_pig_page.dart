@@ -43,8 +43,8 @@ class _WeighingsPigPageState extends State<WeighingsPigPage> {
               ),
               const Center(
                 child: Text(
-                  'Histórico de Pesagens',
-                  style: TextStyle(fontSize: 15.0),
+                  'Histórico de Pesagens:',
+                  style: TextStyle(fontSize: 20.0),
                 ),
               ),
               FutureBuilder(
@@ -83,7 +83,7 @@ class _WeighingsPigPageState extends State<WeighingsPigPage> {
                                         DataCell(Text(weighing.gpd.toString())),
                                         DataCell(
                                           IconButton(
-                                            icon: Icon(Icons.delete,
+                                            icon: Icon(Icons.delete_forever,
                                                 color: Colors.black),
                                             onPressed: () {
                                               Provider.of<WeighingRepository>(

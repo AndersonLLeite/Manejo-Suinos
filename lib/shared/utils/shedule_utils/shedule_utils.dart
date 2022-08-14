@@ -6,6 +6,8 @@ import 'dart:collection';
 import 'package:manejo_suinos/shared/entities/event/event_entity.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../../data/event_repository/event_repository.dart';
+
 /// Example event class.
 // class Event {
 //   final String title;
@@ -32,13 +34,21 @@ void setEventSource(List<EventEntity> events) {
   }
 }
 
+void deleteEventToSource(EventEntity event) {
+  _kEventSource[event.date]!.remove(event);
+}
+
+void refreshEventsSource() async {
+  _kEventSource.clear();
+  List<EventEntity> events = await EventRepository.instance.getAllEvents();
+  setEventSource(events);
+}
+
 Map<DateTime, List<EventEntity>> getkEventSource() {
   return _kEventSource;
 }
 
-final Map<DateTime, List<EventEntity>> _kEventSource = {
- 
-};
+final Map<DateTime, List<EventEntity>> _kEventSource = {};
 
 int getHashCode(DateTime key) {
   return key.day * 1000000 + key.month * 10000 + key.year;
@@ -54,9 +64,9 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
 }
 
 String formatDate(DateTime date) {
-    return "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year.toString().padLeft(4, '0')}";
-  }
+  return "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year.toString().padLeft(4, '0')}";
+}
 
 final kToday = DateTime.now();
-final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
-final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
+final kFirstDay = DateTime(kToday.year, kToday.month - 12, kToday.day);
+final kLastDay = DateTime(kToday.year, kToday.month + 12, kToday.day);

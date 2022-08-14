@@ -6,11 +6,15 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:manejo_suinos/shared/entities/event/event_entity.dart';
+import 'package:manejo_suinos/shared/entities/pig/pig_entity.dart';
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
 
+import '../../data/event_repository/event_repository.dart';
+import '../../data/pig_repository/pig_repository.dart';
 import '../../shared/themes/colors/app_colors.dart';
 
 class ShedulePage extends StatefulWidget {
@@ -101,13 +105,22 @@ class _ShedulePageState extends State<ShedulePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+        ),
         title: Text('Agenda'),
         centerTitle: true,
       ),
       body: BackgroundGradient(
         child: Column(
           children: [
+            SizedBox(height: 80),
             ValueListenableBuilder<DateTime>(
               valueListenable: _focusedDay,
               builder: (context, value, _) {
@@ -152,10 +165,6 @@ class _ShedulePageState extends State<ShedulePage> {
               calendarFormat: _calendarFormat,
               rangeSelectionMode: _rangeSelectionMode,
               eventLoader: _getEventsForDay,
-              holidayPredicate: (day) {
-                // Every 20th day of the month will be treated as a holiday
-                return day.day == 20;
-              },
               onDaySelected: _onDaySelected,
               onRangeSelected: _onRangeSelected,
               onCalendarCreated: (controller) => _pageController = controller,
@@ -187,36 +196,70 @@ class _ShedulePageState extends State<ShedulePage> {
                           borderRadius: BorderRadius.circular(12.0),
                         ),
                         child: ListTile(
-                            title: Text(
-                              value[index].title,
-                              style: TextStyle(
-                                fontSize: 15.0,
-                              ),
+                          title: Text(
+                            value[index].title,
+                            style: TextStyle(
+                              fontSize: 15.0,
                             ),
-                            subtitle: Text(
-                              value[index].description ?? "",
-                              style: TextStyle(
-                                fontSize: 15.0,
-                              ),
+                          ),
+                          subtitle: Text(
+                            value[index].description ?? "",
+                            style: TextStyle(
+                              fontSize: 15.0,
                             ),
-                            trailing: Text(
-                              formatDate(value[index].date),
-                              style: TextStyle(
-                                fontSize: 15.0,
-                              ),
-                            ),
-                            leading: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
+                          ),
+                          trailing: Column(
+                            children: [
+                              Expanded(
+                                child: Text(
                                   value[index].pigName,
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                  ),
                                 ),
-                                Icon(
+                              ),
+                              Expanded(
+                                child: IconButton(
+                                  icon: Icon(Icons.delete_forever,
+                                      color: Colors.black),
+                                  onPressed: () async{
+                                    PigEntity pig = await PigRepository.instance.getPigByName(value[index].pigName);
+                                    if(pig.isPregnant == 1){
+                                      await PigRepository.instance.updatePig(pig.copyWith(isPregnant: 0));
+                                    }
+                                    context
+                                        .read<EventRepository>()
+                                        .deleteEvent(value[index]);
+                                    deleteEventToSource(value[index]);
+                                    setState(() {
+                                      _selectedEvents.value =
+                                          _getEventsForDays(_selectedDays);
+                                    });
+                                  },
+                                  color: AppColors.secondary,
+                                ),
+                              ),
+                            ],
+                          ),
+                          leading: Column(
+                            children: [
+                              Expanded(
+                                child: Icon(
                                   Icons.event,
                                   color: Colors.blue,
                                 ),
-                              ],
-                            )),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  formatDate(value[index].date),
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       );
                     },
                   );

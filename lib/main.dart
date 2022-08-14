@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:manejo_suinos/data/weighing_repository/weighing_repository.dart';
 import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
@@ -9,6 +10,7 @@ import 'data/event_repository/event_repository.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   initializeDateFormatting().then((_) => runApp(
     MultiProvider(
       providers: [

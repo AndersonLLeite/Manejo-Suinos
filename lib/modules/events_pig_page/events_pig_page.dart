@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:manejo_suinos/data/event_repository/event_repository.dart';
+import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
+import 'package:manejo_suinos/shared/utils/enums/finality_enum.dart';
 import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
 import 'package:provider/provider.dart';
 
@@ -27,10 +29,10 @@ class _EventsPigPageState extends State<EventsPigPage> {
 
   final FocusNode _focusNodeTitle = FocusNode();
 
-  DateTime _date = DateTime.now();
+  DateTime _date =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   String formattedDate =
       "${DateTime.now().day.toString().padLeft(2, '0')}/${DateTime.now().month.toString().padLeft(2, '0')}/${DateTime.now().year.toString().padLeft(4, '0')}";
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +59,7 @@ class _EventsPigPageState extends State<EventsPigPage> {
               const Center(
                 child: Text(
                   'Agendamentos: ',
-                  style: TextStyle(fontSize: 15.0),
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
               FutureBuilder(
@@ -71,7 +73,7 @@ class _EventsPigPageState extends State<EventsPigPage> {
                     }
                     return snapshot.data!.isEmpty
                         ? Center(
-                            child: Text('Nenhuma Pesagem cadastrada'),
+                            child: Text('Nenhuma Agendamento marcado'),
                           )
                         : SingleChildScrollView(
                             child: ListView.separated(
@@ -96,15 +98,39 @@ class _EventsPigPageState extends State<EventsPigPage> {
                                       fontSize: 15.0,
                                     ),
                                   ),
-                                  trailing: Text(
-                                    formatDate(snapshot.data![index].date),
-                                    style: TextStyle(
-                                      fontSize: 15.0,
+                                  trailing: IconButton(
+                                    icon: Icon(
+                                      Icons.delete_forever,
+                                      color: Colors.black,
                                     ),
+                                    onPressed: () {
+                                      if (widget.pigEntity.isPregnant == 1) {
+                                        Provider.of<PigRepository>(context,
+                                                listen: false)
+                                            .updatePig(widget.pigEntity.copyWith(
+                                                isPregnant: 0));
+                                      }
+                                      context
+                                          .read<EventRepository>()
+                                          .deleteEvent(snapshot.data![index]);
+                                      deleteEventToSource(
+                                          snapshot.data![index]);
+                                    },
+                                    color: AppColors.secondary,
                                   ),
-                                  leading: Icon(
-                                    Icons.event,
-                                    color: AppColors.primary,
+                                  leading: Column(
+                                    children: [
+                                      Icon(
+                                        Icons.event,
+                                        color: Colors.blue,
+                                      ),
+                                      Text(
+                                        formatDate(snapshot.data![index].date),
+                                        style: TextStyle(
+                                          fontSize: 15.0,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 );
                               },
@@ -121,11 +147,16 @@ class _EventsPigPageState extends State<EventsPigPage> {
                               return StatefulBuilder(
                                   builder: (context, setState) {
                                 return Padding(
-                                  padding: const EdgeInsets.all(25),
+                                  padding: const EdgeInsets.only(
+                                      top: 0, bottom: 20, left: 20, right: 20),
                                   child: Container(
-                                    padding: const EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.only(
+                                        top: 0,
+                                        bottom: 20,
+                                        left: 10,
+                                        right: 10),
                                     height: MediaQuery.of(context).size.height *
-                                        0.5,
+                                        0.8,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: AppColors.primary,
@@ -203,8 +234,8 @@ class _EventsPigPageState extends State<EventsPigPage> {
                                                       await showDatePicker(
                                                     context: context,
                                                     initialDate: DateTime.now(),
-                                                    firstDate: DateTime(2020),
-                                                    lastDate: DateTime(2050),
+                                                    firstDate: DateTime(1900),
+                                                    lastDate: DateTime(2100),
                                                   );
                                                   if (newDate != null) {
                                                     setState(() {
@@ -258,6 +289,9 @@ class _EventsPigPageState extends State<EventsPigPage> {
                                                           context,
                                                           listen: false)
                                                       .addEvent(event);
+                                                  _controllerDescription
+                                                      .clear();
+                                                  _controllerTitle.clear();
                                                   Navigator.pop(context);
                                                 }
                                               },
@@ -282,6 +316,159 @@ class _EventsPigPageState extends State<EventsPigPage> {
                             });
                       },
                       child: const Text('Novo agendamento'))
+                  : SizedBox(),
+              widget.pigEntity.getStatus() == "ACTIVE" &&
+                      widget.pigEntity.finality == Finality.MATRIX.value
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 50),
+                      child: ElevatedButton(
+                        child: Text("Informar cobertura da matriz"),
+                        onPressed: () {
+                          showModalBottomSheet(
+                              backgroundColor: Colors.transparent,
+                              context: context,
+                              builder: (context) {
+                                return StatefulBuilder(
+                                    builder: (context, setState) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 0,
+                                        bottom: 20,
+                                        left: 20,
+                                        right: 20),
+                                    child: Container(
+                                      padding: const EdgeInsets.only(
+                                          top: 0,
+                                          bottom: 20,
+                                          left: 10,
+                                          right: 10),
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.8,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: AppColors.primary,
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 8,
+                                                        horizontal: 50),
+                                                child: Text(
+                                                  formattedDate,
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 8,
+                                                        horizontal: 50),
+                                                child: ElevatedButton(
+                                                  child: Text(
+                                                      "Selecione a data da cobertura"),
+                                                  onPressed: () async {
+                                                    DateTime? newDate =
+                                                        await showDatePicker(
+                                                      context: context,
+                                                      initialDate:
+                                                          DateTime.now(),
+                                                      firstDate: DateTime(1900),
+                                                      lastDate: DateTime(2100),
+                                                    );
+                                                    if (newDate != null) {
+                                                      setState(() {
+                                                        DateTime lastDate =
+                                                            DateTime(
+                                                                newDate.year,
+                                                                newDate.month,
+                                                                newDate.day);
+
+                                                        _date = lastDate;
+                                                        formattedDate =
+                                                            "${_date.day.toString().padLeft(2, '0')}/${_date.month.toString().padLeft(2, '0')}/${_date.year.toString().padLeft(4, '0')}";
+                                                      });
+                                                    } else {
+                                                      return;
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  primary: AppColors.secondary,
+                                                ),
+                                                onPressed: () {
+                                                  EventEntity event =
+                                                      EventEntity(
+                                                    title: "Previsão de parto",
+                                                    description:
+                                                        "Provavel data para o parto da matriz coberta",
+                                                    date: _date.add(
+                                                        Duration(days: 114)),
+                                                    pigName:
+                                                        widget.pigEntity.name,
+                                                  );
+                                                  List<EventEntity> events = [];
+                                                  events.add(event);
+                                                  setEventSource(events);
+                                                  Provider.of<EventRepository>(
+                                                          context,
+                                                          listen: false)
+                                                      .addEvent(event);
+                                                  _controllerDescription
+                                                      .clear();
+                                                  _controllerTitle.clear();
+                                                  Provider.of<PigRepository>(
+                                                          context,
+                                                          listen: false)
+                                                      .updatePig(widget
+                                                          .pigEntity
+                                                          .copyWith(
+                                                              isPregnant: 1));
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("Confirmar"),
+                                              ),
+                                              ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  primary: AppColors.secondary,
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("Cancelar"),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                });
+                              });
+                        },
+                      ),
+                    )
                   : SizedBox(),
             ],
           ),

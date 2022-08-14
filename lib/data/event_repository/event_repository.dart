@@ -53,4 +53,13 @@ class EventRepository extends ChangeNotifier {
     notifyListeners();
     return listEvents;
   }
+
+  Future<void> deleteEvent(EventEntity eventEntity) async {
+    Database db = await DataHelper.instance.database;
+    await db.delete(
+        'tableevents',
+        where: 'title= ? AND date= ? AND pigName= ?',
+        whereArgs: [eventEntity.title, eventEntity.date.millisecondsSinceEpoch, eventEntity.pigName]);
+    notifyListeners();
+  }
 }
