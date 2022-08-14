@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:manejo_suinos/modules/schedule_pig_page/schedule_pig_page.dart';
+import 'package:manejo_suinos/modules/events_pig_page/events_pig_page.dart';
 import 'package:manejo_suinos/modules/weighings_pig_page/weighings_pig_page.dart';
 
 import 'package:manejo_suinos/shared/entities/pig/pig_entity.dart';
@@ -67,7 +67,7 @@ class _PersonalPigPageViewState extends State<PersonalPigPageView> {
         children: [
           PerfilPigPage(pigEntity: widget.pigEntity),
           WeighingsPigPage(pigEntity: widget.pigEntity),
-          SchedulePigPage(pigEntity: widget.pigEntity),
+          EventsPigPage(pigEntity: widget.pigEntity),
         ],
       ),
     );

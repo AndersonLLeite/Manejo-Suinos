@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:manejo_suinos/data/weighing_repository/weighing_repository.dart';
 import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
-import 'package:manejo_suinos/shared/entities/heighing_entity/weighing_entity.dart';
+import 'package:manejo_suinos/shared/entities/heighing/weighing_entity.dart';
 
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +24,7 @@ class AddWeighingsPage extends StatelessWidget {
       TextEditingController(text: dateSlug);
   late final TextEditingController _ageController = TextEditingController();
 
-  Future<double> getPigGpd(BuildContext context) async {
+  Future<double> getPigGpd(BuildContext context)  async{
     int lastAge = await Provider.of<WeighingRepository>(context, listen: false)
         .getLastAge(pigEntity.name);
     int newAge = (int.parse(_ageController.text));

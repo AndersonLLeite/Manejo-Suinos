@@ -6,7 +6,7 @@ import '../data_helper/data_helper.dart';
 
 class PigRepository extends ChangeNotifier {
   String tablePigs =
-      "CREATE TABLE tablepigs (name TEXT PRIMARY KEY, imageUrl TEXT, age INTEGER, weight REAL, gpd REAL, gender TEXT, finality TEXT, obtained TEXT, motherName TEXT, fatherName TEXT, status TEXT, buy REAl, sell REAL)";
+      "CREATE TABLE tablepigs (name TEXT PRIMARY KEY, imageUrl TEXT, age INTEGER, weight REAL, gpd REAL, gender TEXT, finality TEXT, obtained TEXT, motherName TEXT, fatherName TEXT, status TEXT, buy REAl, sell REAL, isPregnant INTEGER)";
 
   PigRepository._privateConstructor();
   static final PigRepository instance = PigRepository._privateConstructor();
@@ -118,6 +118,19 @@ class PigRepository extends ChangeNotifier {
     Object? sum = soma[0]['SUM(weight)'];
     notifyListeners();
     return sum != null ? double.parse(sum.toString()) : 0;
+  }
+
+  Future<int> getIPigIsPregnantByName(String name) async {
+    Database db = await DataHelper.instance.database;
+    var isPregnant = await db.rawQuery('''
+      SELECT isPregnant FROM tablepigs
+      WHERE name=?
+      ''', [name]);
+    List<PigEntity> listIsPregnant = isPregnant.isNotEmpty
+        ? isPregnant.map((c) => PigEntity.fromMap(c)).toList()
+        : [];
+    notifyListeners();
+    return listIsPregnant[0].isPregnant;
   }
 
   Future addPig(PigEntity pigEntity) async {

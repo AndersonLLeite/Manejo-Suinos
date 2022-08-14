@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manejo_suinos/data/weighing_repository/weighing_repository.dart';
-import 'package:manejo_suinos/shared/entities/heighing_entity/weighing_entity.dart';
+import 'package:manejo_suinos/shared/entities/heighing/weighing_entity.dart';
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
 import 'package:provider/provider.dart';
 
@@ -24,7 +24,12 @@ class _WeighingsPigPageState extends State<WeighingsPigPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+        ),
         backgroundColor: Colors.transparent,
         title: Text('Pesagens  ${widget.pigEntity.name}'),
         centerTitle: true,
@@ -38,8 +43,8 @@ class _WeighingsPigPageState extends State<WeighingsPigPage> {
               ),
               const Center(
                 child: Text(
-                  'Histórico de Pesagens',
-                  style: TextStyle(fontSize: 15.0),
+                  'Histórico de Pesagens:',
+                  style: TextStyle(fontSize: 20.0),
                 ),
               ),
               FutureBuilder(
@@ -78,7 +83,7 @@ class _WeighingsPigPageState extends State<WeighingsPigPage> {
                                         DataCell(Text(weighing.gpd.toString())),
                                         DataCell(
                                           IconButton(
-                                            icon: Icon(Icons.delete,
+                                            icon: Icon(Icons.delete_forever,
                                                 color: Colors.black),
                                             onPressed: () {
                                               Provider.of<WeighingRepository>(

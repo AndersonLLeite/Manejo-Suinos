@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:manejo_suinos/data/event_repository/event_repository.dart';
 import 'package:manejo_suinos/shared/themes/colors/app_colors.dart';
 import 'package:manejo_suinos/shared/themes/images/app_images.dart';
+import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
 
 import '../../shared/widgets/card_homepage_widget.dart';
 
@@ -12,6 +14,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    refreshEventsSource();
+  }
+
+//Lógica para obter os eventos no banco de dados na inicialização do app
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,14 +59,19 @@ class _HomePageState extends State<HomePage> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
+              children: [
                 CardHomePageWidget(
                   title: 'Baias',
                   image: AppImages.pigsty,
                 ),
-                CardHomePageWidget(
-                  title: 'Agenda',
-                  image: AppImages.agenda,
+                GestureDetector(
+                  child: CardHomePageWidget(
+                    title: 'Agenda',
+                    image: AppImages.agenda,
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/schedule');
+                  },
                 )
               ],
             ),

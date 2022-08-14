@@ -34,7 +34,6 @@ class _PerfilPigPageState extends State<PerfilPigPage> {
   final List<String> _menuItens = ['Venda', 'Morte'];
   final FocusNode _focusNodeFirstModal = FocusNode();
   final FocusNode _focusNodeSecondModal = FocusNode();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,6 +113,13 @@ class _PerfilPigPageState extends State<PerfilPigPage> {
                                 ? Icon(Icons.attach_money)
                                 : Icon(Icons.health_and_safety_outlined),
                           )
+                        : SizedBox(),
+                    widget.pigEntity.getStatus() != "ARCHIVED" &&
+                            widget.pigEntity.isPregnant == 1
+                        ? StatusPerfilPageWidget(
+                            color: AppColors.secondary,
+                            title: 'Prenhez',
+                            icon: Icon(Icons.child_friendly_rounded))
                         : SizedBox(),
                   ],
                 ),
@@ -287,7 +293,6 @@ class _PerfilPigPageState extends State<PerfilPigPage> {
               ),
               Row(
                 children: [
-                  
                   ButtonActionPigPerfilPage(
                       pigEntity: widget.pigEntity,
                       title: widget.pigEntity.getStatus() == "ACTIVE"
