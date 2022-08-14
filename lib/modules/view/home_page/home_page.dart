@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:manejo_suinos/data/event_repository/event_repository.dart';
 import 'package:manejo_suinos/shared/themes/colors/app_colors.dart';
 import 'package:manejo_suinos/shared/themes/images/app_images.dart';
 import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
 
-import '../../shared/widgets/card_homepage_widget.dart';
+import '../../../shared/widgets/card_homepage_widget.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

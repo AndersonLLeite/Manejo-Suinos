@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:manejo_suinos/shared/entities/heighing/weighing_entity.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../../modules/model/entities/heighing/weighing_entity.dart';
 import '../data_helper/data_helper.dart';
 
 class WeighingRepository extends ChangeNotifier {

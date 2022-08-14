@@ -11,14 +11,15 @@ import 'package:manejo_suinos/shared/widgets/form_add_pig_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../shared/entities/pig/pig_entity.dart';
-import '../../shared/themes/colors/app_colors.dart';
-import '../../shared/themes/images/app_images.dart';
-import '../../shared/themes/styles/textstyles/app_text_styles.dart';
-import '../../shared/utils/enums/finality_enum.dart';
-import '../../shared/utils/enums/obtained_enum.dart';
-import '../../shared/widgets/button_obtained_widget.dart';
-import '../../shared/widgets/card_breed_widget.dart';
+import '../../../shared/themes/colors/app_colors.dart';
+import '../../../shared/themes/images/app_images.dart';
+import '../../../shared/themes/styles/textstyles/app_text_styles.dart';
+import '../../../shared/utils/enums/finality_enum.dart';
+import '../../../shared/utils/enums/obtained_enum.dart';
+import '../../../shared/widgets/button_obtained_widget.dart';
+import '../../../shared/widgets/card_breed_widget.dart';
+import '../../model/entities/pig/pig_entity.dart';
+
 
 class AddPigPage extends StatefulWidget {
   const AddPigPage({Key? key}) : super(key: key);

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:manejo_suinos/data/weighing_repository/weighing_repository.dart';
 import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
-import 'package:manejo_suinos/shared/entities/heighing/weighing_entity.dart';
 
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
 import 'package:provider/provider.dart';
 
-import '../../shared/entities/pig/pig_entity.dart';
-import '../../shared/widgets/text_field_add_weighing_widget.dart';
+import '../../../shared/widgets/text_field_add_weighing_widget.dart';
+import '../../model/entities/heighing/weighing_entity.dart';
+import '../../model/entities/pig/pig_entity.dart';
+
 
 class AddWeighingsPage extends StatelessWidget {
   final PigEntity pigEntity;

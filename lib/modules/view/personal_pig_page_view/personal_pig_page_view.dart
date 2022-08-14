@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:manejo_suinos/modules/events_pig_page/events_pig_page.dart';
-import 'package:manejo_suinos/modules/weighings_pig_page/weighings_pig_page.dart';
 
-import 'package:manejo_suinos/shared/entities/pig/pig_entity.dart';
 
+import '../../model/entities/pig/pig_entity.dart';
+import '../events_pig_page/events_pig_page.dart';
 import '../perfil_pig_page/perfil_pig_page.dart';
+import '../weighings_pig_page/weighings_pig_page.dart';
 
 class PersonalPigPageView extends StatefulWidget {
   final PigEntity pigEntity;

@@ -11,9 +11,11 @@ import 'package:manejo_suinos/shared/utils/enums/status_enum.dart';
 import 'package:manejo_suinos/shared/widgets/button_finality_widget.dart';
 import 'package:manejo_suinos/shared/widgets/button_gender_widget.dart';
 
-import '../../shared/entities/pig/pig_entity.dart';
-import '../../shared/themes/colors/app_colors.dart';
-import '../../shared/widgets/button_action_pig_perfil_page.dart';
+import '../../../shared/themes/colors/app_colors.dart';
+import '../../../shared/widgets/button_action_pig_perfil_page.dart';
+import '../../model/entities/pig/pig_entity.dart';
+
+
 
 class PerfilPigPage extends StatefulWidget {
   final PigEntity pigEntity;

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:manejo_suinos/data/weighing_repository/weighing_repository.dart';
 import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
-import 'package:manejo_suinos/shared/entities/heighing/weighing_entity.dart';
 import 'package:provider/provider.dart';
 
-import '../entities/pig/pig_entity.dart';
+import '../../modules/model/entities/heighing/weighing_entity.dart';
+import '../../modules/model/entities/pig/pig_entity.dart';
+
 
 class AddPigButtonWidget extends StatelessWidget {
   const AddPigButtonWidget({

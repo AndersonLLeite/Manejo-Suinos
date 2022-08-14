@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:manejo_suinos/modules/all_archived_pigs_page/all_archived_pigs_page.dart';
-import 'package:manejo_suinos/modules/all_pigs_page/all_pigs_page.dart';
-import 'package:manejo_suinos/modules/manejo_page/manejo_page.dart';
+
+import '../all_archived_pigs_page/all_archived_pigs_page.dart';
+import '../all_pigs_page/all_pigs_page.dart';
+import '../manejo_page/manejo_page.dart';
+
 
 class ManejoPageView extends StatefulWidget {
   const ManejoPageView({Key? key}) : super(key: key);

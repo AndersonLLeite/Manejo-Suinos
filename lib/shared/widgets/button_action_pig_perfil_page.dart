@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../entities/pig/pig_entity.dart';
+import '../../modules/model/entities/pig/pig_entity.dart';
+
 
 class ButtonActionPigPerfilPage extends StatelessWidget {
   const ButtonActionPigPerfilPage({

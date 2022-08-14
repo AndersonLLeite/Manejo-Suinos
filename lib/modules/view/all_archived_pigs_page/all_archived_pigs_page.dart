@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
-import 'package:manejo_suinos/modules/personal_pig_page_view/personal_pig_page_view.dart';
 import 'package:provider/provider.dart';
 
-import '../../shared/entities/pig/pig_entity.dart';
-import '../../shared/themes/background/background_gradient.dart';
-import '../../shared/themes/colors/app_colors.dart';
-import '../../shared/utils/enums/gender_enum.dart';
-import '../../shared/widgets/card_pig_presentation_widget.dart';
+import '../../../shared/themes/background/background_gradient.dart';
+import '../../../shared/themes/colors/app_colors.dart';
+import '../../../shared/utils/enums/gender_enum.dart';
+import '../../../shared/widgets/card_pig_presentation_widget.dart';
+import '../../model/entities/pig/pig_entity.dart';
+import '../personal_pig_page_view/personal_pig_page_view.dart';
+
+
 
 class AllArchivedPigsPage extends StatefulWidget {
   const AllArchivedPigsPage({Key? key}) : super(key: key);

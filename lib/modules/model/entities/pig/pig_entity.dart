@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:manejo_suinos/shared/themes/images/app_images.dart';
 import 'package:manejo_suinos/shared/utils/enums/status_enum.dart';
 
-import '../../utils/enums/status_enum.dart';
 
 class PigEntity {
   String name;

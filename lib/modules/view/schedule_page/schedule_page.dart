@@ -5,17 +5,20 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:manejo_suinos/shared/entities/event/event_entity.dart';
-import 'package:manejo_suinos/shared/entities/pig/pig_entity.dart';
+
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
 
-import '../../data/event_repository/event_repository.dart';
-import '../../data/pig_repository/pig_repository.dart';
-import '../../shared/themes/colors/app_colors.dart';
+import '../../../data/event_repository/event_repository.dart';
+import '../../../data/pig_repository/pig_repository.dart';
+import '../../../shared/themes/colors/app_colors.dart';
+import '../../model/entities/event/event_entity.dart';
+import '../../model/entities/pig/pig_entity.dart';
+
+
 
 class ShedulePage extends StatefulWidget {
   @override
