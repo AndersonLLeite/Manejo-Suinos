@@ -20,8 +20,6 @@ class _HomePageState extends State<HomePage> {
     refreshEventsSource();
   }
 
-//Lógica para obter os eventos no banco de dados na inicialização do app
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,6 +71,18 @@ class _HomePageState extends State<HomePage> {
                     Navigator.pushNamed(context, '/schedule');
                   },
                 )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children:  [
+                GestureDetector(
+                  onTap: () => Navigator.pushNamed(context, '/vaccination_program_view'),
+                  child: CardHomePageWidget(
+                    title: 'Vacinação',
+                    image: AppImages.vaccination,
+                  ),
+                ),
               ],
             ),
           ],

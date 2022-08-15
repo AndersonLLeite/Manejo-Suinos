@@ -5,11 +5,8 @@ import 'package:manejo_suinos/modules/view/vaccination_program_view/vaccination_
 import 'package:manejo_suinos/modules/view/vaccination_program_view/vaccination_piglet_page/vaccination_piglet_page.dart';
 import 'package:manejo_suinos/modules/view/vaccination_program_view/vaccination_tips_page/vaccination_tips_page.dart';
 
-
-
 class VaccinationProgramView extends StatefulWidget {
-
-  const VaccinationProgramView({ Key? key }) : super(key: key);
+  const VaccinationProgramView({Key? key}) : super(key: key);
 
   @override
   State<VaccinationProgramView> createState() => _VaccinationProgramViewState();
@@ -40,27 +37,24 @@ class _VaccinationProgramViewState extends State<VaccinationProgramView> {
     });
   }
 
-   @override
-   Widget build(BuildContext context) {
-       return Scaffold(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
       extendBody: true,
+      extendBodyBehindAppBar: true,
       bottomNavigationBar: BottomNavigationBar(
         selectedLabelStyle: TextStyle(
           fontWeight: FontWeight.bold,
         ),
         backgroundColor: Colors.transparent,
         items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.remove), label: 'Leitões'),
+          BottomNavigationBarItem(icon: Icon(Icons.remove), label: 'Marrãs'),
+          BottomNavigationBarItem(icon: Icon(Icons.remove), label: 'Matrizes'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.remove_red_eye_outlined), label: 'Leitões'),
+              icon: Icon(Icons.remove), label: 'Reprodutores'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.present_to_all_sharp), label: 'Marrãs'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.archive_outlined), label: 'Matrizes'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.archive_outlined), label: 'Reprodutores'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.archive_outlined), label: 'Dicas'),
-          
+              icon: Icon(Icons.info_outline), label: 'Dicas'),
         ],
         currentIndex: selectedIndex,
         selectedItemColor: Colors.white,
@@ -70,7 +64,13 @@ class _VaccinationProgramViewState extends State<VaccinationProgramView> {
       body: PageView(
         controller: _pagecontroller,
         onPageChanged: setPageView,
-        children: const [VaccinationPigletPage(), VaccinationGiltsPage(), VaccinationMatrixPage(), VaccinationBreederPage(), VaccinationTipsPage()],
+        children: const [
+          VaccinationPigletPage(),
+          VaccinationGiltsPage(),
+          VaccinationMatrixPage(),
+          VaccinationBreederPage(),
+          VaccinationTipsPage()
+        ],
       ),
     );
   }

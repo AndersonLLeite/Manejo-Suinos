@@ -7,6 +7,7 @@ import 'package:manejo_suinos/shared/app_widget.dart';
 import 'package:provider/provider.dart';
 
 import 'data/event_repository/event_repository.dart';
+import 'data/vaccine_repository/vaccine_repository.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,9 @@ void main() {
         ),
         ChangeNotifierProvider(
           create: (context) => EventRepository.instance,
+        ),
+        ChangeNotifierProvider(
+          create: (context) => VaccineRepository.instance,
         ),
       ],
       child: AppWidget(),

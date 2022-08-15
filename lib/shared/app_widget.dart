@@ -3,6 +3,7 @@ import 'package:manejo_suinos/modules/view/vaccination_program_view/vaccination_
 
 import '../modules/view/add_pig_page/add_pig_page.dart';
 
+import '../modules/view/add_vaccine_page/add_vaccine_page.dart';
 import '../modules/view/home_page/home_page.dart';
 import '../modules/view/manejo_page_view/all_archived_pigs_page/all_archived_pigs_page.dart';
 import '../modules/view/manejo_page_view/all_pigs_page/all_pigs_page.dart';
@@ -35,7 +36,7 @@ class AppWidget extends StatelessWidget {
         '/vaccination_breeder': (context) => VaccinationBreederPage(),
         '/vaccination_gilts': (context) => VaccinationGiltsPage(),
         '/vaccination_matrix': (context) => VaccinationMatrixPage(),
-        '/vaccination_program': (context) => VaccinationProgramView(),
+        '/vaccination_program_view': (context) => VaccinationProgramView(),
         '/vaccination_tips': (context) => VaccinationTipsPage(),
       },
       home: HomePage(),
