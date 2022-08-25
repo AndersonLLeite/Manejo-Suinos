@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children:  [
                 GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, '/vaccination_program_view'),
+                  onTap: () => Navigator.pushNamed(context, '/vaccination_page'),
                   child: CardHomePageWidget(
                     title: 'Vacinação',
                     image: AppImages.vaccination,

@@ -1,8 +1,7 @@
 enum PigStage {
-  PIGLET('Leitão'),
-  GILT('Marrã'),
-  MATRIX('Matriz'),
-  BREEDER('Reprodutor');
+  ALL("todos"),
+  BREEDER("reprodutor"),
+  MATRIXS("matriz");
 
   final String value;
   const PigStage(this.value);

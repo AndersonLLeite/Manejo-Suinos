@@ -151,4 +151,31 @@ class PigRepository extends ChangeNotifier {
         where: "name = ?", whereArgs: [pigEntity.name]);
     notifyListeners();
   }
+
+  Future<List<PigEntity>> getPigsWithAgeLessThan(
+      int firstApplicationLifeDays) async {
+    Database db = await DataHelper.instance.database;
+    var pigs = await db.rawQuery('''
+      SELECT * FROM tablepigs
+      WHERE age<=? 
+      ''', [firstApplicationLifeDays]);
+    List<PigEntity> listpigs =
+        pigs.isNotEmpty ? pigs.map((c) => PigEntity.fromMap(c)).toList() : [];
+    notifyListeners();
+    return listpigs;
+  }
+
+  Future<List<PigEntity>> getPigsWithAgeLessThanStage(
+      int firstApplicationLifeDays, String pigStage) async {
+    Database db = await DataHelper.instance.database;
+    var pigs = await db.rawQuery('''
+      SELECT * FROM tablepigs
+      WHERE age <=? AND pigStage=?
+      ''', [firstApplicationLifeDays, pigStage]);
+    List<PigEntity> listpigs =
+        pigs.isNotEmpty ? pigs.map((c) => PigEntity.fromMap(c)).toList() : [];
+
+    notifyListeners();
+    return listpigs;
+  }
 }

@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:manejo_suinos/data/vaccine_repository/vaccine_repository.dart';
+import 'package:manejo_suinos/modules/model/entities/vaccine/vaccine_entity.dart';
+import 'package:manejo_suinos/modules/view/add_vaccine_page/add_vaccine_page.dart';
+import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../data/vaccine_repository/vaccine_repository.dart';
-import '../../../../shared/themes/background/background_gradient.dart';
-import '../../../../shared/themes/colors/app_colors.dart';
-import '../../../../shared/utils/enums/pigstage_enum.dart';
-import '../../../model/entities/vaccine/vaccine_entity.dart';
-import '../../add_vaccine_page/add_vaccine_page.dart';
+import '../../../shared/themes/colors/app_colors.dart';
+import '../../../shared/utils/enums/pigstage_enum.dart';
 
-class VaccinationGiltsPage extends StatelessWidget {
+class VaccinationPage extends StatefulWidget {
+  const VaccinationPage({Key? key}) : super(key: key);
 
-  const VaccinationGiltsPage({ Key? key }) : super(key: key);
+  @override
+  State<VaccinationPage> createState() => _VaccinationPageState();
+}
 
-   @override
-   Widget build(BuildContext context) {
-       return Scaffold(
+class _VaccinationPageState extends State<VaccinationPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         shape: RoundedRectangleBorder(
@@ -24,7 +28,7 @@ class VaccinationGiltsPage extends StatelessWidget {
           ),
         ),
         backgroundColor: Colors.transparent,
-        title: const Text('Vacinação Marrãs'),
+        title: const Text('Vacinação'),
         centerTitle: true,
       ),
       body: BackgroundGradient(
@@ -43,7 +47,7 @@ class VaccinationGiltsPage extends StatelessWidget {
               FutureBuilder(
                   future: context
                       .watch<VaccineRepository>()
-                      .getVaccinesByPigStage(PigStage.GILT.value),
+                      .getVaccines(),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<VaccineEntity>> snapshot) {
                     if (!snapshot.hasData) {
@@ -109,7 +113,7 @@ class VaccinationGiltsPage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => AddVaccinePage(
-                        pigStage: PigStage.GILT,
+                        
                       ),
                     ),
                   );

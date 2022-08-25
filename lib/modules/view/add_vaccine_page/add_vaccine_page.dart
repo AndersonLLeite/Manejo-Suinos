@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 import 'package:manejo_suinos/data/vaccine_repository/vaccine_repository.dart';
@@ -7,14 +5,18 @@ import 'package:manejo_suinos/modules/model/entities/vaccine/vaccine_entity.dart
 import 'package:manejo_suinos/shared/themes/colors/app_colors.dart';
 import 'package:manejo_suinos/shared/utils/enums/pigstage_enum.dart';
 
+import '../../../data/event_repository/event_repository.dart';
+import '../../../data/pig_repository/pig_repository.dart';
 import '../../../shared/themes/background/background_gradient.dart';
 import '../../../shared/themes/styles/textstyles/app_text_styles.dart';
+import '../../../shared/utils/enums/event_type_enum.dart';
+import '../../../shared/utils/shedule_utils/shedule_utils.dart';
+import '../../model/entities/event/event_entity.dart';
+import '../../model/entities/pig/pig_entity.dart';
 
 class AddVaccinePage extends StatefulWidget {
-  final PigStage pigStage;
   const AddVaccinePage({
     Key? key,
-    required this.pigStage,
   }) : super(key: key);
 
   @override
@@ -33,6 +35,20 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
 
   bool _checkBoxUnicValue = false;
   bool _checkBoxPeriodicValue = false;
+  bool _checkBoxAll = false;
+  bool _checkBoxBreeders = false;
+  bool _checkBoxMatrixs = false;
+
+  String getPigStage() {
+    if (_checkBoxMatrixs) {
+      return PigStage.MATRIXS.value;
+    } else if (_checkBoxBreeders) {
+      return PigStage.BREEDER.value;
+    } else {
+      return PigStage.ALL.value;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +63,7 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
           ),
         ),
         title: Text(
-          'Add Vacina Para ${widget.pigStage.value}',
+          'Adicionar nova vacina',
         ),
         centerTitle: true,
       ),
@@ -75,11 +91,11 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
               ),
             ),
             TitleAddVaccinePageWidget(
-              title: "informe o tipo de vacinação",
+              title: "Tipo de vacinação",
               height: 30,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text("Dose única"),
                 Checkbox(
@@ -104,12 +120,55 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
                 ),
               ],
             ),
+            TitleAddVaccinePageWidget(
+              title: "Grupo Da vacinação",
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Todos"),
+                Checkbox(
+                  activeColor: AppColors.primary,
+                  value: _checkBoxAll,
+                  onChanged: (value) {
+                    setState(() {
+                      _checkBoxAll = value!;
+                      _checkBoxBreeders = false;
+                      _checkBoxMatrixs = false;
+                    });
+                  },
+                ),
+                Text("Reprodutores"),
+                Checkbox(
+                  value: _checkBoxBreeders,
+                  onChanged: (value) {
+                    setState(() {
+                      _checkBoxAll = false;
+                      _checkBoxBreeders = value!;
+                      _checkBoxMatrixs = false;
+                    });
+                  },
+                ),
+                Text("Matrizes"),
+                Checkbox(
+                  value: _checkBoxMatrixs,
+                  onChanged: (value) {
+                    setState(() {
+                      _checkBoxAll = false;
+                      _checkBoxBreeders = false;
+                      _checkBoxMatrixs = value!;
+                    });
+                  },
+                ),
+              ],
+            ),
             _checkBoxUnicValue
                 ? Column(
                     children: [
                       TitleAddVaccinePageWidget(
-                        title: "Informe com que idade deve aplica-la(em dias):",
-                        height: 70,
+                        title: "Idade que deve aplica-la:",
+                        height: 30,
                       ),
                       Padding(
                           padding: const EdgeInsets.symmetric(
@@ -126,9 +185,8 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
                 ? Column(
                     children: [
                       TitleAddVaccinePageWidget(
-                        title:
-                            "Informe com que idade deve aplica-la pela primeira vez (em dias):",
-                        height: 70,
+                        title: "Idade deve aplica-la pela primeira vez:",
+                        height: 30,
                       ),
                       Padding(
                           padding: const EdgeInsets.symmetric(
@@ -141,8 +199,7 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
                             inputType: TextInputType.number,
                           )),
                       TitleAddVaccinePageWidget(
-                          title: "Informe com quantos dias será repetido",
-                          height: 50),
+                          title: "Com quantos dias será repetido", height: 30),
                       Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 100, vertical: 15),
@@ -157,15 +214,45 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
                   )
                 : SizedBox(),
             ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   final VaccineEntity vaccineEntity = VaccineEntity(
-                      vaccineName: _vaccineNameController.text,
+                      vaccineName:
+                          '${_vaccineNameController.text} - ${getPigStage()}',
                       description: _vaccineDescriptionController.text,
                       type: "Dose única",
-                      pigStage: widget.pigStage.value,
+                      pigStage: getPigStage(),
                       firstApplicationLifeDays:
                           int.parse(_vaccineUnicApplication.text));
-                  VaccineRepository.instance.addVaccine(vaccineEntity);
+
+                  await VaccineRepository.instance.addVaccine(vaccineEntity);
+
+                  List<PigEntity> pigs;
+                  if (vaccineEntity.pigStage == PigStage.ALL.value) {
+                    pigs = await PigRepository.instance.getPigsWithAgeLessThan(
+                        vaccineEntity.firstApplicationLifeDays);
+                  } else {
+                    pigs = await PigRepository.instance
+                        .getPigsWithAgeLessThanStage(
+                            vaccineEntity.firstApplicationLifeDays,
+                            vaccineEntity.pigStage);
+                  }
+                  for (PigEntity pig in pigs) {
+                    EventEntity eventEntity = EventEntity(
+                        date: DateTime.now()
+                            .subtract(Duration(days: pig.age))
+                            .add(Duration(
+                                days: vaccineEntity.firstApplicationLifeDays)),
+                        title: vaccineEntity.vaccineName,
+                        description: vaccineEntity.description,
+                        pigName: pig.name,
+                        type: EventType.VACCINE.value);
+                    List<EventEntity> events = [];
+                    events.add(eventEntity);
+                    setEventSource(events);
+
+                    await EventRepository.instance.addEvent(eventEntity);
+                    
+                  }
                   Navigator.pop(context);
                 },
                 child: Text("Adicionar vacina"))

@@ -6,7 +6,7 @@ import '../data_helper/data_helper.dart';
 
 class EventRepository extends ChangeNotifier {
   String tableEvents =
-      "CREATE TABLE tableevents (date INTEGER, description TEXT, title TEXT, pigName TEXT)";
+      "CREATE TABLE tableevents (date INTEGER, description TEXT, title TEXT, pigName TEXT, type TEXT)";
 
   EventRepository._privateConstructor();
   static final EventRepository instance = EventRepository._privateConstructor();
