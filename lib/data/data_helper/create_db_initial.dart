@@ -25,6 +25,7 @@ class CreateDbInitial {
       fatherName: "Indefinido",
       buyValue: 1000,
       sellValue: 0,
+      birthday: DateTime.now(),
     ),
     PigEntity(
       name: 'Daffy',
@@ -38,6 +39,7 @@ class CreateDbInitial {
       fatherName: "Indefinido",
       buyValue: 1000,
       sellValue: 0,
+      birthday: DateTime.now(),
     ),
     PigEntity(
       name: 'Bugs',
@@ -51,6 +53,7 @@ class CreateDbInitial {
       fatherName: "Tom",
       buyValue: 0,
       sellValue: 0,
+      birthday: DateTime.now(),
     ),
     PigEntity(
       name: 'Raffy',
@@ -64,6 +67,7 @@ class CreateDbInitial {
       fatherName: "Tom",
       buyValue: 0,
       sellValue: 0,
+      birthday: DateTime.now(),
     ),
     PigEntity(
       name: 'Rex',
@@ -77,6 +81,7 @@ class CreateDbInitial {
       fatherName: "Bugs",
       buyValue: 0,
       sellValue: 0,
+      birthday: DateTime.now(),
     ),
     PigEntity(
       name: 'Ginger',
@@ -90,6 +95,7 @@ class CreateDbInitial {
       fatherName: "Bugs",
       buyValue: 0,
       sellValue: 0,
+      birthday: DateTime.now(),
     ),
     PigEntity(
       name: 'Ellie',
@@ -103,6 +109,7 @@ class CreateDbInitial {
       fatherName: "Tom",
       buyValue: 0,
       sellValue: 0,
+      birthday: DateTime.now(),
     ),
     PigEntity(
       name: 'Elfie',
@@ -116,6 +123,7 @@ class CreateDbInitial {
       fatherName: "Tom",
       buyValue: 0,
       sellValue: 0,
+      birthday: DateTime.now(),
     ),
     PigEntity(
       name: 'Bella',
@@ -129,28 +137,61 @@ class CreateDbInitial {
       fatherName: "Bugs",
       buyValue: 0,
       sellValue: 0,
+      birthday: DateTime.now(),
     ),
   ];
 
   List<WeighingEntity> listWeighing = [
     WeighingEntity(
-        name: "Tom", date: "13/08/2022", weight: 150, age: 300, gpd: 1),
+        name: "Tom",
+        date: DateTime(13, 18, 2022),
+        weight: 150,
+        age: 300,
+        gpd: 1),
     WeighingEntity(
-        name: "Daffy", date: "13/08/2022", weight: 150, age: 300, gpd: 1),
+        name: "Daffy",
+        date: DateTime(13, 18, 2022),
+        weight: 150,
+        age: 300,
+        gpd: 1),
     WeighingEntity(
-        name: "Bugs", date: "13/08/2022", weight: 100, age: 150, gpd: 1),
+        name: "Bugs",
+        date: DateTime(13, 18, 2022),
+        weight: 100,
+        age: 150,
+        gpd: 1),
     WeighingEntity(
-        name: "Raffy", date: "13/08/2022", weight: 100, age: 150, gpd: 1),
+        name: "Raffy",
+        date: DateTime(13, 18, 2022),
+        weight: 100,
+        age: 150,
+        gpd: 1),
     WeighingEntity(
-        name: "Rex", date: "13/08/2022", weight: 1.5, age: 1, gpd: 1),
+        name: "Rex", date: DateTime(13, 18, 2022), weight: 1.5, age: 1, gpd: 1),
     WeighingEntity(
-        name: "Ginger", date: "13/08/2022", weight: 1.5, age: 1, gpd: 1),
+        name: "Ginger",
+        date: DateTime(13, 18, 2022),
+        weight: 1.5,
+        age: 1,
+        gpd: 1),
     WeighingEntity(
-        name: "Ellie", date: "13/08/2022", weight: 1.2, age: 1, gpd: 1),
+        name: "Ellie",
+        date: DateTime(13, 18, 2022),
+        weight: 1.2,
+        age: 1,
+        gpd: 1),
     WeighingEntity(
-        name: "Elfie", date: "13/08/2022", weight: 1.1, age: 1, gpd: 1),
+        name: "Elfie",
+        date: DateTime(13, 18, 2022),
+        weight: 1.1,
+        age: 1,
+        gpd: 1),
     WeighingEntity(
-        name: "Bella", date: "13/08/2022", weight: 1.6, age: 1, gpd: 1),
+        name: "Bella",
+        date: DateTime(13, 18, 2022),
+        weight: 1.6,
+        age: 1,
+        gpd: 1),
   ];
 
   // List<EventEntity> listEvents = [

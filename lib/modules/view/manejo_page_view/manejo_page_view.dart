@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'all_archived_pigs_page/all_archived_pigs_page.dart';
 import 'all_pigs_page/all_pigs_page.dart';
-import 'manejo_page/manejo_page.dart';
 
 
 
@@ -49,8 +48,6 @@ class _ManejoPageViewState extends State<ManejoPageView> {
         backgroundColor: Colors.transparent,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.remove_red_eye_outlined), label: 'manejo'),
-          BottomNavigationBarItem(
               icon: Icon(Icons.present_to_all_sharp), label: 'Suinos ativos'),
           BottomNavigationBarItem(
               icon: Icon(Icons.archive_outlined), label: 'Suinos arquivados'),
@@ -63,7 +60,7 @@ class _ManejoPageViewState extends State<ManejoPageView> {
       body: PageView(
         controller: _pagecontroller,
         onPageChanged: setPageView,
-        children: const [ManejoPage(), AllPigsPage(), AllArchivedPigsPage()],
+        children: const [AllPigsPage(), AllArchivedPigsPage()],
       ),
     );
   }

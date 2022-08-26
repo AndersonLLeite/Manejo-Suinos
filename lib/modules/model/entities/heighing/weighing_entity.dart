@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class WeighingEntity {
   String name;
-  String date;
+  DateTime date;
   double weight;
   int age;
   double gpd;
@@ -18,7 +18,7 @@ class WeighingEntity {
 
   WeighingEntity copyWith({
     String? name,
-    String? date,
+    DateTime? date,
     double? weight,
     int? age,
     double? gpd,
@@ -35,7 +35,7 @@ class WeighingEntity {
   Map<String, dynamic> toMap() {
     return {
       'name': name,
-      'date': date,
+      'date': date.millisecondsSinceEpoch,
       'weight': weight,
       'age': age,
       'gpd': gpd,
@@ -45,7 +45,7 @@ class WeighingEntity {
   factory WeighingEntity.fromMap(Map<String, dynamic> map) {
     return WeighingEntity(
       name: map['name'] ?? '',
-      date: map['date'] ?? '',
+      date: DateTime.fromMillisecondsSinceEpoch(map['date']),
       weight: map['weight']?.toDouble() ?? 0.0,
       age: map['age']?.toInt() ?? 0,
       gpd: map['gpd']?.toDouble() ?? 0.0,

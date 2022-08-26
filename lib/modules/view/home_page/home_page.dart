@@ -5,7 +5,6 @@ import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
 
 import '../../../shared/widgets/card_homepage_widget.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -45,7 +44,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.pushNamed(context, '/manejo');
                   },
                   child: CardHomePageWidget(
-                    title: 'Todos os Suinos',
+                    title: 'Meus Suinos',
                     image: AppImages.duroc,
                   ),
                 ),
@@ -75,9 +74,10 @@ class _HomePageState extends State<HomePage> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children:  [
+              children: [
                 GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, '/vaccination_page'),
+                  onTap: () =>
+                      Navigator.pushNamed(context, '/vaccination_page'),
                   child: CardHomePageWidget(
                     title: 'Vacinação',
                     image: AppImages.vaccination,

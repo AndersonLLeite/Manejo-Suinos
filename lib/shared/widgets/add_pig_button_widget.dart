@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import '../../modules/model/entities/heighing/weighing_entity.dart';
 import '../../modules/model/entities/pig/pig_entity.dart';
 
-
 class AddPigButtonWidget extends StatelessWidget {
   const AddPigButtonWidget({
     Key? key,
@@ -45,12 +44,11 @@ class AddPigButtonWidget extends StatelessWidget {
 
   addFirstWeighing(BuildContext context) async {
     DateTime today = DateTime.now();
-    late String dateSlug =
-        "${today.day.toString().padLeft(2, '0')}/${today.month.toString().padLeft(2, '0')}/${today.year.toString()}";
+
     await Provider.of<WeighingRepository>(context, listen: false).addWeighing(
         WeighingEntity(
             name: _controllerName.text,
-            date: dateSlug,
+            date: today,
             weight: double.parse(_controllerWeight.text),
             age: int.parse(_controllerAge.text),
             gpd: gpd));
@@ -62,20 +60,21 @@ class AddPigButtonWidget extends StatelessWidget {
         onPressed: () {
           try {
             Provider.of<PigRepository>(context, listen: false).addPig(PigEntity(
-              name: _controllerName.text,
-              age: int.parse(_controllerAge.text),
-              weight: double.parse(_controllerWeight.text),
-              gpd: gpd,
-              gender: _gender!,
-              finality: _finality!,
-              obtained: _obtained!,
-              motherName: _motherName,
-              fatherName: _fatherName,
-              buyValue: _controllerBuy.text.isEmpty
-                  ? 0
-                  : double.parse(_controllerBuy.text),
-              sellValue: 0,
-            ));
+                name: _controllerName.text,
+                age: int.parse(_controllerAge.text),
+                weight: double.parse(_controllerWeight.text),
+                gpd: gpd,
+                gender: _gender!,
+                finality: _finality!,
+                obtained: _obtained!,
+                motherName: _motherName,
+                fatherName: _fatherName,
+                buyValue: _controllerBuy.text.isEmpty
+                    ? 0
+                    : double.parse(_controllerBuy.text),
+                sellValue: 0,
+                birthday: DateTime.now()
+                    .subtract(Duration(days: int.parse(_controllerAge.text)))));
             addFirstWeighing(context);
             Navigator.pop(context);
           } catch (e) {

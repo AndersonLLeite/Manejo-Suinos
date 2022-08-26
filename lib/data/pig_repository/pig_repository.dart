@@ -6,7 +6,7 @@ import '../data_helper/data_helper.dart';
 
 class PigRepository extends ChangeNotifier {
   String tablePigs =
-      "CREATE TABLE tablepigs (name TEXT PRIMARY KEY, imageUrl TEXT, age INTEGER, weight REAL, gpd REAL, gender TEXT, finality TEXT, obtained TEXT, motherName TEXT, fatherName TEXT, status TEXT, buy REAl, sell REAL, isPregnant INTEGER)";
+      "CREATE TABLE tablepigs (name TEXT PRIMARY KEY, imageUrl TEXT, age INTEGER, weight REAL, gpd REAL, gender TEXT, finality TEXT, obtained TEXT, motherName TEXT, fatherName TEXT, status TEXT, buy REAl, sell REAL, isPregnant INTEGER, birthday INTEGER)";
 
   PigRepository._privateConstructor();
   static final PigRepository instance = PigRepository._privateConstructor();
@@ -177,5 +177,18 @@ class PigRepository extends ChangeNotifier {
 
     notifyListeners();
     return listpigs;
+  }
+
+  Future<DateTime> getPigBirth(String name) async {
+    Database db = await DataHelper.instance.database;
+    var pig = await db.rawQuery('''
+      SELECT * FROM tablepigs
+      WHERE name=?
+      ''', [name]);
+    List<PigEntity> listpig = pig.isNotEmpty
+        ? pig.map((c) => PigEntity.fromMap(c)).toList()
+        : [];
+    notifyListeners();
+    return listpig[0].birthday;
   }
 }

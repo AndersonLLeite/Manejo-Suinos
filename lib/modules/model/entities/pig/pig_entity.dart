@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:manejo_suinos/shared/themes/images/app_images.dart';
 import 'package:manejo_suinos/shared/utils/enums/status_enum.dart';
 
-
 class PigEntity {
   String name;
   String imageUrl;
@@ -19,6 +18,7 @@ class PigEntity {
   double buyValue;
   double sellValue;
   int isPregnant;
+  DateTime birthday;
 
   PigEntity({
     required this.name,
@@ -35,6 +35,7 @@ class PigEntity {
     required this.buyValue,
     required this.sellValue,
     this.isPregnant = 0,
+    required this.birthday,
   });
 
   PigEntity copyWith({
@@ -52,6 +53,7 @@ class PigEntity {
     double? buyValue,
     double? sellValue,
     int? isPregnant,
+    DateTime? birthday,
   }) {
     return PigEntity(
       name: name ?? this.name,
@@ -68,6 +70,7 @@ class PigEntity {
       buyValue: buyValue ?? this.buyValue,
       sellValue: sellValue ?? this.sellValue,
       isPregnant: isPregnant ?? this.isPregnant,
+      birthday: birthday ?? this.birthday,
     );
   }
 
@@ -84,9 +87,10 @@ class PigEntity {
       'motherName': motherName,
       'fatherName': fatherName,
       'status': status,
-      'buy': buyValue,
-      'sell': sellValue,
+      'buyValue': buyValue,
+      'sellValue': sellValue,
       'isPregnant': isPregnant,
+      'birthday': birthday.millisecondsSinceEpoch,
     };
   }
 
@@ -103,9 +107,10 @@ class PigEntity {
       motherName: map['motherName'] ?? '',
       fatherName: map['fatherName'] ?? '',
       status: map['status'] ?? '',
-      buyValue: map['buy']?.toDouble() ?? 0.0,
-      sellValue: map['sell']?.toDouble() ?? 0.0,
+      buyValue: map['buyValue']?.toDouble() ?? 0.0,
+      sellValue: map['sellValue']?.toDouble() ?? 0.0,
       isPregnant: map['isPregnant']?.toInt() ?? 0,
+      birthday: DateTime.fromMillisecondsSinceEpoch(map['birthday']),
     );
   }
 
@@ -116,7 +121,7 @@ class PigEntity {
 
   @override
   String toString() {
-    return 'PigEntity(name: $name, imageUrl: $imageUrl, age: $age, weight: $weight, gpd: $gpd, gender: $gender, finality: $finality, obtained: $obtained, motherName: $motherName, fatherName: $fatherName, status: $status, buy: $buyValue, sell: $sellValue, isPregnant: $isPregnant)';
+    return 'PigEntity(name: $name, imageUrl: $imageUrl, age: $age, weight: $weight, gpd: $gpd, gender: $gender, finality: $finality, obtained: $obtained, motherName: $motherName, fatherName: $fatherName, status: $status, buyValue: $buyValue, sellValue: $sellValue, isPregnant: $isPregnant, birthday: $birthday)';
   }
 
   String? getStatus() {
@@ -130,39 +135,41 @@ class PigEntity {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
+  
     return other is PigEntity &&
-        other.name == name &&
-        other.imageUrl == imageUrl &&
-        other.age == age &&
-        other.weight == weight &&
-        other.gpd == gpd &&
-        other.gender == gender &&
-        other.finality == finality &&
-        other.obtained == obtained &&
-        other.motherName == motherName &&
-        other.fatherName == fatherName &&
-        other.status == status &&
-        other.buyValue == buyValue &&
-        other.sellValue == sellValue &&
-        other.isPregnant == isPregnant;
+      other.name == name &&
+      other.imageUrl == imageUrl &&
+      other.age == age &&
+      other.weight == weight &&
+      other.gpd == gpd &&
+      other.gender == gender &&
+      other.finality == finality &&
+      other.obtained == obtained &&
+      other.motherName == motherName &&
+      other.fatherName == fatherName &&
+      other.status == status &&
+      other.buyValue == buyValue &&
+      other.sellValue == sellValue &&
+      other.isPregnant == isPregnant &&
+      other.birthday == birthday;
   }
 
   @override
   int get hashCode {
     return name.hashCode ^
-        imageUrl.hashCode ^
-        age.hashCode ^
-        weight.hashCode ^
-        gpd.hashCode ^
-        gender.hashCode ^
-        finality.hashCode ^
-        obtained.hashCode ^
-        motherName.hashCode ^
-        fatherName.hashCode ^
-        status.hashCode ^
-        buyValue.hashCode ^
-        sellValue.hashCode ^
-        isPregnant.hashCode;
+      imageUrl.hashCode ^
+      age.hashCode ^
+      weight.hashCode ^
+      gpd.hashCode ^
+      gender.hashCode ^
+      finality.hashCode ^
+      obtained.hashCode ^
+      motherName.hashCode ^
+      fatherName.hashCode ^
+      status.hashCode ^
+      buyValue.hashCode ^
+      sellValue.hashCode ^
+      isPregnant.hashCode ^
+      birthday.hashCode;
   }
 }

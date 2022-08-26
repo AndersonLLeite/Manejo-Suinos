@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:manejo_suinos/data/weighing_repository/weighing_repository.dart';
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
+import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/entities/heighing/weighing_entity.dart';
@@ -78,7 +79,7 @@ class _WeighingsPigPageState extends State<WeighingsPigPage> {
                                       cells: [
                                         DataCell(Text(weighing.age.toString())),
                                         DataCell(
-                                            Text(weighing.date.toString())),
+                                            Text(formatDate(weighing.date))),
                                         DataCell(
                                             Text(weighing.weight.toString())),
                                         DataCell(Text(weighing.gpd.toString())),
@@ -92,7 +93,7 @@ class _WeighingsPigPageState extends State<WeighingsPigPage> {
                                                       listen: false)
                                                   .removeWeighing(
                                                       weighing.age,
-                                                      weighing.date,
+                                                      weighing.date.millisecondsSinceEpoch,
                                                       weighing.weight);
                                             },
                                           ),

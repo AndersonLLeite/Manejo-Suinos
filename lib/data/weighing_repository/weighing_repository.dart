@@ -18,7 +18,7 @@ class WeighingRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future removeWeighing(int age, String date, double weight) async {
+  Future removeWeighing(int age, int date, double weight) async {
     Database db = await DataHelper.instance.database;
     await db.delete('tableweighings',
         where: 'age= ? AND date= ? AND weight= ?',
