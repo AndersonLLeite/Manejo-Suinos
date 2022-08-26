@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../modules/view/add_pig_page/add_pig_page.dart';
 
-import '../modules/view/add_vaccine_page/add_vaccine_page.dart';
 import '../modules/view/home_page/home_page.dart';
 import '../modules/view/manejo_page_view/all_archived_pigs_page/all_archived_pigs_page.dart';
 import '../modules/view/manejo_page_view/all_pigs_page/all_pigs_page.dart';

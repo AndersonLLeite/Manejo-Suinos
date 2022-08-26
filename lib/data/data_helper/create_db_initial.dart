@@ -4,10 +4,8 @@ import 'package:manejo_suinos/shared/utils/enums/finality_enum.dart';
 import 'package:manejo_suinos/shared/utils/enums/gender_enum.dart';
 import 'package:manejo_suinos/shared/utils/enums/obtained_enum.dart';
 
-import '../../modules/model/entities/event/event_entity.dart';
 import '../../modules/model/entities/heighing/weighing_entity.dart';
 import '../../modules/model/entities/pig/pig_entity.dart';
-import '../event_repository/event_repository.dart';
 import '../weighing_repository/weighing_repository.dart';
 
 class CreateDbInitial {

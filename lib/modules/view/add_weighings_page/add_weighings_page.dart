@@ -3,8 +3,6 @@ import 'package:manejo_suinos/data/weighing_repository/weighing_repository.dart'
 import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
 
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
-import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
-import 'package:provider/provider.dart';
 
 import '../../../shared/widgets/text_field_add_weighing_widget.dart';
 import '../../model/entities/heighing/weighing_entity.dart';
@@ -22,6 +20,7 @@ class AddWeighingsPage extends StatefulWidget {
 }
 
 class _AddWeighingsPageState extends State<AddWeighingsPage> {
+  FocusNode focusNodeWeight = FocusNode();
   final TextEditingController _weightController = TextEditingController();
 
   DateTime _date =
@@ -29,21 +28,22 @@ class _AddWeighingsPageState extends State<AddWeighingsPage> {
   String _formattedDate =
       "${DateTime.now().day.toString().padLeft(2, '0')}/${DateTime.now().month.toString().padLeft(2, '0')}/${DateTime.now().year.toString().padLeft(4, '0')}";
   late int _age;
+
   Future<double> getPigGpd(BuildContext context) async {
-    
-    DateTime birthday = await Provider.of<PigRepository>(context, listen: false)
-            .getPigBirth(widget.pigEntity.name);
-    int idade = _date.difference(birthday).inDays;
-    int lastAge = await Provider.of<WeighingRepository>(context, listen: false)
-         .getLastAge(widget.pigEntity.name);
-    // int newAge = (int.parse(_ageController.text));
-
+    DateTime birthday =
+        await PigRepository.instance.getPigBirth(widget.pigEntity.name);
+    _age = _date.difference(birthday).inDays;
+    int lastAge =
+        await WeighingRepository.instance.getLastAge(widget.pigEntity.name);
     double lastWeight =
-        await Provider.of<WeighingRepository>(context, listen: false)
-            .getLastWeight(widget.pigEntity.name);
+        await WeighingRepository.instance.getLastWeight(widget.pigEntity.name);
     double newWeight = double.parse(_weightController.text);
-
-    double gpd = (newWeight - lastWeight) / (idade - lastAge);
+    double gpd;
+    if (_age - lastAge > 0) {
+      gpd = (newWeight - lastWeight) / (_age - lastAge);
+    } else {
+      gpd = (newWeight - lastWeight);
+    }
 
     gpd = double.parse(gpd.toStringAsFixed(2));
     return gpd;
@@ -78,6 +78,7 @@ class _AddWeighingsPageState extends State<AddWeighingsPage> {
               ),
             ),
             TextFieldAddWeighingWidget(
+              focusNodeWeight: focusNodeWeight,
               weightController: _weightController,
               labelText: "Novo peso",
               hintText: "Digite o novo peso",
@@ -134,26 +135,26 @@ class _AddWeighingsPageState extends State<AddWeighingsPage> {
           ),
           onPressed: () async {
             double gpd = await getPigGpd(context);
-            try {
-              await Provider.of<WeighingRepository>(context, listen: false)
-                  .addWeighing(WeighingEntity(
-                      name: widget.pigEntity.name,
-                      date: _date,
-                      weight: double.parse(_weightController.text),
-                      age: _age,
-                      gpd: gpd));
-              PigEntity updatedPig = widget.pigEntity.copyWith(
-                  weight: double.parse(_weightController.text),
-                  gpd: gpd);
-              await Provider.of<PigRepository>(context, listen: false)
-                  .updatePig(updatedPig);
-              Navigator.pop(context);
-            } catch (e) {
-              print('error');
+            if (_weightController.text.isNotEmpty) {
+              try {
+                await WeighingRepository.instance.addWeighing(WeighingEntity(
+                    name: widget.pigEntity.name,
+                    date: _date,
+                    weight: double.parse(_weightController.text),
+                    age: _age,
+                    gpd: gpd));
+                PigEntity updatedPig = widget.pigEntity.copyWith(
+                    weight: double.parse(_weightController.text), gpd: gpd);
+                await PigRepository.instance.updatePig(updatedPig);
+                Navigator.pop(context);
+              } catch (e) {
+                print('error');
+              }
+            } else {
+              focusNodeWeight.requestFocus();
             }
           },
           child: Row(
-            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const [
               Expanded(flex: 1, child: Icon(Icons.add)),
               Expanded(flex: 2, child: Text("Adicionar pesagem")),

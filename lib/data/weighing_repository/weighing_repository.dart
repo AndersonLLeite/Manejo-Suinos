@@ -6,7 +6,7 @@ import '../data_helper/data_helper.dart';
 
 class WeighingRepository extends ChangeNotifier {
   String tableWeighing =
-      "CREATE TABLE tableweighings (name TEXT, date TEXT, weight REAL, age INTEGER, gpd REAL)";
+      "CREATE TABLE tableweighings (name TEXT, date INTEGER, weight REAL, age INTEGER, gpd REAL)";
 
   WeighingRepository._privateConstructor();
   static final WeighingRepository instance =

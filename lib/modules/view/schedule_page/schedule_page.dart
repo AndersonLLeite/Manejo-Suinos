@@ -231,8 +231,7 @@ class _ShedulePageState extends State<ShedulePage> {
                                       await PigRepository.instance.updatePig(
                                           pig.copyWith(isPregnant: 0));
                                     }
-                                    context
-                                        .read<EventRepository>()
+                                    EventRepository.instance
                                         .deleteEvent(value[index]);
                                     deleteEventToSource(value[index]);
                                     setState(() {

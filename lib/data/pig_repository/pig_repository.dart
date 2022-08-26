@@ -6,7 +6,7 @@ import '../data_helper/data_helper.dart';
 
 class PigRepository extends ChangeNotifier {
   String tablePigs =
-      "CREATE TABLE tablepigs (name TEXT PRIMARY KEY, imageUrl TEXT, age INTEGER, weight REAL, gpd REAL, gender TEXT, finality TEXT, obtained TEXT, motherName TEXT, fatherName TEXT, status TEXT, buy REAl, sell REAL, isPregnant INTEGER, birthday INTEGER)";
+      "CREATE TABLE tablepigs (name TEXT PRIMARY KEY, imageUrl TEXT, age INTEGER, weight REAL, gpd REAL, gender TEXT, finality TEXT, obtained TEXT, motherName TEXT, fatherName TEXT, status TEXT, buyValue REAl, sellValue REAL, isPregnant INTEGER, birthday INTEGER)";
 
   PigRepository._privateConstructor();
   static final PigRepository instance = PigRepository._privateConstructor();
@@ -101,7 +101,7 @@ class PigRepository extends ChangeNotifier {
   Future<double> getValueChildrenSells(String name) async {
     Database db = await DataHelper.instance.database;
     var soma = await db.rawQuery('''
-      SELECT SUM(sell) FROM tablepigs
+      SELECT SUM(sellValue) FROM tablepigs
       WHERE fatherName=? OR motherName=? AND status=?
       ''', [name, name, 'ARCHIVED']);
     Object? somaSells = soma[0]['SUM(sell)'];
@@ -185,10 +185,19 @@ class PigRepository extends ChangeNotifier {
       SELECT * FROM tablepigs
       WHERE name=?
       ''', [name]);
-    List<PigEntity> listpig = pig.isNotEmpty
-        ? pig.map((c) => PigEntity.fromMap(c)).toList()
-        : [];
+    List<PigEntity> listpig =
+        pig.isNotEmpty ? pig.map((c) => PigEntity.fromMap(c)).toList() : [];
     notifyListeners();
     return listpig[0].birthday;
+  }
+
+  Future<void> attPigsAge(DateTime today) async {
+    var pigAtive = await getActivePigs();
+    for (final pig in pigAtive) {
+      PigEntity updatedPig =
+          pig.copyWith(age: today.difference(pig.birthday).inDays);
+      updatePig(updatedPig);
+    }
+    notifyListeners();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
 import 'package:manejo_suinos/shared/themes/colors/app_colors.dart';
 import 'package:manejo_suinos/shared/themes/images/app_images.dart';
 import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
@@ -17,6 +18,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     refreshEventsSource();
+    PigRepository.instance.attPigsAge(DateTime.now());
   }
 
   @override

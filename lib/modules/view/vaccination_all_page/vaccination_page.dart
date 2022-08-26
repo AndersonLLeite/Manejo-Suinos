@@ -6,7 +6,6 @@ import 'package:manejo_suinos/shared/themes/background/background_gradient.dart'
 import 'package:provider/provider.dart';
 
 import '../../../shared/themes/colors/app_colors.dart';
-import '../../../shared/utils/enums/pigstage_enum.dart';
 
 class VaccinationPage extends StatefulWidget {
   const VaccinationPage({Key? key}) : super(key: key);
