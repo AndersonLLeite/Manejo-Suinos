@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:manejo_suinos/data/data_helper/create_db_initial.dart';
+import 'package:manejo_suinos/data/vaccine_repository/vaccine_repository.dart';
 import 'package:manejo_suinos/data/weighing_repository/weighing_repository.dart';
 import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
 import 'package:sqflite/sqflite.dart';
@@ -27,6 +28,7 @@ class DataHelper {
     await db.execute(PigRepository.instance.tablePigs);
     await db.execute(WeighingRepository.instance.tableWeighing);
     await db.execute(EventRepository.instance.tableEvents);
-    _createDbInitial.createInitialData();
+    await db.execute(VaccineRepository.instance.tableVaccines);
+    await _createDbInitial.createInitialData();
   }
 }

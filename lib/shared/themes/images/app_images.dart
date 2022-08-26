@@ -9,4 +9,5 @@ class AppImages {
   static const String landrace = 'assets/images/Landrace.png';
   static const String hampshire = 'assets/images/hampshire.png';
   static const String pigsty = 'assets/images/pigsty.png';
+  static const String vaccination = 'assets/images/vaccine.png';
 }

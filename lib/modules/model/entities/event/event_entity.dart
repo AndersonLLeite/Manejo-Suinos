@@ -5,11 +5,13 @@ class EventEntity {
   String? description;
   String title;
   String pigName;
+  String type;
   EventEntity({
     required this.date,
     this.description,
     required this.title,
     required this.pigName,
+    required this.type,
   });
 
   EventEntity copyWith({
@@ -17,21 +19,24 @@ class EventEntity {
     String? description,
     String? title,
     String? pigName,
+    String? type,
   }) {
     return EventEntity(
       date: date ?? this.date,
       description: description ?? this.description,
       title: title ?? this.title,
       pigName: pigName ?? this.pigName,
+      type: type ?? this.type,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'date': date.millisecondsSinceEpoch.toString(),
+      'date': date.millisecondsSinceEpoch,
       'description': description,
       'title': title,
       'pigName': pigName,
+      'type': type,
     };
   }
 
@@ -41,6 +46,7 @@ class EventEntity {
       description: map['description'],
       title: map['title'] ?? '',
       pigName: map['pigName'] ?? '',
+      type: map['type'] ?? '',
     );
   }
 
@@ -51,25 +57,27 @@ class EventEntity {
 
   @override
   String toString() {
-    return 'EventEntity(date: $date, description: $description, title: $title, pigName: $pigName)';
+    return 'EventEntity(date: $date, description: $description, title: $title, pigName: $pigName, type: $type)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
+  
     return other is EventEntity &&
-        other.date == date &&
-        other.description == description &&
-        other.title == title &&
-        other.pigName == pigName;
+      other.date == date &&
+      other.description == description &&
+      other.title == title &&
+      other.pigName == pigName &&
+      other.type == type;
   }
 
   @override
   int get hashCode {
     return date.hashCode ^
-        description.hashCode ^
-        title.hashCode ^
-        pigName.hashCode;
+      description.hashCode ^
+      title.hashCode ^
+      pigName.hashCode ^
+      type.hashCode;
   }
 }

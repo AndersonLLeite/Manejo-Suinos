@@ -153,68 +153,68 @@ class CreateDbInitial {
         name: "Bella", date: "13/08/2022", weight: 1.6, age: 1, gpd: 1),
   ];
 
-  List<EventEntity> listEvents = [
-    EventEntity(
-      title: "Pesar o suino",
-      description: "Dia de fazer pesagem",
-      date: DateTime.now().add(Duration(days: 1)),
-      pigName: "Tom",
-    ),
-    EventEntity(
-      title: "Pesar o suino",
-      description: "Dia de fazer pesagem",
-      date: DateTime.now().add(Duration(days: 2)),
-      pigName: "Daffy",
-    ),
-    EventEntity(
-      title: "Pesar o suino",
-      description: "Dia de fazer pesagem",
-      date: DateTime.now().add(Duration(days: 3)),
-      pigName: "Bugs",
-    ),
-    EventEntity(
-      title: "Pesar o suino",
-      description: "Dia de fazer pesagem",
-      date: DateTime.now().add(Duration(days: 4)),
-      pigName: "Raffy",
-    ),
-    EventEntity(
-      title: "Pesar o suino",
-      description: "Dia de fazer pesagem",
-      date: DateTime.now().add(Duration(days: 5)),
-      pigName: "Ginger",
-    ),
-    EventEntity(
-      title: "Pesar o suino",
-      description: "Dia de fazer pesagem",
-      date: DateTime.now().add(Duration(days: 6)),
-      pigName: "Ellie",
-    ),
-    EventEntity(
-      title: "Pesar o suino",
-      description: "Dia de fazer pesagem",
-      date: DateTime.now().add(Duration(days: 7)),
-      pigName: "Elfie",
-    ),
-    EventEntity(
-      title: "Pesar o suino",
-      description: "Dia de fazer pesagem",
-      date: DateTime.now().add(Duration(days: 8)),
-      pigName: "Bella",
-    ),
-    EventEntity(
-      title: "Trocar de baia",
-      description: "Trocar de baia para limpeza",
-      date: DateTime.now(),
-      pigName: "Tom",
-    ),
-    EventEntity(
-      title: "Trocar de baia",
-      description: "Trocar de baia para limpeza",
-      date: DateTime.now(),
-      pigName: "Daffy",
-    ),
-  ];
+  // List<EventEntity> listEvents = [
+  //   EventEntity(
+  //     title: "Pesar o suino",
+  //     description: "Dia de fazer pesagem",
+  //     date: DateTime.now().add(Duration(days: 1)),
+  //     pigName: "Tom",
+  //   ),
+  //   EventEntity(
+  //     title: "Pesar o suino",
+  //     description: "Dia de fazer pesagem",
+  //     date: DateTime.now().add(Duration(days: 2)),
+  //     pigName: "Daffy",
+  //   ),
+  //   EventEntity(
+  //     title: "Pesar o suino",
+  //     description: "Dia de fazer pesagem",
+  //     date: DateTime.now().add(Duration(days: 3)),
+  //     pigName: "Bugs",
+  //   ),
+  //   EventEntity(
+  //     title: "Pesar o suino",
+  //     description: "Dia de fazer pesagem",
+  //     date: DateTime.now().add(Duration(days: 4)),
+  //     pigName: "Raffy",
+  //   ),
+  //   EventEntity(
+  //     title: "Pesar o suino",
+  //     description: "Dia de fazer pesagem",
+  //     date: DateTime.now().add(Duration(days: 5)),
+  //     pigName: "Ginger",
+  //   ),
+  //   EventEntity(
+  //     title: "Pesar o suino",
+  //     description: "Dia de fazer pesagem",
+  //     date: DateTime.now().add(Duration(days: 6)),
+  //     pigName: "Ellie",
+  //   ),
+  //   EventEntity(
+  //     title: "Pesar o suino",
+  //     description: "Dia de fazer pesagem",
+  //     date: DateTime.now().add(Duration(days: 7)),
+  //     pigName: "Elfie",
+  //   ),
+  //   EventEntity(
+  //     title: "Pesar o suino",
+  //     description: "Dia de fazer pesagem",
+  //     date: DateTime.now().add(Duration(days: 8)),
+  //     pigName: "Bella",
+  //   ),
+  //   EventEntity(
+  //     title: "Trocar de baia",
+  //     description: "Trocar de baia para limpeza",
+  //     date: DateTime.now(),
+  //     pigName: "Tom",
+  //   ),
+  //   EventEntity(
+  //     title: "Trocar de baia",
+  //     description: "Trocar de baia para limpeza",
+  //     date: DateTime.now(),
+  //     pigName: "Daffy",
+  //   ),
+  // ];
 
   createInitialData() {
     for (var pig in listPigEntity) {

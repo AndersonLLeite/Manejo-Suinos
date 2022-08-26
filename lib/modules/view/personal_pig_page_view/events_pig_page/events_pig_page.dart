@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:manejo_suinos/data/event_repository/event_repository.dart';
 import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
+import 'package:manejo_suinos/shared/utils/enums/event_type_enum.dart';
 import 'package:manejo_suinos/shared/utils/enums/finality_enum.dart';
 import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
 import 'package:provider/provider.dart';
@@ -124,7 +125,10 @@ class _EventsPigPageState extends State<EventsPigPage> {
                                   leading: Column(
                                     children: [
                                       Icon(
-                                        Icons.event,
+                                        snapshot.data![index].type == EventType.COBERTURA.value?
+                                        Icons.child_friendly : snapshot.data![index].type == EventType.VACCINE.value?
+                                        Icons.vaccines : Icons.event,
+                                        
                                         color: Colors.blue,
                                       ),
                                       Text(
@@ -284,6 +288,7 @@ class _EventsPigPageState extends State<EventsPigPage> {
                                                     date: _date,
                                                     pigName:
                                                         widget.pigEntity.name,
+                                                    type: EventType.OTHER.value
                                                   );
                                                   List<EventEntity> events = [];
                                                   events.add(event);
@@ -430,6 +435,7 @@ class _EventsPigPageState extends State<EventsPigPage> {
                                                         Duration(days: 114)),
                                                     pigName:
                                                         widget.pigEntity.name,
+                                                    type: EventType.COBERTURA.value
                                                   );
                                                   List<EventEntity> events = [];
                                                   events.add(event);

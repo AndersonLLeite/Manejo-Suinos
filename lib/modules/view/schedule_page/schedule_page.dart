@@ -15,10 +15,9 @@ import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
 import '../../../data/event_repository/event_repository.dart';
 import '../../../data/pig_repository/pig_repository.dart';
 import '../../../shared/themes/colors/app_colors.dart';
+import '../../../shared/utils/enums/event_type_enum.dart';
 import '../../model/entities/event/event_entity.dart';
 import '../../model/entities/pig/pig_entity.dart';
-
-
 
 class ShedulePage extends StatefulWidget {
   @override
@@ -225,10 +224,12 @@ class _ShedulePageState extends State<ShedulePage> {
                                 child: IconButton(
                                   icon: Icon(Icons.delete_forever,
                                       color: Colors.black),
-                                  onPressed: () async{
-                                    PigEntity pig = await PigRepository.instance.getPigByName(value[index].pigName);
-                                    if(pig.isPregnant == 1){
-                                      await PigRepository.instance.updatePig(pig.copyWith(isPregnant: 0));
+                                  onPressed: () async {
+                                    PigEntity pig = await PigRepository.instance
+                                        .getPigByName(value[index].pigName);
+                                    if (pig.isPregnant == 1) {
+                                      await PigRepository.instance.updatePig(
+                                          pig.copyWith(isPregnant: 0));
                                     }
                                     context
                                         .read<EventRepository>()
@@ -248,7 +249,12 @@ class _ShedulePageState extends State<ShedulePage> {
                             children: [
                               Expanded(
                                 child: Icon(
-                                  Icons.event,
+                                  value[index].type == EventType.COBERTURA.value
+                                      ? Icons.child_friendly
+                                      : value[index].type ==
+                                              EventType.VACCINE.value
+                                          ? Icons.vaccines
+                                          : Icons.event,
                                   color: Colors.blue,
                                 ),
                               ),
