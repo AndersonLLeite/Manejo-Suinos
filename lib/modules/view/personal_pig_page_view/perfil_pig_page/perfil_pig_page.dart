@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
 import 'package:manejo_suinos/shared/widgets/status_perfil_page_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -14,10 +15,6 @@ import 'package:manejo_suinos/shared/widgets/button_gender_widget.dart';
 import '../../../../shared/themes/colors/app_colors.dart';
 import '../../../../shared/widgets/button_action_pig_perfil_page.dart';
 import '../../../model/entities/pig/pig_entity.dart';
-
-
-
-
 
 class PerfilPigPage extends StatefulWidget {
   final PigEntity pigEntity;
@@ -157,6 +154,7 @@ class _PerfilPigPageState extends State<PerfilPigPage> {
                             DataColumn(label: Text("Mãe")),
                             DataColumn(label: Text("Pai")),
                             DataColumn(label: Text("Obtido")),
+                            DataColumn(label: Text("Data de\nnascimento")),
                           ],
                           columnSpacing: 18,
                           rows: [
@@ -170,6 +168,8 @@ class _PerfilPigPageState extends State<PerfilPigPage> {
                               DataCell(Text(widget.pigEntity.fatherName)),
                               DataCell(
                                   Text(widget.pigEntity.obtained.toString())),
+                              DataCell(
+                                  Text(formatDate(widget.pigEntity.birthday))),
                             ]),
                           ])),
                   Container(

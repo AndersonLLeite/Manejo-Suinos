@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:manejo_suinos/modules/model/entities/vaccine/vaccine_entity.dart';
+import 'package:manejo_suinos/shared/utils/enums/event_type_enum.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../modules/model/entities/event/event_entity.dart';
@@ -19,8 +21,8 @@ class EventRepository extends ChangeNotifier {
 
   Future<List<EventEntity>> getAllEvents() async {
     Database db = await DataHelper.instance.database;
-    var events = await db.rawQuery(
-        'SELECT * FROM tableevents ORDER BY date DESC', []);
+    var events =
+        await db.rawQuery('SELECT * FROM tableevents ORDER BY date DESC', []);
     List<EventEntity> eventsList = events.isNotEmpty
         ? events.map((c) => EventEntity.fromMap(c)).toList()
         : [];
@@ -56,10 +58,25 @@ class EventRepository extends ChangeNotifier {
 
   Future<void> deleteEvent(EventEntity eventEntity) async {
     Database db = await DataHelper.instance.database;
-    await db.delete(
-        'tableevents',
+    await db.delete('tableevents',
         where: 'title= ? AND date= ? AND pigName= ?',
-        whereArgs: [eventEntity.title, eventEntity.date.millisecondsSinceEpoch, eventEntity.pigName]);
+        whereArgs: [
+          eventEntity.title,
+          eventEntity.date.millisecondsSinceEpoch,
+          eventEntity.pigName
+        ]);
+    notifyListeners();
+  }
+
+  Future<void> deleteVaccineEvent(VaccineEntity vaccineEntity) async {
+    Database db = await DataHelper.instance.database;
+    await db.delete('tableevents',
+        where: 'title= ? AND description= ? AND type= ?',
+        whereArgs: [
+          vaccineEntity.vaccineName,
+          vaccineEntity.description,
+          EventType.VACCINE.value
+        ]);
     notifyListeners();
   }
 }

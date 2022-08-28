@@ -238,17 +238,16 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
                   }
                   for (PigEntity pig in pigs) {
                     EventEntity eventEntity = EventEntity(
-                        date: DateTime.now()
-                            .subtract(Duration(days: pig.age))
+                        date: pig.birthday
                             .add(Duration(
                                 days: vaccineEntity.firstApplicationLifeDays)),
                         title: vaccineEntity.vaccineName,
                         description: vaccineEntity.description,
                         pigName: pig.name,
                         type: EventType.VACCINE.value);
-                    List<EventEntity> events = [];
-                    events.add(eventEntity);
-                    setEventSource(events);
+                    // List<EventEntity> events = [];
+                    // events.add(eventEntity);
+                    // setEventSource(events);
 
                     await EventRepository.instance.addEvent(eventEntity);
                     

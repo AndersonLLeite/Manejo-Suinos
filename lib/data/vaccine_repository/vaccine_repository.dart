@@ -40,4 +40,12 @@ class VaccineRepository extends ChangeNotifier {
     await db.insert('tablevaccines', vaccineEntity.toMap());
     notifyListeners();
   }
+
+  Future deleteVaccine(
+      String vaccineName, String description, String pigStage) async {
+    Database db = await DataHelper.instance.database;
+    await db.delete('tablevaccines',
+        where: 'vaccineName= ? AND pigStage= ? AND type= ?',
+        whereArgs: [vaccineName, description, pigStage]);
+  }
 }

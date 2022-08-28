@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:manejo_suinos/modules/view/personal_pig_page_view/perfil_pig_page/perfil_pig_page.dart';
 import 'package:manejo_suinos/modules/view/personal_pig_page_view/weighings_pig_page/weighings_pig_page.dart';
-
+import 'package:manejo_suinos/shared/themes/colors/app_colors.dart';
 
 import '../../model/entities/pig/pig_entity.dart';
 import 'events_pig_page/events_pig_page.dart';
-
 
 class PersonalPigPageView extends StatefulWidget {
   final PigEntity pigEntity;
@@ -52,7 +51,10 @@ class _PersonalPigPageViewState extends State<PersonalPigPageView> {
         ),
         backgroundColor: Colors.transparent,
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Perfil',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.balance), label: 'Pesagens'),
           BottomNavigationBarItem(
               icon: Icon(Icons.calendar_month_outlined), label: 'Agendamentos'),

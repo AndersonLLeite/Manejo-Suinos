@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:manejo_suinos/data/event_repository/event_repository.dart';
 import 'package:manejo_suinos/data/vaccine_repository/vaccine_repository.dart';
 import 'package:manejo_suinos/modules/model/entities/vaccine/vaccine_entity.dart';
 import 'package:manejo_suinos/modules/view/add_vaccine_page/add_vaccine_page.dart';
@@ -44,9 +45,7 @@ class _VaccinationPageState extends State<VaccinationPage> {
                 ),
               ),
               FutureBuilder(
-                  future: context
-                      .watch<VaccineRepository>()
-                      .getVaccines(),
+                  future: context.watch<VaccineRepository>().getVaccines(),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<VaccineEntity>> snapshot) {
                     if (!snapshot.hasData) {
@@ -84,8 +83,15 @@ class _VaccinationPageState extends State<VaccinationPage> {
                                       Icons.delete_forever,
                                       color: Colors.black,
                                     ),
-                                    onPressed: () {},
-                                    color: AppColors.secondary,
+                                    onPressed: () {
+                                      EventRepository.instance
+                                          .deleteVaccineEvent(
+                                              snapshot.data![index]);
+                                      VaccineRepository.instance.deleteVaccine(
+                                          snapshot.data![index].vaccineName,
+                                          snapshot.data![index].pigStage,
+                                          snapshot.data![index].type);
+                                    },
                                   ),
                                   leading: Column(
                                     children: [
@@ -111,9 +117,7 @@ class _VaccinationPageState extends State<VaccinationPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AddVaccinePage(
-                        
-                      ),
+                      builder: (context) => AddVaccinePage(),
                     ),
                   );
                 },

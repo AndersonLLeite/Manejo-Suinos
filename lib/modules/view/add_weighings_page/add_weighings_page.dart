@@ -29,7 +29,7 @@ class _AddWeighingsPageState extends State<AddWeighingsPage> {
       "${DateTime.now().day.toString().padLeft(2, '0')}/${DateTime.now().month.toString().padLeft(2, '0')}/${DateTime.now().year.toString().padLeft(4, '0')}";
   late int _age;
 
-  Future<double> getPigGpd(BuildContext context) async {
+  Future<double> getPigGpd() async {
     DateTime birthday =
         await PigRepository.instance.getPigBirth(widget.pigEntity.name);
     _age = _date.difference(birthday).inDays;
@@ -39,13 +39,13 @@ class _AddWeighingsPageState extends State<AddWeighingsPage> {
         await WeighingRepository.instance.getLastWeight(widget.pigEntity.name);
     double newWeight = double.parse(_weightController.text);
     double gpd;
-    if (_age - lastAge > 0) {
+    if (_age == lastAge) {
+      gpd = 0;
+    } else if (_age - lastAge != 0) {
       gpd = (newWeight - lastWeight) / (_age - lastAge);
     } else {
       gpd = (newWeight - lastWeight);
     }
-
-    gpd = double.parse(gpd.toStringAsFixed(2));
     return gpd;
   }
 
@@ -134,7 +134,7 @@ class _AddWeighingsPageState extends State<AddWeighingsPage> {
             ),
           ),
           onPressed: () async {
-            double gpd = await getPigGpd(context);
+            double gpd = await getPigGpd();
             if (_weightController.text.isNotEmpty) {
               try {
                 await WeighingRepository.instance.addWeighing(WeighingEntity(

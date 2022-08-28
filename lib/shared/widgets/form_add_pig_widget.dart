@@ -6,6 +6,7 @@ class FormAddPigWidget extends StatelessWidget {
   final String hintText;
   final Icon icon;
   final TextInputType keyboardType;
+  final FocusNode focusNode;
   const FormAddPigWidget({
     Key? key,
     required this.controllerName,
@@ -13,6 +14,7 @@ class FormAddPigWidget extends StatelessWidget {
     required this.hintText,
     required this.icon,
     required this.keyboardType,
+    required this.focusNode,
   }) : super(key: key);
 
   @override
@@ -20,11 +22,11 @@ class FormAddPigWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
       child: TextFormField(
+        focusNode: focusNode,
         maxLength: 11,
         keyboardType: keyboardType,
         controller: controllerName,
-        onChanged: (value) {
-        },
+        onChanged: (value) {},
         decoration: InputDecoration(
           icon: icon,
           hintText: hintText,

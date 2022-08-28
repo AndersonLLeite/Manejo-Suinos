@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
@@ -20,7 +19,6 @@ import '../../../shared/widgets/button_obtained_widget.dart';
 import '../../../shared/widgets/card_breed_widget.dart';
 import '../../model/entities/pig/pig_entity.dart';
 
-
 class AddPigPage extends StatefulWidget {
   const AddPigPage({Key? key}) : super(key: key);
 
@@ -41,6 +39,10 @@ class _AddPigPageState extends State<AddPigPage> {
   PigEntity? motherSelected;
   PigEntity? fatherSelected;
   bool breedSelected = false;
+  final FocusNode _focusNodeName = FocusNode();
+  final FocusNode _focusNodeAge = FocusNode();
+  final FocusNode _focusNodeWeight = FocusNode();
+  final FocusNode _focusNodeBuyValue = FocusNode();
 
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerAge = TextEditingController();
@@ -176,6 +178,7 @@ class _AddPigPageState extends State<AddPigPage> {
               ),
               FormAddPigWidget(
                 controllerName: _controllerName,
+                focusNode: _focusNodeName,
                 labelText: 'Nome',
                 hintText: 'Digite o nome do suino',
                 icon: Icon(Icons.person),
@@ -183,6 +186,7 @@ class _AddPigPageState extends State<AddPigPage> {
               ),
               FormAddPigWidget(
                 controllerName: _controllerAge,
+                focusNode: _focusNodeAge,
                 labelText: 'Idade',
                 hintText: 'Digite a idade do suino em dias',
                 icon: Icon(Icons.view_agenda),
@@ -190,6 +194,7 @@ class _AddPigPageState extends State<AddPigPage> {
               ),
               FormAddPigWidget(
                 controllerName: _controllerWeight,
+                focusNode: _focusNodeWeight,
                 labelText: 'Peso',
                 hintText: 'Digite o peso atual do suino',
                 icon: Icon(Icons.wallet),
@@ -207,13 +212,21 @@ class _AddPigPageState extends State<AddPigPage> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        _defineColorButtomGenderMale();
-                        _gender = Gender.MALE.value;
-                        if (_finality != null) {
-                          _defineColorAllButtomDisabled();
-                        }
-                      });
+                      if (_controllerName.text.isEmpty) {
+                        _focusNodeName.requestFocus();
+                      } else if (_controllerAge.text.isEmpty) {
+                        _focusNodeAge.requestFocus();
+                      } else if (_controllerWeight.text.isEmpty) {
+                        _focusNodeWeight.requestFocus();
+                      } else {
+                        setState(() {
+                          _defineColorButtomGenderMale();
+                          _gender = Gender.MALE.value;
+                          if (_finality != null) {
+                            _defineColorAllButtomDisabled();
+                          }
+                        });
+                      }
                     },
                     child: ButtonGenderWidget(
                       color: colorButtomGenderMale,
@@ -223,13 +236,21 @@ class _AddPigPageState extends State<AddPigPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        _defineColorButtomGenderFemale();
-                        _gender = Gender.FEMALE.value;
-                        if (_finality != null) {
-                          _defineColorAllButtomDisabled();
-                        }
-                      });
+                      if (_controllerName.text.isEmpty) {
+                        _focusNodeName.requestFocus();
+                      } else if (_controllerAge.text.isEmpty) {
+                        _focusNodeAge.requestFocus();
+                      } else if (_controllerWeight.text.isEmpty) {
+                        _focusNodeWeight.requestFocus();
+                      } else {
+                        setState(() {
+                          _defineColorButtomGenderFemale();
+                          _gender = Gender.FEMALE.value;
+                          if (_finality != null) {
+                            _defineColorAllButtomDisabled();
+                          }
+                        });
+                      }
                     },
                     child: ButtonGenderWidget(
                       color: colorButtomGenderFemale,
@@ -496,41 +517,43 @@ class _AddPigPageState extends State<AddPigPage> {
                           padding: const EdgeInsets.all(8.0),
                           child: FormAddPigWidget(
                               controllerName: _controllerBuyValue,
+                              focusNode: _focusNodeBuyValue,
                               labelText: "Valor da compra",
                               hintText: "Informe o valor da compra do suino",
                               icon: Icon(Icons.monetization_on_outlined),
                               keyboardType: TextInputType.numberWithOptions(
                                   decimal: true)),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20, bottom: 20),
-                          child: Text('Selecione a raça',
-                              style: AppTextStyles.primaryTitleAddPig),
-                        ),
-                        SizedBox(
-                            height: 250,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              children: _listCardBreed.map((breed) {
-                                return GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        _breed = breed.title;
-                                        breedSelected = true;
-                                      });
-                                    },
-                                    child: CardBreedWidget(
-                                      title: breed.title,
-                                      image: breed.image,
-                                    ));
-                              }).toList(),
-                            )),
+                        // Padding(
+                        //   padding: const EdgeInsets.only(top: 20, bottom: 20),
+                        //   child: Text('Selecione a raça',
+                        //       style: AppTextStyles.primaryTitleAddPig),
+                        // ),
+                        // SizedBox(
+                        //     height: 250,
+                        //     child: ListView(
+                        //       scrollDirection: Axis.horizontal,
+                        //       shrinkWrap: true,
+                        //       children: _listCardBreed.map((breed) {
+                        //         return GestureDetector(
+                        //             onTap: () {
+                        //               setState(() {
+                        //                 _breed = breed.title;
+                        //                 breedSelected = true;
+                        //               });
+                        //             },
+                        //             child: CardBreedWidget(
+                        //               title: breed.title,
+                        //               image: breed.image,
+                        //             ));
+                        //       }).toList(),
+                        //     )),
                       ],
                     )
                   : SizedBox(),
-              breedSelected
+              _obtained == Obtained.PURCHASED.value
                   ? AddPigButtonWidget(
+                      focusNode: _focusNodeBuyValue,
                       controllerName: _controllerName,
                       controllerAge: _controllerAge,
                       controllerWeight: _controllerWeight,
