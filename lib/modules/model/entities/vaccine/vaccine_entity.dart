@@ -5,15 +5,13 @@ class VaccineEntity {
   String? description;
   String type;
   String pigStage;
-  int firstApplicationLifeDays;
-  int? repeatApplicationLifeDays;
+  int applicationLifeDays;
   VaccineEntity({
     required this.vaccineName,
     this.description = "",
     required this.type,
     required this.pigStage,
-    required this.firstApplicationLifeDays,
-    this.repeatApplicationLifeDays = 0,
+    required this.applicationLifeDays,
   });
 
   VaccineEntity copyWith({
@@ -21,18 +19,14 @@ class VaccineEntity {
     String? description,
     String? type,
     String? pigStage,
-    int? firstApplicationLifeDays,
-    int? repeatApplicationLifeDays,
+    int? applicationLifeDays,
   }) {
     return VaccineEntity(
       vaccineName: vaccineName ?? this.vaccineName,
       description: description ?? this.description,
       type: type ?? this.type,
       pigStage: pigStage ?? this.pigStage,
-      firstApplicationLifeDays:
-          firstApplicationLifeDays ?? this.firstApplicationLifeDays,
-      repeatApplicationLifeDays:
-          repeatApplicationLifeDays ?? this.repeatApplicationLifeDays,
+      applicationLifeDays: applicationLifeDays ?? this.applicationLifeDays,
     );
   }
 
@@ -42,8 +36,7 @@ class VaccineEntity {
       'description': description,
       'type': type,
       'pigStage': pigStage,
-      'firstApplicationLifeDays': firstApplicationLifeDays,
-      'repeatApplicationLifeDays': repeatApplicationLifeDays,
+      'applicationLifeDays': applicationLifeDays,
     };
   }
 
@@ -53,8 +46,7 @@ class VaccineEntity {
       description: map['description'],
       type: map['type'] ?? '',
       pigStage: map['pigStage'] ?? '',
-      firstApplicationLifeDays: map['firstApplicationLifeDays']?.toInt() ?? 0,
-      repeatApplicationLifeDays: map['repeatApplicationLifeDays']?.toInt(),
+      applicationLifeDays: map['applicationLifeDays']?.toInt() ?? 0,
     );
   }
 
@@ -65,7 +57,7 @@ class VaccineEntity {
 
   @override
   String toString() {
-    return 'VaccineEntity(vaccineName: $vaccineName, description: $description, type: $type, pigStage: $pigStage, firstApplicationLifeDays: $firstApplicationLifeDays, repeatApplicationLifeDays: $repeatApplicationLifeDays)';
+    return 'VaccineEntity(vaccineName: $vaccineName, description: $description, type: $type, pigStage: $pigStage, applicationLifeDays: $applicationLifeDays)';
   }
 
   @override
@@ -77,8 +69,7 @@ class VaccineEntity {
         other.description == description &&
         other.type == type &&
         other.pigStage == pigStage &&
-        other.firstApplicationLifeDays == firstApplicationLifeDays &&
-        other.repeatApplicationLifeDays == repeatApplicationLifeDays;
+        other.applicationLifeDays == applicationLifeDays;
   }
 
   @override
@@ -87,7 +78,6 @@ class VaccineEntity {
         description.hashCode ^
         type.hashCode ^
         pigStage.hashCode ^
-        firstApplicationLifeDays.hashCode ^
-        repeatApplicationLifeDays.hashCode;
+        applicationLifeDays.hashCode;
   }
 }

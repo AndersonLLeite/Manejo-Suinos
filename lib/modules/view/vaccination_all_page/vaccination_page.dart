@@ -90,7 +90,9 @@ class _VaccinationPageState extends State<VaccinationPage> {
                                       VaccineRepository.instance.deleteVaccine(
                                           snapshot.data![index].vaccineName,
                                           snapshot.data![index].pigStage,
-                                          snapshot.data![index].type);
+                                          snapshot.data![index].type,
+                                          snapshot.data![index]
+                                              .applicationLifeDays);
                                     },
                                   ),
                                   leading: Column(

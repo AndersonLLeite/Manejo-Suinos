@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 enum PigStage {
-  ALL("todos"),
+  ALL('Engorda'),
   BREEDER('Reprodutor'),
   MATRIXS('Matriz');
 

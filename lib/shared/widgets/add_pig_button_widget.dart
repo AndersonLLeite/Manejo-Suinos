@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:manejo_suinos/data/event_repository/event_repository.dart';
+import 'package:manejo_suinos/data/vaccine_repository/vaccine_repository.dart';
+import 'package:manejo_suinos/modules/model/entities/vaccine/vaccine_entity.dart';
 import 'package:manejo_suinos/shared/utils/enums/obtained_enum.dart';
 import 'package:provider/provider.dart';
 
 import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
 import 'package:manejo_suinos/data/weighing_repository/weighing_repository.dart';
 
+import '../../modules/model/entities/event/event_entity.dart';
 import '../../modules/model/entities/heighing/weighing_entity.dart';
 import '../../modules/model/entities/pig/pig_entity.dart';
+import '../utils/enums/event_type_enum.dart';
+import '../utils/shedule_utils/shedule_utils.dart';
 
 class AddPigButtonWidget extends StatelessWidget {
   const AddPigButtonWidget({
@@ -36,16 +42,32 @@ class AddPigButtonWidget extends StatelessWidget {
   final String fatherName;
   final FocusNode? focusNode;
 
-  addFirstWeighing(BuildContext context) async {
+  addFirstWeighing() async {
     DateTime today = DateTime.now();
 
-    await Provider.of<WeighingRepository>(context, listen: false).addWeighing(
-        WeighingEntity(
-            name: controllerName.text,
-            date: today,
-            weight: double.parse(controllerWeight.text),
-            age: int.parse(controllerAge.text),
-            gpd: gpd));
+    await WeighingRepository.instance.addWeighing(WeighingEntity(
+        name: controllerName.text,
+        date: today,
+        weight: double.parse(controllerWeight.text),
+        age: int.parse(controllerAge.text),
+        gpd: gpd));
+  }
+
+  addVaccinesEvents(PigEntity pig) async {
+    List<VaccineEntity> listVaccines = await VaccineRepository.instance
+        .getVaccinesByDayAndFinality(pig.age, pig.finality);
+    for (final vaccine in listVaccines) {
+      EventEntity eventEntity = EventEntity(
+          date: pig.birthday.add(Duration(days: vaccine.applicationLifeDays)),
+          title: vaccine.vaccineName,
+          description: vaccine.description,
+          pigName: pig.name,
+          type: EventType.VACCINE.value);
+      await EventRepository.instance.addEvent(eventEntity);
+      List<EventEntity> events = [];
+      events.add(eventEntity);
+      setEventSource(events);
+    }
   }
 
   @override
@@ -57,7 +79,7 @@ class AddPigButtonWidget extends StatelessWidget {
             focusNode!.requestFocus();
           } else {
             try {
-              PigRepository.instance.addPig(PigEntity(
+              PigEntity pigEntity = PigEntity(
                   name: controllerName.text,
                   age: int.parse(controllerAge.text),
                   weight: double.parse(controllerWeight.text),
@@ -71,9 +93,13 @@ class AddPigButtonWidget extends StatelessWidget {
                       ? 0
                       : double.parse(controllerBuy.text),
                   sellValue: 0,
-                  birthday: DateTime.now().subtract(
-                      Duration(days: int.parse(controllerAge.text)))));
-              addFirstWeighing(context);
+                  birthday: DateTime.now()
+                      .subtract(Duration(days: int.parse(controllerAge.text))));
+
+              PigRepository.instance.addPig(pigEntity);
+
+              addFirstWeighing();
+              addVaccinesEvents(pigEntity);
               Navigator.pop(context);
             } catch (e) {
               print('error');

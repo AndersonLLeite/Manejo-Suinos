@@ -6,7 +6,7 @@ import '../data_helper/data_helper.dart';
 
 class VaccineRepository extends ChangeNotifier {
   String tableVaccines =
-      "CREATE TABLE tablevaccines (vaccineName TEXT, description TEXT, type TEXT, pigStage TEXT, firstApplicationLifeDays INTEGER, repeatApplicationLifeDays INTEGER)";
+      "CREATE TABLE tablevaccines (vaccineName TEXT, description TEXT, type TEXT, pigStage TEXT, applicationLifeDays INTEGER)";
 
   VaccineRepository._privateConstructor();
   static final VaccineRepository instance =
@@ -41,11 +41,25 @@ class VaccineRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future deleteVaccine(
-      String vaccineName, String description, String pigStage) async {
+  Future deleteVaccine(String vaccineName, String description, String pigStage,
+      int applicationLifeDay) async {
     Database db = await DataHelper.instance.database;
     await db.delete('tablevaccines',
-        where: 'vaccineName= ? AND pigStage= ? AND type= ?',
-        whereArgs: [vaccineName, description, pigStage]);
+        where:
+            'vaccineName= ? AND pigStage= ? AND type= ? AND applicationLifeDay =?',
+        whereArgs: [vaccineName, description, pigStage, applicationLifeDay]);
+  }
+
+  Future<List<VaccineEntity>> getVaccinesByDayAndFinality(
+      int age, String finality) async {
+    Database db = await DataHelper.instance.database;
+    var vaccines = await db.rawQuery(
+        'SELECT * FROM tablevaccines WHERE applicationLifeDays >=? AND pigStage=? ',
+        [age, finality]);
+    List<VaccineEntity> vaccinesList = vaccines.isNotEmpty
+        ? vaccines.map((c) => VaccineEntity.fromMap(c)).toList()
+        : [];
+    notifyListeners();
+    return vaccinesList;
   }
 }

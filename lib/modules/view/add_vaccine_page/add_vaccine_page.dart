@@ -27,14 +27,11 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
   final TextEditingController _vaccineNameController = TextEditingController();
   final TextEditingController _vaccineDescriptionController =
       TextEditingController();
-  final TextEditingController _vaccineUnicApplication = TextEditingController();
-  final TextEditingController _vaccineFirstApplicationController =
+  final TextEditingController _applicationLifeDaysController =
       TextEditingController();
-  final TextEditingController _vaccinePeriodicApplicationController =
-      TextEditingController();
+  final FocusNode _focusNodeVaccineName = FocusNode();
+  final FocusNode _focusNodeApplDay = FocusNode();
 
-  bool _checkBoxUnicValue = false;
-  bool _checkBoxPeriodicValue = false;
   bool _checkBoxAll = false;
   bool _checkBoxBreeders = false;
   bool _checkBoxMatrixs = false;
@@ -74,6 +71,7 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
               padding: const EdgeInsets.only(
                   top: 100.0, right: 100, left: 100, bottom: 8),
               child: TextFormFieldAddVaccinePage(
+                focusNode: _focusNodeVaccineName,
                 maxLines: 1,
                 vaccineNameController: _vaccineNameController,
                 label: "Nome da vacina*",
@@ -91,43 +89,12 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
               ),
             ),
             TitleAddVaccinePageWidget(
-              title: "Tipo de vacinação",
-              height: 30,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Dose única"),
-                Checkbox(
-                  activeColor: AppColors.primary,
-                  value: _checkBoxUnicValue,
-                  onChanged: (value) {
-                    setState(() {
-                      _checkBoxUnicValue = value!;
-                      _checkBoxPeriodicValue = false;
-                    });
-                  },
-                ),
-                Text("Periodico"),
-                Checkbox(
-                  value: _checkBoxPeriodicValue,
-                  onChanged: (value) {
-                    setState(() {
-                      _checkBoxPeriodicValue = value!;
-                      _checkBoxUnicValue = false;
-                    });
-                  },
-                ),
-              ],
-            ),
-            TitleAddVaccinePageWidget(
               title: "Grupo Da vacinação",
               height: 30,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Todos"),
                 Checkbox(
                   activeColor: AppColors.primary,
                   value: _checkBoxAll,
@@ -139,7 +106,7 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
                     });
                   },
                 ),
-                Text("Reprodutores"),
+                Text("Todos"),
                 Checkbox(
                   value: _checkBoxBreeders,
                   onChanged: (value) {
@@ -150,7 +117,7 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
                     });
                   },
                 ),
-                Text("Matrizes"),
+                Text("Reprodutores"),
                 Checkbox(
                   value: _checkBoxMatrixs,
                   onChanged: (value) {
@@ -161,101 +128,76 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
                     });
                   },
                 ),
+                Text("Matrizes"),
               ],
             ),
-            _checkBoxUnicValue
-                ? Column(
-                    children: [
-                      TitleAddVaccinePageWidget(
-                        title: "Idade que deve aplica-la:",
-                        height: 30,
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 100, vertical: 15),
-                          child: TextFormFieldAddVaccinePage(
-                              maxLines: 1,
-                              vaccineNameController: _vaccineUnicApplication,
-                              label: "Idade (em dias)",
-                              inputType: TextInputType.number)),
-                    ],
-                  )
-                : SizedBox(),
-            _checkBoxPeriodicValue
-                ? Column(
-                    children: [
-                      TitleAddVaccinePageWidget(
-                        title: "Idade deve aplica-la pela primeira vez:",
-                        height: 30,
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 100, vertical: 15),
-                          child: TextFormFieldAddVaccinePage(
-                            maxLines: 1,
-                            vaccineNameController:
-                                _vaccineFirstApplicationController,
-                            label: "Idade (em dias)",
-                            inputType: TextInputType.number,
-                          )),
-                      TitleAddVaccinePageWidget(
-                          title: "Com quantos dias será repetido", height: 30),
-                      Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 100, vertical: 15),
-                          child: TextFormFieldAddVaccinePage(
-                            maxLines: 1,
-                            vaccineNameController:
-                                _vaccinePeriodicApplicationController,
-                            label: "Após quantos dias",
-                            inputType: TextInputType.number,
-                          )),
-                    ],
-                  )
-                : SizedBox(),
+            Column(
+              children: [
+                TitleAddVaccinePageWidget(
+                  title: "Idade que deve aplica-la:",
+                  height: 30,
+                ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 100, vertical: 15),
+                    child: TextFormFieldAddVaccinePage(
+                        focusNode: _focusNodeApplDay,
+                        maxLines: 1,
+                        vaccineNameController: _applicationLifeDaysController,
+                        label: "Idade (em dias)",
+                        inputType: TextInputType.number)),
+              ],
+            ),
             ElevatedButton(
                 onPressed: () async {
-                  final VaccineEntity vaccineEntity = VaccineEntity(
-                      vaccineName:
-                          '${_vaccineNameController.text} - ${getPigStage()}',
-                      description: _vaccineDescriptionController.text,
-                      type: "Dose única",
-                      pigStage: getPigStage(),
-                      firstApplicationLifeDays:
-                          int.parse(_vaccineUnicApplication.text));
-
-                  await VaccineRepository.instance.addVaccine(vaccineEntity);
-
-                  List<PigEntity> pigs;
-                  if (vaccineEntity.pigStage == PigStage.ALL.value) {
-                    pigs = await PigRepository.instance.getPigsWithAgeLessThan(
-                        vaccineEntity.firstApplicationLifeDays);
+                  if (_vaccineNameController.text.isEmpty) {
+                    _focusNodeVaccineName.requestFocus();
+                  } else if (_applicationLifeDaysController.text.isEmpty) {
+                    _focusNodeApplDay.requestFocus();
                   } else {
-                    pigs = await PigRepository.instance
-                        .getPigsWithAgeLessThanStage(
-                            vaccineEntity.firstApplicationLifeDays,
-                            vaccineEntity.pigStage);
+                    final VaccineEntity vaccineEntity = VaccineEntity(
+                        vaccineName:
+                            '${_vaccineNameController.text} - ${getPigStage()}',
+                        description: _vaccineDescriptionController.text,
+                        type: "Dose única",
+                        pigStage: getPigStage(),
+                        applicationLifeDays:
+                            int.parse(_applicationLifeDaysController.text));
+
+                    await VaccineRepository.instance.addVaccine(vaccineEntity);
+
+                    List<PigEntity> pigs;
+                    if (vaccineEntity.pigStage == PigStage.ALL.value) {
+                      pigs = await PigRepository.instance
+                          .getPigsWithAgeLessThan(
+                              vaccineEntity.applicationLifeDays);
+                    } else {
+                      pigs = await PigRepository.instance
+                          .getPigsWithAgeLessThanStage(
+                              vaccineEntity.applicationLifeDays,
+                              vaccineEntity.pigStage);
+                    }
+
+                    for (PigEntity pig in pigs) {
+                      DateTime date = pig.birthday.add(
+                          Duration(days: vaccineEntity.applicationLifeDays));
+                      DateTime vaccinationDate =
+                          DateTime(date.year, date.month, date.day);
+
+                      EventEntity eventEntity = EventEntity(
+                          date: vaccinationDate,
+                          title: vaccineEntity.vaccineName,
+                          description: vaccineEntity.description,
+                          pigName: pig.name,
+                          type: EventType.VACCINE.value);
+                      List<EventEntity> events = [];
+                      events.add(eventEntity);
+                      setEventSource(events);
+
+                      await EventRepository.instance.addEvent(eventEntity);
+                    }
+                    Navigator.pop(context);
                   }
-
-                  for (PigEntity pig in pigs) {
-                    DateTime date = pig.birthday.add(
-                        Duration(days: vaccineEntity.firstApplicationLifeDays));
-                    DateTime vaccinationDate =
-                        DateTime(date.year, date.month, date.day);
-
-                    EventEntity eventEntity = EventEntity(
-                        date: vaccinationDate,
-                        title: vaccineEntity.vaccineName,
-                        description: vaccineEntity.description,
-                        pigName: pig.name,
-                        type: EventType.VACCINE.value);
-                    List<EventEntity> events = [];
-                    events.add(eventEntity);
-                    setEventSource(events);
-
-                    await EventRepository.instance.addEvent(eventEntity);
-                  }
-                  Navigator.pop(context);
                 },
                 child: Text("Adicionar vacina"))
           ]),
@@ -299,17 +241,20 @@ class TextFormFieldAddVaccinePage extends StatelessWidget {
   final String label;
   final TextInputType inputType;
   final int maxLines;
+  final FocusNode? focusNode;
   const TextFormFieldAddVaccinePage({
     Key? key,
     required this.vaccineNameController,
     required this.label,
     required this.inputType,
     required this.maxLines,
+    this.focusNode,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: focusNode,
       maxLines: maxLines,
       keyboardType: inputType,
       controller: vaccineNameController,
