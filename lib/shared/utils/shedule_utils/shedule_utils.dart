@@ -8,7 +8,6 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../../data/event_repository/event_repository.dart';
 import '../../../modules/model/entities/event/event_entity.dart';
 
-
 /// Using a [LinkedHashMap] is highly recommended if you decide to use a map.
 final kEvents = LinkedHashMap<DateTime, List<EventEntity>>(
   equals: isSameDay,
@@ -18,8 +17,8 @@ final kEvents = LinkedHashMap<DateTime, List<EventEntity>>(
 void setEventSource(List<EventEntity> events) {
   for (final event in events) {
     _kEventSource[event.date] ??= [];
-    _kEventSource[DateTime(event.date.year, event.date.month, event.date.day)]!
-        .add(event);
+    _kEventSource[DateTime(event.date.year, event.date.month, event.date.day)]
+        ?.add(event);
   }
 }
 

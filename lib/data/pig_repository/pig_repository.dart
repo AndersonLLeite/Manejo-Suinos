@@ -166,12 +166,12 @@ class PigRepository extends ChangeNotifier {
   }
 
   Future<List<PigEntity>> getPigsWithAgeLessThanStage(
-      int firstApplicationLifeDays, String pigStage) async {
+      int firstApplicationLifeDays, String finality) async {
     Database db = await DataHelper.instance.database;
     var pigs = await db.rawQuery('''
       SELECT * FROM tablepigs
-      WHERE age <=? AND pigStage=?
-      ''', [firstApplicationLifeDays, pigStage]);
+      WHERE age <=? AND finality=?
+      ''', [firstApplicationLifeDays, finality]);
     List<PigEntity> listpigs =
         pigs.isNotEmpty ? pigs.map((c) => PigEntity.fromMap(c)).toList() : [];
 

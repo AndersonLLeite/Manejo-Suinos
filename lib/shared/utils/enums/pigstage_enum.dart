@@ -2,8 +2,8 @@
 
 enum PigStage {
   ALL("todos"),
-  BREEDER("reprodutor"),
-  MATRIXS("matriz");
+  BREEDER('Reprodutor'),
+  MATRIXS('Matriz');
 
   final String value;
   const PigStage(this.value);

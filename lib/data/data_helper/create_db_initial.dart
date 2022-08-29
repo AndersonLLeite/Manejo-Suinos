@@ -23,7 +23,7 @@ class CreateDbInitial {
       fatherName: "Indefinido",
       buyValue: 1000,
       sellValue: 0,
-      birthday: DateTime.now(),
+      birthday: DateTime.now().subtract(Duration(days: 300)),
     ),
     PigEntity(
       name: 'Daffy',
@@ -37,7 +37,7 @@ class CreateDbInitial {
       fatherName: "Indefinido",
       buyValue: 1000,
       sellValue: 0,
-      birthday: DateTime.now(),
+      birthday: DateTime.now().subtract(Duration(days: 300)),
     ),
     PigEntity(
       name: 'Bugs',
@@ -51,7 +51,7 @@ class CreateDbInitial {
       fatherName: "Tom",
       buyValue: 0,
       sellValue: 0,
-      birthday: DateTime.now(),
+      birthday: DateTime.now().subtract(Duration(days: 150)),
     ),
     PigEntity(
       name: 'Raffy',
@@ -79,7 +79,7 @@ class CreateDbInitial {
       fatherName: "Bugs",
       buyValue: 0,
       sellValue: 0,
-      birthday: DateTime.now(),
+      birthday: DateTime.now().subtract(Duration(days: 1)),
     ),
     PigEntity(
       name: 'Ginger',
@@ -93,7 +93,7 @@ class CreateDbInitial {
       fatherName: "Bugs",
       buyValue: 0,
       sellValue: 0,
-      birthday: DateTime.now(),
+      birthday: DateTime.now().subtract(Duration(days: 1)),
     ),
     PigEntity(
       name: 'Ellie',
@@ -107,7 +107,7 @@ class CreateDbInitial {
       fatherName: "Tom",
       buyValue: 0,
       sellValue: 0,
-      birthday: DateTime.now(),
+      birthday: DateTime.now().subtract(Duration(days: 1)),
     ),
     PigEntity(
       name: 'Elfie',
@@ -121,7 +121,7 @@ class CreateDbInitial {
       fatherName: "Tom",
       buyValue: 0,
       sellValue: 0,
-      birthday: DateTime.now(),
+      birthday: DateTime.now().subtract(Duration(days: 1)),
     ),
     PigEntity(
       name: 'Bella',
@@ -135,7 +135,7 @@ class CreateDbInitial {
       fatherName: "Bugs",
       buyValue: 0,
       sellValue: 0,
-      birthday: DateTime.now(),
+      birthday: DateTime.now().subtract(Duration(days: 1)),
     ),
   ];
 
@@ -165,7 +165,12 @@ class CreateDbInitial {
         age: 150,
         gpd: 1),
     WeighingEntity(
-        name: "Rex", date: DateTime(13, 18, 2022), weight: 1.5, age: 1, gpd: 1),
+      name: "Rex",
+      date: DateTime(13, 18, 2022),
+      weight: 1.5,
+      age: 1,
+      gpd: 1,
+    ),
     WeighingEntity(
         name: "Ginger",
         date: DateTime(13, 18, 2022),

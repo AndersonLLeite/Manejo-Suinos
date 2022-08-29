@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:manejo_suinos/data/event_repository/event_repository.dart';
 import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
+import 'package:manejo_suinos/modules/model/entities/event/event_entity.dart';
 import 'package:manejo_suinos/shared/themes/colors/app_colors.dart';
 import 'package:manejo_suinos/shared/themes/images/app_images.dart';
 import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
@@ -50,9 +52,18 @@ class _HomePageState extends State<HomePage> {
                     image: AppImages.duroc,
                   ),
                 ),
-                CardHomePageWidget(
-                  title: 'Economia',
-                  image: AppImages.pigBank,
+                GestureDetector(
+                  onTap: () async {
+                    List<EventEntity> list =
+                        await EventRepository.instance.getAllEvents();
+                    for (final ev in list) {
+                      print(ev.toString());
+                    }
+                  },
+                  child: CardHomePageWidget(
+                    title: 'Economia',
+                    image: AppImages.pigBank,
+                  ),
                 )
               ],
             ),

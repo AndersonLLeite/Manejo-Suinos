@@ -236,21 +236,24 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
                             vaccineEntity.firstApplicationLifeDays,
                             vaccineEntity.pigStage);
                   }
+
                   for (PigEntity pig in pigs) {
+                    DateTime date = pig.birthday.add(
+                        Duration(days: vaccineEntity.firstApplicationLifeDays));
+                    DateTime vaccinationDate =
+                        DateTime(date.year, date.month, date.day);
+
                     EventEntity eventEntity = EventEntity(
-                        date: pig.birthday
-                            .add(Duration(
-                                days: vaccineEntity.firstApplicationLifeDays)),
+                        date: vaccinationDate,
                         title: vaccineEntity.vaccineName,
                         description: vaccineEntity.description,
                         pigName: pig.name,
                         type: EventType.VACCINE.value);
-                    // List<EventEntity> events = [];
-                    // events.add(eventEntity);
-                    // setEventSource(events);
+                    List<EventEntity> events = [];
+                    events.add(eventEntity);
+                    setEventSource(events);
 
                     await EventRepository.instance.addEvent(eventEntity);
-                    
                   }
                   Navigator.pop(context);
                 },
