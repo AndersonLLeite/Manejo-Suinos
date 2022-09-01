@@ -30,6 +30,13 @@ class _VaccinationPageState extends State<VaccinationPage> {
         backgroundColor: Colors.transparent,
         title: const Text('Vacinação'),
         centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/vaccination_tips');
+              },
+              icon: Icon(Icons.tips_and_updates))
+        ],
       ),
       body: BackgroundGradient(
         child: SingleChildScrollView(

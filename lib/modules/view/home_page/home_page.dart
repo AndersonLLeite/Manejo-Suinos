@@ -53,13 +53,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () async {
-                    List<EventEntity> list =
-                        await EventRepository.instance.getAllEvents();
-                    for (final ev in list) {
-                      print(ev.toString());
-                    }
-                  },
+                  onTap: () {},
                   child: CardHomePageWidget(
                     title: 'Economia',
                     image: AppImages.pigBank,
@@ -70,9 +64,14 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                CardHomePageWidget(
-                  title: 'Baias',
-                  image: AppImages.pigsty,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/pigsty_page');
+                  },
+                  child: CardHomePageWidget(
+                    title: 'Baias',
+                    image: AppImages.pigsty,
+                  ),
                 ),
                 GestureDetector(
                   child: CardHomePageWidget(

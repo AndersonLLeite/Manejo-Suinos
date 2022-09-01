@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:manejo_suinos/modules/view/add_pigsty_page/add_pigsty_page.dart';
+import 'package:manejo_suinos/modules/view/pigsty_page/pigsty_page.dart';
 
 import '../modules/view/add_pig_page/add_pig_page.dart';
 
@@ -28,6 +30,8 @@ class AppWidget extends StatelessWidget {
         '/schedule': (context) => ShedulePage(),
         '/vaccination_page': (context) => VaccinationPage(),
         '/vaccination_tips': (context) => VaccinationTipsPage(),
+        '/pigsty_page':(context) => PigstyPage(),
+        '/add_pigsty':(context) => AddPigstyPage()
       },
       home: HomePage(),
     );
