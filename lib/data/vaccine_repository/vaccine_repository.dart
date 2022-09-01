@@ -46,7 +46,7 @@ class VaccineRepository extends ChangeNotifier {
     Database db = await DataHelper.instance.database;
     await db.delete('tablevaccines',
         where:
-            'vaccineName= ? AND pigStage= ? AND type= ? AND applicationLifeDay =?',
+            'vaccineName= ? AND pigStage= ? AND type= ? AND applicationLifeDays =?',
         whereArgs: [vaccineName, description, pigStage, applicationLifeDay]);
   }
 

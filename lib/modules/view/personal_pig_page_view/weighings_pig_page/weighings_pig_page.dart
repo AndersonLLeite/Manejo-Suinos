@@ -8,7 +8,6 @@ import '../../../model/entities/heighing/weighing_entity.dart';
 import '../../../model/entities/pig/pig_entity.dart';
 import '../../add_weighings_page/add_weighings_page.dart';
 
-
 class WeighingsPigPage extends StatefulWidget {
   final PigEntity pigEntity;
   const WeighingsPigPage({
@@ -82,19 +81,48 @@ class _WeighingsPigPageState extends State<WeighingsPigPage> {
                                             Text(formatDate(weighing.date))),
                                         DataCell(
                                             Text(weighing.weight.toString())),
-                                        DataCell(Text(weighing.gpd.toString())),
+                                        DataCell(Text(
+                                            weighing.gpd.toStringAsFixed(2))),
                                         DataCell(
                                           IconButton(
                                             icon: Icon(Icons.delete_forever,
                                                 color: Colors.black),
                                             onPressed: () {
-                                              Provider.of<WeighingRepository>(
-                                                      context,
-                                                      listen: false)
-                                                  .removeWeighing(
-                                                      weighing.age,
-                                                      weighing.date.millisecondsSinceEpoch,
-                                                      weighing.weight);
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      AlertDialog(
+                                                        title: Text(
+                                                            "Tem certeza que deseja excluir esta pesagem?"),
+                                                        content: Text(
+                                                            "Se excluir não terá mais acesso a esse dado"),
+                                                        actions: [
+                                                          ElevatedButton(
+                                                              onPressed: () {
+                                                                WeighingRepository
+                                                                    .instance
+                                                                    .removeWeighing(
+                                                                        weighing
+                                                                            .age,
+                                                                        weighing
+                                                                            .date
+                                                                            .millisecondsSinceEpoch,
+                                                                        weighing
+                                                                            .weight);
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: Text(
+                                                                  "Excluir")),
+                                                          ElevatedButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: Text(
+                                                                  "Cancelar")),
+                                                        ],
+                                                      ));
                                             },
                                           ),
                                         ),

@@ -211,8 +211,25 @@ class _AddPigPageState extends State<AddPigPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      if (_controllerName.text.isEmpty) {
+                    onTap: () async {
+                      if (await PigRepository.instance
+                          .havePigWithThisName(_controllerName.text)) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title:
+                                      Text("Já existe um suino com este nome"),
+                                  content: Text("Por favor mude o nome"),
+                                  actions: [
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          _focusNodeName.requestFocus();
+                                        },
+                                        child: Text("OK"))
+                                  ],
+                                ));
+                      } else if (_controllerName.text.isEmpty) {
                         _focusNodeName.requestFocus();
                       } else if (_controllerAge.text.isEmpty) {
                         _focusNodeAge.requestFocus();
@@ -235,8 +252,25 @@ class _AddPigPageState extends State<AddPigPage> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      if (_controllerName.text.isEmpty) {
+                    onTap: () async {
+                      if (await PigRepository.instance
+                          .havePigWithThisName(_controllerName.text)) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title:
+                                      Text("Já existe um suino com este nome"),
+                                  content: Text("Por favor mude o nome"),
+                                  actions: [
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          _focusNodeName.requestFocus();
+                                        },
+                                        child: Text("OK"))
+                                  ],
+                                ));
+                      } else if (_controllerName.text.isEmpty) {
                         _focusNodeName.requestFocus();
                       } else if (_controllerAge.text.isEmpty) {
                         _focusNodeAge.requestFocus();

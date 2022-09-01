@@ -11,9 +11,6 @@ import '../../../../shared/themes/colors/app_colors.dart';
 import '../../../model/entities/event/event_entity.dart';
 import '../../../model/entities/pig/pig_entity.dart';
 
-
-
-
 class EventsPigPage extends StatefulWidget {
   final PigEntity pigEntity;
 
@@ -108,27 +105,55 @@ class _EventsPigPageState extends State<EventsPigPage> {
                                       color: Colors.black,
                                     ),
                                     onPressed: () {
-                                      if (widget.pigEntity.isPregnant == 1) {
-                                        Provider.of<PigRepository>(context,
-                                                listen: false)
-                                            .updatePig(widget.pigEntity.copyWith(
-                                                isPregnant: 0));
-                                      }
-                                      context
-                                          .read<EventRepository>()
-                                          .deleteEvent(snapshot.data![index]);
-                                      deleteEventToSource(
-                                          snapshot.data![index]);
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                                title: Text(
+                                                    "Tem certeza que deseja excluir este agendamento?"),
+                                                
+                                                actions: [
+                                                  ElevatedButton(
+                                                      onPressed: () {
+                                                        if (widget.pigEntity
+                                                                .isPregnant ==
+                                                            1) {
+                                                          PigRepository.instance
+                                                              .updatePig(widget
+                                                                  .pigEntity
+                                                                  .copyWith(
+                                                                      isPregnant:
+                                                                          0));
+                                                        }
+                                                        EventRepository.instance
+                                                            .deleteEvent(
+                                                                snapshot.data![
+                                                                    index]);
+                                                        deleteEventToSource(
+                                                            snapshot
+                                                                .data![index]);
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text("Excluir")),
+                                                  ElevatedButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text("Cancelar")),
+                                                ],
+                                              ));
                                     },
                                     color: AppColors.secondary,
                                   ),
                                   leading: Column(
                                     children: [
                                       Icon(
-                                        snapshot.data![index].type == EventType.COBERTURA.value?
-                                        Icons.child_friendly : snapshot.data![index].type == EventType.VACCINE.value?
-                                        Icons.vaccines : Icons.event,
-                                        
+                                        snapshot.data![index].type ==
+                                                EventType.COBERTURA.value
+                                            ? Icons.child_friendly
+                                            : snapshot.data![index].type ==
+                                                    EventType.VACCINE.value
+                                                ? Icons.vaccines
+                                                : Icons.event,
                                         color: Colors.blue,
                                       ),
                                       Text(
@@ -278,24 +303,21 @@ class _EventsPigPageState extends State<EventsPigPage> {
                                                   _focusNodeTitle
                                                       .requestFocus();
                                                 } else {
-                                                  EventEntity event =
-                                                      EventEntity(
-                                                    title:
-                                                        _controllerTitle.text,
-                                                    description:
-                                                        _controllerDescription
-                                                            .text,
-                                                    date: _date,
-                                                    pigName:
-                                                        widget.pigEntity.name,
-                                                    type: EventType.OTHER.value
-                                                  );
+                                                  EventEntity event = EventEntity(
+                                                      title:
+                                                          _controllerTitle.text,
+                                                      description:
+                                                          _controllerDescription
+                                                              .text,
+                                                      date: _date,
+                                                      pigName:
+                                                          widget.pigEntity.name,
+                                                      type: EventType
+                                                          .OTHER.value);
                                                   List<EventEntity> events = [];
                                                   events.add(event);
                                                   setEventSource(events);
-                                                  Provider.of<EventRepository>(
-                                                          context,
-                                                          listen: false)
+                                                  EventRepository.instance
                                                       .addEvent(event);
                                                   _controllerDescription
                                                       .clear();
@@ -426,17 +448,17 @@ class _EventsPigPageState extends State<EventsPigPage> {
                                                   primary: AppColors.secondary,
                                                 ),
                                                 onPressed: () {
-                                                  EventEntity event =
-                                                      EventEntity(
-                                                    title: "Previsão de parto",
-                                                    description:
-                                                        "Provavel data para o parto da matriz coberta",
-                                                    date: _date.add(
-                                                        Duration(days: 114)),
-                                                    pigName:
-                                                        widget.pigEntity.name,
-                                                    type: EventType.COBERTURA.value
-                                                  );
+                                                  EventEntity event = EventEntity(
+                                                      title:
+                                                          "Previsão de parto",
+                                                      description:
+                                                          "Provavel data para o parto da matriz coberta",
+                                                      date: _date.add(
+                                                          Duration(days: 114)),
+                                                      pigName:
+                                                          widget.pigEntity.name,
+                                                      type: EventType
+                                                          .COBERTURA.value);
                                                   List<EventEntity> events = [];
                                                   events.add(event);
                                                   setEventSource(events);

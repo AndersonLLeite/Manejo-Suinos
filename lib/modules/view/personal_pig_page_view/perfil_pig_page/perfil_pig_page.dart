@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:manejo_suinos/data/event_repository/event_repository.dart';
 import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
 import 'package:manejo_suinos/shared/widgets/status_perfil_page_widget.dart';
 import 'package:provider/provider.dart';
@@ -52,14 +53,62 @@ class _PerfilPigPageState extends State<PerfilPigPage> {
         actions: [
           IconButton(
               onPressed: () {
-                Provider.of<PigRepository>(context, listen: false)
-                    .removePig(widget.pigEntity.name);
-                Provider.of<WeighingRepository>(context, listen: false)
-                    .removeWeighingByPigName(widget.pigEntity.name);
-                Navigator.pop(context);
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          title: Text("Deseja mesmo remover este suino?"),
+                          content: Text(
+                              "Se você excluir esse suino não terá mais acesso a ele"),
+                          actions: [
+                            ElevatedButton(
+                                onPressed: () async{
+                                  PigRepository.instance
+                                      .removePig(widget.pigEntity.name);
+                                  WeighingRepository.instance
+                                      .removeWeighingByPigName(
+                                          widget.pigEntity.name);
+                                  EventRepository.instance
+                                      .removeEventsByPigName(
+                                          widget.pigEntity.name);
+                                  if (widget.pigEntity.gender ==
+                                      Gender.MALE.value) {
+                                    List<PigEntity> listPigs = await PigRepository
+                                        .instance
+                                        .getPigsByFatherName(
+                                            widget.pigEntity.name);
+                                    for (final pig in listPigs) {
+                                      PigEntity updatedPig = pig.copyWith(
+                                          fatherName: 'Indefinido');
+                                      PigRepository.instance
+                                          .updatePig(updatedPig);
+                                    }
+                                  } else if (widget.pigEntity.gender ==
+                                      Gender.FEMALE.value) {
+                                    List<PigEntity> listPigs = await PigRepository
+                                        .instance
+                                        .getPigsByMotherName(
+                                            widget.pigEntity.name);
+                                    for (final pig in listPigs) {
+                                      PigEntity updatedPig = pig.copyWith(
+                                          motherName: 'Indefinido');
+                                      PigRepository.instance
+                                          .updatePig(updatedPig);
+                                    }
+                                  }
+
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Excluir")),
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Cancelar"))
+                          ],
+                        ));
               },
               icon: Icon(Icons.delete)),
-          IconButton(onPressed: () async {}, icon: Icon(Icons.edit)),
         ],
       ),
       body: BackgroundGradient(
@@ -163,7 +212,7 @@ class _PerfilPigPageState extends State<PerfilPigPage> {
                               DataCell(Text(widget.pigEntity.age.toString())),
                               DataCell(
                                   Text(widget.pigEntity.weight.toString())),
-                              DataCell(Text(widget.pigEntity.gpd.toString())),
+                              DataCell(Text(widget.pigEntity.gpd.toStringAsFixed(2))),
                               DataCell(Text(widget.pigEntity.motherName)),
                               DataCell(Text(widget.pigEntity.fatherName)),
                               DataCell(

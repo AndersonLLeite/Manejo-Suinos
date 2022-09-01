@@ -157,7 +157,7 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
                   } else {
                     final VaccineEntity vaccineEntity = VaccineEntity(
                         vaccineName:
-                            '${_vaccineNameController.text} - ${getPigStage()}',
+                            '${_vaccineNameController.text} - ${getPigStage() == 'Engorda' ? 'Todos' : getPigStage()}',
                         description: _vaccineDescriptionController.text,
                         type: "Dose única",
                         pigStage: getPigStage(),

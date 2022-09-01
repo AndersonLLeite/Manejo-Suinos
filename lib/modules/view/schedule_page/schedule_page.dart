@@ -224,20 +224,49 @@ class _ShedulePageState extends State<ShedulePage> {
                                 child: IconButton(
                                   icon: Icon(Icons.delete_forever,
                                       color: Colors.black),
-                                  onPressed: () async {
-                                    PigEntity pig = await PigRepository.instance
-                                        .getPigByName(value[index].pigName);
-                                    if (pig.isPregnant == 1) {
-                                      await PigRepository.instance.updatePig(
-                                          pig.copyWith(isPregnant: 0));
-                                    }
-                                    EventRepository.instance
-                                        .deleteEvent(value[index]);
-                                    deleteEventToSource(value[index]);
-                                    setState(() {
-                                      _selectedEvents.value =
-                                          _getEventsForDays(_selectedDays);
-                                    });
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                              title: Text(
+                                                  "Tem certeza que deseja excluir este agendamento?"),
+                                              actions: [
+                                                ElevatedButton(
+                                                    onPressed: () async {
+                                                      PigEntity pig =
+                                                          await PigRepository
+                                                              .instance
+                                                              .getPigByName(
+                                                                  value[index]
+                                                                      .pigName);
+                                                      if (pig.isPregnant == 1) {
+                                                        await PigRepository
+                                                            .instance
+                                                            .updatePig(
+                                                                pig.copyWith(
+                                                                    isPregnant:
+                                                                        0));
+                                                      }
+                                                      EventRepository.instance
+                                                          .deleteEvent(
+                                                              value[index]);
+                                                      deleteEventToSource(
+                                                          value[index]);
+                                                      setState(() {
+                                                        _selectedEvents.value =
+                                                            _getEventsForDays(
+                                                                _selectedDays);
+                                                      });
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text("Excluir")),
+                                                ElevatedButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text("Cancelar")),
+                                              ],
+                                            ));
                                   },
                                   color: AppColors.secondary,
                                 ),

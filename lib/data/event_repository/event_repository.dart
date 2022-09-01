@@ -79,4 +79,15 @@ class EventRepository extends ChangeNotifier {
         ]);
     notifyListeners();
   }
+
+Future<void> removeEventsByPigName(String pigName) async {
+    Database db = await DataHelper.instance.database;
+    await db.delete('tableevents',
+        where: 'pigName= ?',
+        whereArgs: [
+          pigName
+        ]);
+    notifyListeners();
+  }
+ 
 }

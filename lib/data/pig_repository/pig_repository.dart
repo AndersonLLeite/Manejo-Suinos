@@ -200,4 +200,43 @@ class PigRepository extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  Future<List<PigEntity>> getPigsByFatherName(String name) async {
+    Database db = await DataHelper.instance.database;
+    var isFatherName = await db.rawQuery('''
+      SELECT * FROM tablepigs
+      WHERE fatherName=?
+      ''', [name]);
+    List<PigEntity> listIsFatherName = isFatherName.isNotEmpty
+        ? isFatherName.map((c) => PigEntity.fromMap(c)).toList()
+        : [];
+    notifyListeners();
+    return listIsFatherName;
+  }
+
+  Future<List<PigEntity>> getPigsByMotherName(String name) async {
+    Database db = await DataHelper.instance.database;
+    var isMotherName = await db.rawQuery('''
+      SELECT * FROM tablepigs
+      WHERE motherName=?
+      ''', [name]);
+    List<PigEntity> listIsMotherName = isMotherName.isNotEmpty
+        ? isMotherName.map((c) => PigEntity.fromMap(c)).toList()
+        : [];
+    notifyListeners();
+    return listIsMotherName;
+  }
+
+  Future<bool> havePigWithThisName(String name) async {
+    Database db = await DataHelper.instance.database;
+    var pig = await db.rawQuery('''
+      SELECT * FROM tablepigs
+      WHERE name=?
+      ''', [name]);
+    if (pig.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

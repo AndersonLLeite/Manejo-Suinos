@@ -84,15 +84,49 @@ class _VaccinationPageState extends State<VaccinationPage> {
                                       color: Colors.black,
                                     ),
                                     onPressed: () {
-                                      EventRepository.instance
-                                          .deleteVaccineEvent(
-                                              snapshot.data![index]);
-                                      VaccineRepository.instance.deleteVaccine(
-                                          snapshot.data![index].vaccineName,
-                                          snapshot.data![index].pigStage,
-                                          snapshot.data![index].type,
-                                          snapshot.data![index]
-                                              .applicationLifeDays);
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                                title: Text(
+                                                    "Tem certeza que deseja excluir esta vacina?"),
+                                                content: Text(
+                                                    "Se excluir vai excluir também todos os agendamentos para ela"),
+                                                actions: [
+                                                  ElevatedButton(
+                                                      onPressed: () {
+                                                        EventRepository.instance
+                                                            .deleteVaccineEvent(
+                                                                snapshot.data![
+                                                                    index]);
+                                                        VaccineRepository
+                                                            .instance
+                                                            .deleteVaccine(
+                                                                snapshot
+                                                                    .data![
+                                                                        index]
+                                                                    .vaccineName,
+                                                                snapshot
+                                                                    .data![
+                                                                        index]
+                                                                    .pigStage,
+                                                                snapshot
+                                                                    .data![
+                                                                        index]
+                                                                    .type,
+                                                                snapshot
+                                                                    .data![
+                                                                        index]
+                                                                    .applicationLifeDays);
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text("Excluir")),
+                                                  ElevatedButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text("Cancelar")),
+                                                ],
+                                              ));
                                     },
                                   ),
                                   leading: Column(
