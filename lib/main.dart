@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:manejo_suinos/data/pigsty_repository/pigsty_repository.dart';
 import 'package:manejo_suinos/data/weighing_repository/weighing_repository.dart';
 import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
 import 'package:manejo_suinos/shared/app_widget.dart';
@@ -26,6 +27,9 @@ void main() {
         ),
         ChangeNotifierProvider(
           create: (context) => VaccineRepository.instance,
+        ),
+        ChangeNotifierProvider(
+          create: (context) => PigstyRepository.instance,
         ),
       ],
       child: AppWidget(),

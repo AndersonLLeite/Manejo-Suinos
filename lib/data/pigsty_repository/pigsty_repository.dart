@@ -22,4 +22,9 @@ class PigstyRepository extends ChangeNotifier {
     return listPigsty;
   }
 
+  Future<void> addPigsty(PigstyEntity pigstyEntity) async {
+    Database db = await DataHelper.instance.database;
+    await db.insert('tablePigsty', pigstyEntity.toMap());
+    notifyListeners();
+  }
 }

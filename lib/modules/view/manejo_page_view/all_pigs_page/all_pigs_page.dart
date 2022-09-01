@@ -44,7 +44,7 @@ class _AllPigsPageState extends State<AllPigsPage> {
           children: [
             Column(
               children: [
-                Expanded(
+                Expanded( 
                   child: FutureBuilder<List<PigEntity>>(
                       future: context.watch<PigRepository>().getActivePigs(),
                       builder: (BuildContext context,
