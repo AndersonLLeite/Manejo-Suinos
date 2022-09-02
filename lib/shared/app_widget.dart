@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:manejo_suinos/modules/view/add_matrix_without_pigsty_page/add_matrix_without_pigsty_page.dart';
 import 'package:manejo_suinos/modules/view/add_pigsty_page/add_pigsty_page.dart';
-import 'package:manejo_suinos/modules/view/pigsty_page/pigsty_page.dart';
+import 'package:manejo_suinos/modules/view/all_pigsty_page/all_pigsty_page.dart';
+import 'package:manejo_suinos/modules/view/maternity_pigsty_page/maternity_pigsty_page.dart';
 
 import '../modules/view/add_pig_page/add_pig_page.dart';
 
@@ -30,8 +32,8 @@ class AppWidget extends StatelessWidget {
         '/schedule': (context) => ShedulePage(),
         '/vaccination_page': (context) => VaccinationPage(),
         '/vaccination_tips': (context) => VaccinationTipsPage(),
-        '/pigsty_page':(context) => PigstyPage(),
-        '/add_pigsty':(context) => AddPigstyPage()
+        '/all_pigsty_page' :(context) => AllPigstyPage(),
+        '/add_pigsty':(context) => AddPigstyPage(),
       },
       home: HomePage(),
     );

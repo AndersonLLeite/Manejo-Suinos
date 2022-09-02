@@ -19,6 +19,7 @@ class PigEntity {
   double sellValue;
   int isPregnant;
   DateTime birthday;
+  String pigstyName;
 
   PigEntity({
     required this.name,
@@ -36,6 +37,7 @@ class PigEntity {
     required this.sellValue,
     this.isPregnant = 0,
     required this.birthday,
+    this.pigstyName = "Indefinido",
   });
 
   PigEntity copyWith({
@@ -54,6 +56,7 @@ class PigEntity {
     double? sellValue,
     int? isPregnant,
     DateTime? birthday,
+    String? pigstyName,
   }) {
     return PigEntity(
       name: name ?? this.name,
@@ -71,6 +74,7 @@ class PigEntity {
       sellValue: sellValue ?? this.sellValue,
       isPregnant: isPregnant ?? this.isPregnant,
       birthday: birthday ?? this.birthday,
+      pigstyName: pigstyName ?? this.pigstyName,
     );
   }
 
@@ -91,6 +95,7 @@ class PigEntity {
       'sellValue': sellValue,
       'isPregnant': isPregnant,
       'birthday': birthday.millisecondsSinceEpoch,
+      'pigstyName': pigstyName,
     };
   }
 
@@ -111,6 +116,7 @@ class PigEntity {
       sellValue: map['sellValue']?.toDouble() ?? 0.0,
       isPregnant: map['isPregnant']?.toInt() ?? 0,
       birthday: DateTime.fromMillisecondsSinceEpoch(map['birthday']),
+      pigstyName: map['pigstyName'] ?? '',
     );
   }
 
@@ -121,7 +127,7 @@ class PigEntity {
 
   @override
   String toString() {
-    return 'PigEntity(name: $name, imageUrl: $imageUrl, age: $age, weight: $weight, gpd: $gpd, gender: $gender, finality: $finality, obtained: $obtained, motherName: $motherName, fatherName: $fatherName, status: $status, buyValue: $buyValue, sellValue: $sellValue, isPregnant: $isPregnant, birthday: $birthday)';
+    return 'PigEntity(name: $name, imageUrl: $imageUrl, age: $age, weight: $weight, gpd: $gpd, gender: $gender, finality: $finality, obtained: $obtained, motherName: $motherName, fatherName: $fatherName, status: $status, buyValue: $buyValue, sellValue: $sellValue, isPregnant: $isPregnant, birthday: $birthday, pigstyName: $pigstyName)';
   }
 
   String? getStatus() {
@@ -151,7 +157,8 @@ class PigEntity {
       other.buyValue == buyValue &&
       other.sellValue == sellValue &&
       other.isPregnant == isPregnant &&
-      other.birthday == birthday;
+      other.birthday == birthday &&
+      other.pigstyName == pigstyName;
   }
 
   @override
@@ -170,6 +177,7 @@ class PigEntity {
       buyValue.hashCode ^
       sellValue.hashCode ^
       isPregnant.hashCode ^
-      birthday.hashCode;
+      birthday.hashCode ^
+      pigstyName.hashCode;
   }
 }

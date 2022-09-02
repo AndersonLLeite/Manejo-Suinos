@@ -3,7 +3,7 @@
 enum PigstyType {
   MATERNITY('Maternidade'),
   NURSERY('Creche'),
-  FATTED('Endgorda');
+  FATTED('Engorda');
 
   final String value;
   const PigstyType(this.value);

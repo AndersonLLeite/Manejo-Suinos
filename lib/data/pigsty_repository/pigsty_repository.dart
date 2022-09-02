@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:manejo_suinos/modules/model/entities/pigsty/pigsty_entity.dart';
-import 'package:manejo_suinos/modules/view/pigsty_page/pigsty_page.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../data_helper/data_helper.dart';
 
 class PigstyRepository extends ChangeNotifier {
   String tablePigsty =
-      "CREATE TABLE tablePigsty (name TEXT PRIMARY KEY, pigstyType TEXT)";
+      "CREATE TABLE tablePigsty (pigstyName TEXT PRIMARY KEY, pigstyType TEXT)";
 
   PigstyRepository._privateConstructor();
   static final PigstyRepository instance =
@@ -19,6 +18,7 @@ class PigstyRepository extends ChangeNotifier {
     List<PigstyEntity> listPigsty = pigstys.isNotEmpty
         ? pigstys.map((c) => PigstyEntity.fromMap(c)).toList()
         : [];
+    notifyListeners();
     return listPigsty;
   }
 

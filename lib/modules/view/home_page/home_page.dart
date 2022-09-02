@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, '/pigsty_page');
+                    Navigator.pushNamed(context, '/all_pigsty_page');
                   },
                   child: CardHomePageWidget(
                     title: 'Baias',

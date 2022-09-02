@@ -37,7 +37,7 @@ class _AllPigsPageState extends State<AllPigsPage> {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      //floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       extendBody: true,
       body: BackgroundGradient(
         child: Stack(

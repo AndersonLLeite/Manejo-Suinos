@@ -6,7 +6,7 @@ import '../data_helper/data_helper.dart';
 
 class PigRepository extends ChangeNotifier {
   String tablePigs =
-      "CREATE TABLE tablepigs (name TEXT PRIMARY KEY, imageUrl TEXT, age INTEGER, weight REAL, gpd REAL, gender TEXT, finality TEXT, obtained TEXT, motherName TEXT, fatherName TEXT, status TEXT, buyValue REAl, sellValue REAL, isPregnant INTEGER, birthday INTEGER)";
+      "CREATE TABLE tablepigs (name TEXT PRIMARY KEY, imageUrl TEXT, age INTEGER, weight REAL, gpd REAL, gender TEXT, finality TEXT, obtained TEXT, motherName TEXT, fatherName TEXT, status TEXT, buyValue REAl, sellValue REAL, isPregnant INTEGER, birthday INTEGER, pigstyName TEXT)";
 
   PigRepository._privateConstructor();
   static final PigRepository instance = PigRepository._privateConstructor();
@@ -238,5 +238,31 @@ class PigRepository extends ChangeNotifier {
     } else {
       return true;
     }
+  }
+
+  Future<List<PigEntity>> getMatrixByPigstyName(String name) async {
+    Database db = await DataHelper.instance.database;
+    var matrix = await db.rawQuery('''
+      SELECT * FROM tablepigs
+      WHERE finality=? AND pigstyName=?
+      ''', ["Matriz", name]);
+    List<PigEntity> matrixSelected = matrix.isNotEmpty
+        ? matrix.map((c) => PigEntity.fromMap(c)).toList()
+        : [];
+    notifyListeners();
+    return matrixSelected;
+  }
+
+  Future<List<PigEntity>> getMatrixWithoutPigsty() async {
+    Database db = await DataHelper.instance.database;
+    var listMatrix = await db.rawQuery('''
+      SELECT * FROM tablepigs
+      WHERE pigstyName=? AND finality=?
+      ''', ["Indefinido", "Matriz"]);
+    List<PigEntity> matrixSelected = listMatrix.isNotEmpty
+        ? listMatrix.map((c) => PigEntity.fromMap(c)).toList()
+        : [];
+    notifyListeners();
+    return matrixSelected;
   }
 }
