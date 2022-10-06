@@ -58,6 +58,21 @@ class WeighingRepository extends ChangeNotifier {
     return lastPigList.isEmpty ? 0.0 : lastPigList[0].weight;
   }
 
+  Future<double> getLastGpd(String name) async {
+    Database db = await DataHelper.instance.database;
+    var lastPig = await db.rawQuery('''
+      SELECT * FROM tableweighings
+      WHERE name=?
+      ORDER BY age DESC
+      LIMIT 1
+      ''', [name]);
+    List<WeighingEntity> lastPigList = lastPig.isNotEmpty
+        ? lastPig.map((c) => WeighingEntity.fromMap(c)).toList()
+        : [];
+    notifyListeners();
+    return lastPigList.isEmpty ? 0.0 : lastPigList[0].gpd;
+  }
+
   Future<int> getLastAge(String name) async {
     Database db = await DataHelper.instance.database;
     var lastPig = await db.rawQuery('''

@@ -212,6 +212,7 @@ class _PerfilPigPageState extends State<PerfilPigPage> {
                               DataCell(Text(widget.pigEntity.age.toString())),
                               DataCell(
                                   Text(widget.pigEntity.weight.toString())),
+                                
                               DataCell(Text(widget.pigEntity.gpd.toStringAsFixed(2))),
                               DataCell(Text(widget.pigEntity.motherName)),
                               DataCell(Text(widget.pigEntity.fatherName)),

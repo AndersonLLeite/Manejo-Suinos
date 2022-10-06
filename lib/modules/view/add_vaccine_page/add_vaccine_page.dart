@@ -46,6 +46,29 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
     }
   }
 
+  bool isValideDay() {
+    try {
+      int.parse(_applicationLifeDaysController.text);
+      return true;
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text("Formato da idade errado"),
+                content: Text("Por favor informe uma idade em dias"),
+                actions: [
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        _focusNodeApplDay.requestFocus();
+                      },
+                      child: Text("OK"))
+                ],
+              ));
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,6 +175,10 @@ class _AddVaccinePageState extends State<AddVaccinePage> {
                 onPressed: () async {
                   if (_vaccineNameController.text.isEmpty) {
                     _focusNodeVaccineName.requestFocus();
+                  } else if (_applicationLifeDaysController.text.isNotEmpty) {
+                    if (!isValideDay()) {
+                      return;
+                    }
                   } else if (_applicationLifeDaysController.text.isEmpty) {
                     _focusNodeApplDay.requestFocus();
                   } else {

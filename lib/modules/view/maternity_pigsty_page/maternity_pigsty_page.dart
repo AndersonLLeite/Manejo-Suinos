@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 import 'package:manejo_suinos/modules/model/entities/pigsty/pigsty_entity.dart';
+import 'package:manejo_suinos/modules/view/personal_pig_page_view/perfil_pig_page/perfil_pig_page.dart';
+import 'package:manejo_suinos/modules/view/personal_pig_page_view/personal_pig_page_view.dart';
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
 import 'package:manejo_suinos/shared/themes/colors/app_colors.dart';
+import 'package:manejo_suinos/shared/themes/styles/textstyles/app_text_styles.dart';
 import 'package:manejo_suinos/shared/widgets/card_pig_presentation_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/pig_repository/pig_repository.dart';
+import '../../../shared/utils/shedule_utils/shedule_utils.dart';
 import '../../../shared/widgets/matrix_card_on_pigsty_widget.dart';
 import '../../model/entities/pig/pig_entity.dart';
 import '../add_matrix_without_pigsty_page/add_matrix_without_pigsty_page.dart';
@@ -48,7 +52,11 @@ class _MaternityPigstyPageState extends State<MaternityPigstyPage> {
             SizedBox(
               height: 100,
             ),
-            Center(child: Text("Matriz")),
+            Center(
+                child: Text(
+              "Matriz",
+              style: AppTextStyles.titleMaternity,
+            )),
             FutureBuilder(
                 future: context
                     .watch<PigRepository>()
@@ -78,16 +86,27 @@ class _MaternityPigstyPageState extends State<MaternityPigstyPage> {
                         )
                       : Column(
                           children: [
-                            CardPigPresentationWidget(
-                                color: AppColors.secondary,
-                                pig: snapshot.data![0]),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: ((context) =>
+                                            PersonalPigPageView(
+                                                pigEntity:
+                                                    snapshot.data![0]))));
+                              },
+                              child: CardPigPresentationWidget(
+                                  color: AppColors.secondary,
+                                  pig: snapshot.data![0]),
+                            ),
                             ElevatedButton(
                                 onPressed: () {
                                   PigEntity matriz = snapshot.data![0]
                                       .copyWith(pigstyName: 'Indefinido');
                                   PigRepository.instance.updatePig(matriz);
                                 },
-                                child: Text("Remover matriz"))
+                                child: Text("Remover matriz")),
                           ],
                         );
                 }),

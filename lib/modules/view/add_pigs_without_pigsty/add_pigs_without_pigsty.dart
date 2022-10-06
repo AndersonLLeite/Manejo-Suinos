@@ -1,18 +1,18 @@
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:manejo_suinos/modules/model/entities/pigsty/pigsty_entity.dart';
+import 'package:provider/provider.dart';
 
 import '../../../data/pig_repository/pig_repository.dart';
 import '../../../shared/themes/background/background_gradient.dart';
 import '../../../shared/themes/colors/app_colors.dart';
+import '../../../shared/utils/enums/gender_enum.dart';
 import '../../../shared/widgets/card_pig_presentation_widget.dart';
 import '../../model/entities/pig/pig_entity.dart';
 
-class AddMatrixWithoutPigstyPage extends StatelessWidget {
+class AddPigsWithoutPigsty extends StatelessWidget {
   final PigstyEntity pigstyEntity;
-  const AddMatrixWithoutPigstyPage({
+  const AddPigsWithoutPigsty({
     Key? key,
     required this.pigstyEntity,
   }) : super(key: key);
@@ -24,7 +24,7 @@ class AddMatrixWithoutPigstyPage extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
-        title: Text('Matrizes sem baia '),
+        title: Text('Suinos sem baia '),
         centerTitle: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -44,7 +44,7 @@ class AddMatrixWithoutPigstyPage extends StatelessWidget {
                   child: FutureBuilder<List<PigEntity>>(
                       future: context
                           .watch<PigRepository>()
-                          .getMatrixWithoutPigsty(),
+                          .getPigsWithoutPigsty(),
                       builder: (BuildContext context,
                           AsyncSnapshot<List<PigEntity>> snapshot) {
                         if (!snapshot.hasData) {
@@ -52,7 +52,7 @@ class AddMatrixWithoutPigstyPage extends StatelessWidget {
                         }
                         return snapshot.data!.isEmpty
                             ? Center(
-                                child: Text('Nenhuma matriz sem baia'),
+                                child: Text('Nenhum suino sem baia'),
                               )
                             : ListView(
                                 children: snapshot.data!.map((pig) {
@@ -66,7 +66,10 @@ class AddMatrixWithoutPigstyPage extends StatelessWidget {
                                       Navigator.pop(context);
                                     },
                                     child: CardPigPresentationWidget(
-                                        color: AppColors.secondary, pig: pig),
+                                        color: pig.gender == Gender.MALE.value
+                                            ? AppColors.primary
+                                            : AppColors.secondary,
+                                        pig: pig),
                                   );
                                 }).toList(),
                               );

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:manejo_suinos/modules/model/entities/pigsty/pigsty_entity.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../modules/model/entities/pig/pig_entity.dart';
@@ -104,7 +105,7 @@ class PigRepository extends ChangeNotifier {
       SELECT SUM(sellValue) FROM tablepigs
       WHERE fatherName=? OR motherName=? AND status=?
       ''', [name, name, 'ARCHIVED']);
-    Object? somaSells = soma[0]['SUM(sell)'];
+    Object? somaSells = soma[0]['SUM(sellValue)'];
     notifyListeners();
     return somaSells != null ? double.parse(somaSells.toString()) : 0;
   }
@@ -264,5 +265,31 @@ class PigRepository extends ChangeNotifier {
         : [];
     notifyListeners();
     return matrixSelected;
+  }
+
+  Future<List<PigEntity>> getPigsByPigsty(PigstyEntity pigstyEntity) async {
+    Database db = await DataHelper.instance.database;
+    var listPigs = await db.rawQuery('''
+      SELECT * FROM tablepigs
+      WHERE pigstyName=?
+      ''', [pigstyEntity.pigstyName]);
+    List<PigEntity> listSelected = listPigs.isNotEmpty
+        ? listPigs.map((c) => PigEntity.fromMap(c)).toList()
+        : [];
+    notifyListeners();
+    return listSelected;
+  }
+
+  Future<List<PigEntity>> getPigsWithoutPigsty() async {
+    Database db = await DataHelper.instance.database;
+    var listPigs = await db.rawQuery('''
+      SELECT * FROM tablepigs
+      WHERE pigstyName=?
+      ''', ["Indefinido"]);
+    List<PigEntity> listSelected = listPigs.isNotEmpty
+        ? listPigs.map((c) => PigEntity.fromMap(c)).toList()
+        : [];
+    notifyListeners();
+    return listSelected;
   }
 }

@@ -25,6 +25,12 @@ class AppTextStyles {
     color: Colors.white,
   );
 
+  static const TextStyle titleMaternity = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+  );
+
   static const TextStyle titleNamePigPresentationCard = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,

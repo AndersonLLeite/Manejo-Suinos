@@ -107,6 +107,57 @@ class _AddPigPageState extends State<AddPigPage> {
     _breed = null;
   }
 
+  bool isValidWeight() {
+    try {
+      getWeight();
+      return true;
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text("Formato do peso errado"),
+                content: Text("Por favor informe uma um peso válido"),
+                actions: [
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        _focusNodeWeight.requestFocus();
+                      },
+                      child: Text("OK"))
+                ],
+              ));
+      return false;
+    }
+  }
+
+  double getWeight() {
+    String? removeComma = _controllerWeight.text.replaceAll(',', '.');
+    return double.parse(removeComma.toString());
+  }
+
+  bool isValideAge() {
+    try {
+      int.parse(_controllerAge.text);
+      return true;
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text("Formato da idade errado"),
+                content: Text("Por favor informe uma idade em dias"),
+                actions: [
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        _focusNodeAge.requestFocus();
+                      },
+                      child: Text("OK"))
+                ],
+              ));
+      return false;
+    }
+  }
+
   final List<CardBreedWidget> _listCardBreed = [
     CardBreedWidget(
       title: 'Duroc',
@@ -212,6 +263,20 @@ class _AddPigPageState extends State<AddPigPage> {
                 children: [
                   GestureDetector(
                     onTap: () async {
+                      if (_controllerAge.text.isNotEmpty) {
+                        if (!isValideAge()) {
+                          return;
+                        }
+                      } else {
+                        _focusNodeAge.requestFocus();
+                      }
+                      if (_controllerWeight.text.isNotEmpty) {
+                        if (!isValidWeight()) {
+                          return;
+                        }
+                      } else {
+                        _focusNodeWeight.requestFocus();
+                      }
                       if (await PigRepository.instance
                           .havePigWithThisName(_controllerName.text)) {
                         showDialog(
@@ -231,10 +296,22 @@ class _AddPigPageState extends State<AddPigPage> {
                                 ));
                       } else if (_controllerName.text.isEmpty) {
                         _focusNodeName.requestFocus();
-                      } else if (_controllerAge.text.isEmpty) {
-                        _focusNodeAge.requestFocus();
-                      } else if (_controllerWeight.text.isEmpty) {
-                        _focusNodeWeight.requestFocus();
+                      } else if (getWeight() < 0) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: Text("Peso Inválido informado"),
+                                  content: Text(
+                                      "o peso informado não pode ser um numero negativo"),
+                                  actions: [
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          _focusNodeWeight.requestFocus();
+                                        },
+                                        child: Text("OK"))
+                                  ],
+                                ));
                       } else {
                         setState(() {
                           _defineColorButtomGenderMale();
@@ -558,30 +635,6 @@ class _AddPigPageState extends State<AddPigPage> {
                               keyboardType: TextInputType.numberWithOptions(
                                   decimal: true)),
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.only(top: 20, bottom: 20),
-                        //   child: Text('Selecione a raça',
-                        //       style: AppTextStyles.primaryTitleAddPig),
-                        // ),
-                        // SizedBox(
-                        //     height: 250,
-                        //     child: ListView(
-                        //       scrollDirection: Axis.horizontal,
-                        //       shrinkWrap: true,
-                        //       children: _listCardBreed.map((breed) {
-                        //         return GestureDetector(
-                        //             onTap: () {
-                        //               setState(() {
-                        //                 _breed = breed.title;
-                        //                 breedSelected = true;
-                        //               });
-                        //             },
-                        //             child: CardBreedWidget(
-                        //               title: breed.title,
-                        //               image: breed.image,
-                        //             ));
-                        //       }).toList(),
-                        //     )),
                       ],
                     )
                   : SizedBox(),

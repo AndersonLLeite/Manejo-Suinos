@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:manejo_suinos/data/pig_repository/pig_repository.dart';
 import 'package:manejo_suinos/data/weighing_repository/weighing_repository.dart';
 import 'package:manejo_suinos/shared/themes/background/background_gradient.dart';
 import 'package:manejo_suinos/shared/utils/shedule_utils/shedule_utils.dart';
@@ -90,18 +91,17 @@ class _WeighingsPigPageState extends State<WeighingsPigPage> {
                                             onPressed: () {
                                               showDialog(
                                                   context: context,
-                                                  builder: (context) =>
-                                                      AlertDialog(
-                                                        title: Text(
-                                                            "Tem certeza que deseja excluir esta pesagem?"),
-                                                        content: Text(
-                                                            "Se excluir não terá mais acesso a esse dado"),
-                                                        actions: [
-                                                          ElevatedButton(
-                                                              onPressed: () {
-                                                                WeighingRepository
-                                                                    .instance
-                                                                    .removeWeighing(
+                                                  builder:
+                                                      (context) => AlertDialog(
+                                                            title: Text(
+                                                                "Tem certeza que deseja excluir esta pesagem?"),
+                                                            content: Text(
+                                                                "Se excluir não terá mais acesso a esse dado"),
+                                                            actions: [
+                                                              ElevatedButton(
+                                                                  onPressed:
+                                                                      () async {
+                                                                    await WeighingRepository.instance.removeWeighing(
                                                                         weighing
                                                                             .age,
                                                                         weighing
@@ -109,20 +109,43 @@ class _WeighingsPigPageState extends State<WeighingsPigPage> {
                                                                             .millisecondsSinceEpoch,
                                                                         weighing
                                                                             .weight);
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                              child: Text(
-                                                                  "Excluir")),
-                                                          ElevatedButton(
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                              child: Text(
-                                                                  "Cancelar")),
-                                                        ],
-                                                      ));
+                                                                    double newWeight = await context
+                                                                        .read<
+                                                                            WeighingRepository>()
+                                                                        .getLastWeight(widget
+                                                                            .pigEntity
+                                                                            .name);
+                                                                    double newGpd = await context
+                                                                        .read<
+                                                                            WeighingRepository>()
+                                                                        .getLastGpd(widget
+                                                                            .pigEntity
+                                                                            .name);
+                                                                    Provider.of<PigRepository>(
+                                                                            context,
+                                                                            listen:
+                                                                                false)
+                                                                        .updatePig(widget.pigEntity.copyWith(
+                                                                            weight:
+                                                                                newWeight,
+                                                                            gpd:
+                                                                                newGpd));
+
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: Text(
+                                                                      "Excluir")),
+                                                              ElevatedButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: Text(
+                                                                      "Cancelar")),
+                                                            ],
+                                                          ));
                                             },
                                           ),
                                         ),

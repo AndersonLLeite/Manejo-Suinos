@@ -47,11 +47,6 @@ class AddPigButtonWidget extends StatelessWidget {
         .subtract(Duration(days: int.parse(controllerAge.text)));
   }
 
-  double calcGpd() {
-    int age = DateTime.now().difference(getBirthday()).inDays;
-    return double.parse(controllerWeight.text) / age;
-  }
-
   addFirstWeighing() async {
     DateTime today = DateTime.now();
 
@@ -60,7 +55,7 @@ class AddPigButtonWidget extends StatelessWidget {
         date: today,
         weight: double.parse(controllerWeight.text),
         age: int.parse(controllerAge.text),
-        gpd: calcGpd()));
+        gpd: gpd));
   }
 
   addVaccinesEvents(PigEntity pig) async {
@@ -87,13 +82,13 @@ class AddPigButtonWidget extends StatelessWidget {
           if (obtained == Obtained.PURCHASED.value &&
               controllerBuy.text.isEmpty) {
             focusNode!.requestFocus();
-          } else {
+          } else{
             try {
               PigEntity pigEntity = PigEntity(
                   name: controllerName.text,
                   age: int.parse(controllerAge.text),
                   weight: double.parse(controllerWeight.text),
-                  gpd: calcGpd(),
+                  gpd: gpd,
                   gender: gender!,
                   finality: finality!,
                   obtained: obtained!,

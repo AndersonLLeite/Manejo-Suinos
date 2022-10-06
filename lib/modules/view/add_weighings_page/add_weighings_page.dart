@@ -32,12 +32,16 @@ class _AddWeighingsPageState extends State<AddWeighingsPage> {
   Future<double> getPigGpd() async {
     DateTime birthday =
         await PigRepository.instance.getPigBirth(widget.pigEntity.name);
-    _age = _date.difference(birthday).inDays;
+    _age = DateTime(_date.year, _date.month, _date.day)
+            .difference(birthday)
+            .inDays +
+        1;
+
     int lastAge =
         await WeighingRepository.instance.getLastAge(widget.pigEntity.name);
     double lastWeight =
         await WeighingRepository.instance.getLastWeight(widget.pigEntity.name);
-    double newWeight = double.parse(_weightController.text);
+    double newWeight = getWeight();
     double gpd;
     if (_age == lastAge) {
       gpd = 0;
@@ -47,6 +51,34 @@ class _AddWeighingsPageState extends State<AddWeighingsPage> {
       gpd = (newWeight - lastWeight);
     }
     return gpd;
+  }
+
+  bool isValidWeight() {
+    try {
+      getWeight();
+      return true;
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text("Formato do peso errado"),
+                content: Text("Por favor informe uma um peso válido"),
+                actions: [
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        focusNodeWeight.requestFocus();
+                      },
+                      child: Text("OK"))
+                ],
+              ));
+      return false;
+    }
+  }
+
+  double getWeight() {
+    String? removeComma = _weightController.text.replaceAll(',', '.');
+    return double.parse(removeComma.toString());
   }
 
   @override
@@ -105,7 +137,7 @@ class _AddWeighingsPageState extends State<AddWeighingsPage> {
                     context: context,
                     initialDate: DateTime.now(),
                     firstDate: DateTime(1900),
-                    lastDate: DateTime(2100),
+                    lastDate: DateTime.now(),
                   );
                   if (newDate != null) {
                     setState(() {
@@ -135,23 +167,42 @@ class _AddWeighingsPageState extends State<AddWeighingsPage> {
           ),
           onPressed: () async {
             double gpd = await getPigGpd();
-            if (_weightController.text.isNotEmpty) {
+            if (!isValidWeight()) {
+              return;
+            }
+            if (getWeight() < 0) {
+              showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                        title: Text("Peso Inválido informado"),
+                        content: Text(
+                            "o peso informado não pode ser um numero negativo"),
+                        actions: [
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                focusNodeWeight.requestFocus();
+                              },
+                              child: Text("OK"))
+                        ],
+                      ));
+            } else if (_weightController.text.isEmpty) {
+              focusNodeWeight.requestFocus();
+            } else {
               try {
                 await WeighingRepository.instance.addWeighing(WeighingEntity(
                     name: widget.pigEntity.name,
                     date: _date,
-                    weight: double.parse(_weightController.text),
+                    weight: getWeight(),
                     age: _age,
                     gpd: gpd));
-                PigEntity updatedPig = widget.pigEntity.copyWith(
-                    weight: double.parse(_weightController.text), gpd: gpd);
+                PigEntity updatedPig =
+                    widget.pigEntity.copyWith(weight: getWeight(), gpd: gpd);
                 await PigRepository.instance.updatePig(updatedPig);
                 Navigator.pop(context);
               } catch (e) {
                 print('error');
               }
-            } else {
-              focusNodeWeight.requestFocus();
             }
           },
           child: Row(
